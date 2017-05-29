@@ -45,3 +45,21 @@ function validaTarea(){
         //alert("Enviado");
     }
 }
+
+//Validar formulario ingreso de tarjeta
+function validaCrearUsuario(){
+    if(document.getElementById('txtNombre').value.trim() == "" || document.getElementById('txtApellidos').value.trim() == "" || document.getElementById('cboPerfil').value == "seleccione")
+    {
+        alert("Completar campos obligatorios");
+    } else {        
+        document.getElementById('form').action = 'controlador/controlador.php';
+        document.getElementById('form').method = 'post';
+        document.getElementById('form').submit();
+        //alert("Enviado");
+    }
+}
+
+function detalleTarjeta(idTarjeta){
+    window.open('detalleTarjeta.php', '_blank');
+    alert(idTarjeta);
+}

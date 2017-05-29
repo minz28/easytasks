@@ -29,82 +29,30 @@ $funciones = new Funciones;
                 <input type="hidden" name="pagina" value="creaUsuario" /><!--Variable oculta para identificar en el controlador-->
 				<div class="form-group">
 					<label for="txtDescripcion">Nombre(s) (*)</label>
-					<input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion" placeholder="Descripción tarea">
+					<input type="text" class="form-control" id="txtNombre" name="txtNombre" placeholder="Nombre persona">
 				</div>
 				<div class="form-group">
 					<label for="txtDescripcion">Apellido(s) (*)</label>
-					<input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion" placeholder="Descripción tarea">
+					<input type="text" class="form-control" id="txtApellidos" name="txtApellidos" placeholder="Apellidos persona">
 				</div>
 				<div class="form-group">
-					<label for="txtDescripcion">E-mail (*)</label>
-					<input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion" placeholder="Descripción tarea">
+					<label for="txtDescripcion">E-mail</label>
+					<input type="text" class="form-control" id="txtEmail" name="txtEmail" placeholder="Email">
 				</div>
 				<div class="form-group">
-					<label for="txtDescripcion">Teléfono (*)</label>
-					<input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion" placeholder="Descripción tarea">
+					<label for="txtDescripcion">Teléfono</label>
+					<input type="text" class="form-control" id="txtTelefono" name="txtTelefono" placeholder="Teléfono usuario">
 				</div>
 				<div class="form-group">
-					<label for="cboCategoria">Perfil (*)</label>
-					<select class="form-control" id="cboCategoria" name="cboCategoria">
+					<label for="cboPerfil">Perfil (*)</label>
+					<select class="form-control" id="cboPerfil" name="cboPerfil">
 						<option value="seleccione">Seleccione</option>
-						<?php $funciones->cboCategoria(); ?>
+						<?php $funciones->cboPerfil(); ?>
 					</select>
 				</div>
-				<div class="form-group">
-					<label for="cboSistema">Sistema (*)</label>
-					<select class="form-control" id="cboSistema" name="cboSistema">
-						<option value="seleccione">Seleccione</option>
-						<?php $funciones->cboSistema(); ?>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="txtDescripcion">Descripción (*)</label>
-					<input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion" placeholder="Descripción tarea">
-				</div>
-				<div class="form-group">
-					<label for="cboDificultad">Dificutad (*)</label>
-					<select class="form-control" id="cboDificultad" name="cboDificultad">
-						<option value="seleccione">Seleccione</option>
-						<?php $funciones->cboDificultad(); ?>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="txtTiempoEstimado">Tiempo estimado predefinido (HH:MM) (*)</label>
-					<br>
-					<div class="col-md-2">
-						<select class="form-control" id="cboHH" name="cboHH">
-							<?php
-							echo "<option value='00'>00</option><option value='01'>01</option><option value='02'>02</option><option value='03'>03</option><option value='04'>04</option><option value='05'>05</option><option value='06'>06</option><option value='07'>07</option><option value='08'>08</option><option value='09'>09</option>";
-							for ($i=10; $i<24; $i++) { 
-								echo "<option value='".$i."'>".$i."</option>";
-							}															
-							?>
-						</select>
-					</div>						
-					<div class="col-md-2">
-						<select class="form-control" id="cboMM" name="cboMM">
-							<?php
-							echo "<option value='00'>00</option><option value='01'>01</option><option value='02'>02</option><option value='03'>03</option><option value='04'>04</option><option value='05'>05</option><option value='06'>06</option><option value='07'>07</option><option value='08'>08</option><option value='09'>09</option>";
-							for ($i=10; $i<60; $i++) { 
-								echo "<option value='".$i."'>".$i."</option>";
-							}
-							?>
-						</select>
-					</div>
-					<!--Asignación de segundos al detalle de tarea
-					<div class="col-md-2">
-						<select class="form-control" id="cboSS" name="cboSS">
-							<?php/*
-							echo "<option value='00'>00</option><option value='01'>01</option><option value='02'>02</option><option value='03'>03</option><option value='04'>04</option><option value='05'>05</option><option value='06'>06</option><option value='07'>07</option><option value='08'>08</option><option value='09'>09</option>";
-							for ($i=10; $i<60; $i++) { 
-								echo "<option value='".$i."'>".$i."</option>";
-							}*/
-							?>
-						</select>
-					</div>-->
-				</div>
+				
 				<br><br>
-				<button type="button" class="btn btn-default" onclick="validaTarea();">Grabar</button>
+				<button type="button" class="btn btn-default" onclick="validaCrearUsuario();">Grabar</button>
 			</form>
 		</div>		
 	</div>

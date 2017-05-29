@@ -1,4 +1,5 @@
 <?php
+//session_start();
 include("clases/Funciones.class.php");
 $funciones = new Funciones;
 ?>
@@ -16,7 +17,7 @@ $funciones = new Funciones;
 <script type="text/javascript" src="js/funciones.js"></script>
 </head>
 
-<body>
+<body style="background-color:#EAEAEA;">
 
 <header>
     <div class="container">
@@ -25,10 +26,10 @@ $funciones = new Funciones;
         	   <h4>Tablero de tareas</h4>
             </div>
             <div class="col-md-6">           	
-            	<h5 class="text-right">Bienvenido Miguel Inzunza</h5>            	
+            	<h5 class="text-right">Bienvenido <?php echo $_SESSION['nombreUsuario']; ?></h5>            	
             </div>
             <div class="col-mod-2">
-            	<button type="button" class="btn btn-default"><a href="index.php">Cerrar Sesión</a></button>
+            	<a href="logout.php"><button type="button" class="btn btn-default">Cerrar Sesión</button></a>
             </div>
         </div>        
     </div>
@@ -42,47 +43,56 @@ $funciones = new Funciones;
     	</div>
     </div>
     <div class="row">
-    	<div class="col-md-12">
-    		<table class="table table-bordered table-hover">
+    	<div class="col-md-3">
+            <table class="table table-bordered table-hover table-condensed">
+                <tr>
+                    <th class="warning text-center">PENDIENTES</th>
+                </tr>
+                <?php $funciones->muestraTarjetaPendientes(); ?>
+            </table>
+        </div>
+        <div class="col-md-3">
+            <table class="table table-bordered table-hover table-condensed">
+                <tr>
+                    <th class="info text-center">EN DESARROLLO</th>
+                </tr>
+                <?php $funciones->muestraTarjetaEnDesarrollo(); ?>
+            </table>
+        </div>
+        <div class="col-md-3">
+            <table class="table table-bordered table-hover table-condensed">
+                <tr>
+                    <th class="success text-center">TERMINADAS</th>
+                </tr>
+                <?php $funciones->muestraTarjetaTerminadas(); ?>
+            </table>
+        </div>
+        <div class="col-md-3">
+            <table class="table table-bordered table-hover table-condensed">
+                <tr>
+                    <th class="danger text-center">IMPEDIDAS</th>
+                </tr>
+                <?php $funciones->muestraTarjetaImpedidas(); ?>
+            </table>
+        </div>            
+    	<?php //$funciones->muestraTablero(); ?>
+        <!--<div class="col-md-12">
+        	<table class="table table-bordered table-hover table-condensed">
     			<tr>
     				<th class="success">Pendiente</th>
     				<th class="warning">En desarrollo</th>
     				<th class="danger">Terminada</th>
     				<th class="info">Impedida</th>
     			</tr>
-    			<?php $funciones->muestraTablero(); ?>
+    			<?php $funciones->muestraTablero();?>
     			<tr>
     				<td class="success">a</td>
     				<td class="warning">b</td>
     				<td class="danger">c</td>
     				<td class="info">d</td>
-    			</tr>
-    			<tr>
-    				<td class="success">a</td>
-    				<td class="warning">b</td>
-    				<td class="danger">c</td>
-    				<td class="info">d</td>
-    			</tr>
-    			<tr>
-    				<td class="success">a</td>
-    				<td class="warning">b</td>
-    				<td class="danger">c</td>
-    				<td class="info">d</td>
-    			</tr>
-    			<tr>
-    				<td class="success">a</td>
-    				<td class="warning">b</td>
-    				<td class="danger">c</td>
-    				<td class="info">d</td>
-    			</tr>
-    			<tr>
-    				<td class="success">a</td>
-    				<td class="warning">b</td>
-    				<td class="danger">c</td>
-    				<td class="info">d</td>
-    			</tr>
+    			</tr>    			
     		</table>
-    	</div>
+    	<!--</div>-->
     </div>
 </div>
 <!--

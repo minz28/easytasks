@@ -4,6 +4,22 @@ $controlador = new Funciones;
 
 switch($_POST['pagina']){
     
+    case 'login':
+    
+        //echo "hola, vas bien encamidado pequeño padawan :D";
+        if($respuesta = $controlador->validaLogin($_POST)){
+            session_start();
+            $_SESSION['nombreUsuario'] = $respuesta['nombreUsuario'];
+            $_SESSION['empresa'] = $respuesta['empresa'];
+            $_SESSION['perfil'] = $respuesta['perfil'];
+            header("location:../board.php");
+        }
+        elseif($respuesta == 0){            
+            header("location:../index.php?mensaje=noexiste");
+        }
+
+    break;
+
     case 'creaTarjeta':
     
         //echo "hola, vas bien encamidado pequeño padawan :D";
@@ -17,6 +33,15 @@ switch($_POST['pagina']){
     case 'creaTarea':
     
         $respuesta = $controlador->creaTarea($_POST);
+        if($respuesta == 1){
+            header("location:../board.php");
+        }
+        
+    break;
+
+    case 'creaUsuario':
+    
+        $respuesta = $controlador->creaUsuario($_POST);
         if($respuesta == 1){
             header("location:../board.php");
         }

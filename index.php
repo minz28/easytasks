@@ -21,16 +21,18 @@
         	   <h3>Bienvenido a EasyTask</h3>
             </div>
             <div class="col-md-8">
-                <form class="form-inline">
+                <form class="form-inline" method="POST" action="controlador/controlador.php">
+                	<input type="hidden" name="pagina" value="login">
                 	<div class="form-group">
-                    	<label for="usuario">Usuario</label>
-                        <input type="text" class="form-control" id="usuario" placeholder="Usuario">
+                    	<label for="txtUsuario">Usuario</label>
+                        <input type="text" class="form-control" id="txtUsuario" name="txtUsuario" placeholder="Usuario" value="minzunza">
                     </div>
                     <div class="form-group">
-                    	<label for="password">Contraseña</label>
-                        <input type="password" class="form-control" id="password" placeholder="Contraseña">
+                    	<label for="txtPassword">Contraseña</label>
+                        <input type="password" class="form-control" id="txtPassword" name="txtPassword" placeholder="Contraseña" value="lalala99">
                     </div>
-                    <a class="btn btn-default" href="board.php" role="button">Iniciar Sesión</a>
+                    <!--<a class="btn btn-default" href="board.php" role="button">Iniciar Sesión</a>-->
+                    <button type="submit" class="btn btn-default">Iniciar Sesión</button>
                 </form>
             </div>
         </div>               
@@ -52,4 +54,4 @@
 </div>
 
 </body>
-</html>
+</html> 
