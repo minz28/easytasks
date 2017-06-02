@@ -58,8 +58,3 @@ function validaCrearUsuario(){
         //alert("Enviado");
     }
 }
-
-function detalleTarjeta(idTarjeta){
-    window.open('detalleTarjeta.php', '_blank');
-    alert(idTarjeta);
-}

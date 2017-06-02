@@ -64,25 +64,17 @@ $funciones = new Funciones;
 <header>
     <div class="container">
     	<div class="row">
-        	<div class="col-md-4">
+        	<div class="col-md-2">
         	   <h4>Tablero de tareas</h4>
             </div>
-            <!--<div class="col-md-6">
-            	<h5 class="text-right">Bienvenido <?php echo $_SESSION['nombreUsuario']; ?></h5>            	
-            </div>
-            <div class="col-md-2">
-            	<a href="logout.php"><button type="button" class="btn btn-default">Cerrar Sesión</button></a>
-            </div>-->
+            <div class="col-md-1">
+            	<button type="button" class="btn btn-default" data-toggle="modal" data-target="#creaTarjeta"><span class="glyphicon glyphicon-plus"></span></button>
+        	</div>
         </div>        
     </div>
 </header>
 
-<div class="container">    
-    <div class="row">
-        <div class="col-md-1">
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#creaTarjeta"><span class="glyphicon glyphicon-plus"></span></button>
-        </div>
-    </div>
+<div class="container">
     <div class="row">
         <div class="col-md-3">
             <table class="table table-bordered table-hover table-condensed" style="border-radius: 10px;">
@@ -117,7 +109,7 @@ $funciones = new Funciones;
             </table>
         </div>
     </div>
-    <!--Inicio modal add tarea-->
+    <!--Inicio modal ADD tarjeta-->
     <div class="modal fade" id="creaTarjeta" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -173,7 +165,65 @@ $funciones = new Funciones;
             </div>
         </div>
     </div>
-    <!--Fin modal add tarea-->
+    <!--Fin modal ADD tarjeta-->
+    <!--Inicio modal DETALLE tarjeta-->
+    <div class="modal fade" id="detalleTarjeta" role="dialog">
+    <?php echo $_GET['tarjetaJson']; die(); ?>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">DETALLE CONCHATUMARE Tarjeta</h4>
+                    <small>(*) Campos obligatorios</small>
+                </div>
+                <div class="modal-body">
+                    <form id="form">
+                        <input type="hidden" name="pagina" value="creaTarjeta" /><!--Variable oculta para identificar en el controlador-->
+                        <div class="form-group">
+                            <label for="cboTarea">Tarea (*)</label>
+                            <select class="form-control" id="cboTarea" name="cboTarea">
+                                <option value="seleccione">Seleccione</option>
+                                <?php $funciones->cboTarea(); ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtSolicitante">Solicitante (*)</label>
+                            <select class="form-control" id="txtSolicitante" name="txtSolicitante">
+                                <option value="seleccione">Seleccione</option>
+                                <?php $funciones->cboCliente(); ?>
+                            </select>
+                        </div>              
+                        <div class="form-group">
+                            <label for="cboPrioridad">Prioridad (*)</label>
+                            <select class="form-control" id="cboPrioridad" name="cboPrioridad">
+                                <option value="seleccione">Seleccione</option>
+                                <?php $funciones->cboPrioridad(); ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cboEstado">Estado (*)</label>
+                            <select class="form-control" id="cboEstado" name="cboEstado">
+                                <option value="seleccione">Seleccione</option>
+                                <?php $funciones->cboEstTarjeta(); ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtObservaciones">Observaciones</label>
+                            <textarea class="form-control" id="txtObservaciones" name="txtObservaciones" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="fileAdjunto">Archivo adjunto</label>
+                            <input type="file" id="fileAdjunto"  name="fileAdjunto">
+                        </div>                        
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="validaTarjeta();">Grabar</button>
+                </div>                
+            </div>
+        </div>
+    </div>
+    <!--Fin modal DETALLE tarjeta-->
 </div>
 
 <div class="panel-footer navbar-fixed-bottom">

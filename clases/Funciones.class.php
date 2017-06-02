@@ -263,19 +263,17 @@ class Funciones extends Conexion{
 					$arreglo[$i]['estado'] = $datos['DESCRIPCION_ESTADO_TAJETA'];
 					$i++;
 				}
-				$tarjetaJson = json_encode($arreglo);
-				//echo $tarjetaJson; die();
-				//var_dump($arreglo); die();
 				foreach ($arreglo as $tarjeta) {
 					//echo "<tr><td class='warning' style='background: url(ruta de la imagen);'>";
+					$tarjetaJson=json_encode($tarjeta);
+					//echo $tarjetaJson; die();
 					echo "<tr><td class='warning'>";
-					//echo "<a style='color: black;' onclick='detalleTarjeta(".$tarjeta['idTarjeta'].");'>";
-					echo "<a style='color: black;' href='detalleTarjeta.php'>";
+					//echo "<a style='color: black;' href='#' data-toggle='modal' data-target='#creaTarjeta?tarjetaJson=".$tarjetaJson."'>";
+					echo "<a style='color: black;' href='#' data-toggle='modal' data-target='#creaTarjeta?tarjetaJson=lalala'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
 					echo "</a>";
 					echo "</td></tr>";
-
 				}
 			} else {
 				echo "<tr><td class='warning'>";
