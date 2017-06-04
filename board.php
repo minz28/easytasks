@@ -17,7 +17,7 @@ $funciones = new Funciones;
 <script type="text/javascript" src="js/funciones.js"></script>
 </head>
 
-<body>
+<body style="background-color: #E6E6E6;">
 
 <nav class="navbar navbar-default navbar-fixed">
     <div class="container">
@@ -64,11 +64,13 @@ $funciones = new Funciones;
 <header>
     <div class="container">
     	<div class="row">
-        	<div class="col-md-2">
-        	   <h4>Tablero de tareas</h4>
+        	<div class="col-md-12 text-center">
+        	   <h2>Tablero de tareas</h2>
             </div>
+        </div>
+        <div class="row">
             <div class="col-md-1">
-            	<button type="button" class="btn btn-default" data-toggle="modal" data-target="#creaTarjeta"><span class="glyphicon glyphicon-plus"></span></button>
+            	<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalCreaTarjeta"><span class="glyphicon glyphicon-plus"></span></button>
         	</div>
         </div>        
     </div>
@@ -77,40 +79,40 @@ $funciones = new Funciones;
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <table class="table table-bordered table-hover table-condensed" style="border-radius: 10px;">
+            <table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">
                 <tr>
-                    <th class="warning text-center">PENDIENTES</th>
+                    <th class="text-center" style="background-color: #F7FE2E;">PENDIENTES</th>
                 </tr>
-                <?php $funciones->muestraTarjetaPendientes(); ?>
+                <?php $arreglo=$funciones->muestraTarjetaPendientes(); ?>
             </table>
         </div>
         <div class="col-md-3">
-            <table class="table table-bordered table-hover table-condensed">
+            <table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">
                 <tr>
-                    <th class="info text-center">EN DESARROLLO</th>
+                    <th class="text-center" style="background-color: #2E2EFE">EN DESARROLLO</th>
                 </tr>
                 <?php $funciones->muestraTarjetaEnDesarrollo(); ?>
             </table>
         </div>
         <div class="col-md-3">
-            <table class="table table-bordered table-hover table-condensed">
+            <table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">
                 <tr>
-                    <th class="success text-center">TERMINADAS</th>
+                    <th class="text-center" style="background-color: #2EFE2E">TERMINADAS</th>
                 </tr>
                 <?php $funciones->muestraTarjetaTerminadas(); ?>
             </table>
         </div>
         <div class="col-md-3">
-            <table class="table table-bordered table-hover table-condensed">
+            <table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">
                 <tr>
-                    <th class="danger text-center">IMPEDIDAS</th>
+                    <th class="text-center" style="background-color: #FE2E2E">IMPEDIDAS</th>
                 </tr>
                 <?php $funciones->muestraTarjetaImpedidas(); ?>
             </table>
         </div>
     </div>
     <!--Inicio modal ADD tarjeta-->
-    <div class="modal fade" id="creaTarjeta" role="dialog">
+    <div class="modal fade" id="modalCreaTarjeta" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -167,14 +169,12 @@ $funciones = new Funciones;
     </div>
     <!--Fin modal ADD tarjeta-->
     <!--Inicio modal DETALLE tarjeta-->
-    <div class="modal fade" id="detalleTarjeta" role="dialog">
-    <?php echo $_GET['tarjetaJson']; die(); ?>
+    <div class="modal fade" id="modalDetalleTarjeta" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">DETALLE CONCHATUMARE Tarjeta</h4>
-                    <small>(*) Campos obligatorios</small>
+                    <h4 class="modal-title">NOMBRE TAREA<small>adas</small></h4><small>aasasasa</small>
                 </div>
                 <div class="modal-body">
                     <form id="form">

@@ -58,3 +58,10 @@ function validaCrearUsuario(){
         //alert("Enviado");
     }
 }
+
+function detalleTarjeta(jsonTarjeta){
+    //alert(jsonTarjeta);
+    console.log(jsonTarjeta);    
+    var tarjeta = JSON.parse(jsonTarjeta);
+    alert(tarjeta.tarea);
+}

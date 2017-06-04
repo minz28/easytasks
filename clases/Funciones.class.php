@@ -263,20 +263,23 @@ class Funciones extends Conexion{
 					$arreglo[$i]['estado'] = $datos['DESCRIPCION_ESTADO_TAJETA'];
 					$i++;
 				}
+				//return $arreglo;
 				foreach ($arreglo as $tarjeta) {
 					//echo "<tr><td class='warning' style='background: url(ruta de la imagen);'>";
 					$tarjetaJson=json_encode($tarjeta);
+					//echo "onclick='detalleTarjeta('".$tarjetaJson."')'";die();
 					//echo $tarjetaJson; die();
-					echo "<tr><td class='warning'>";
-					//echo "<a style='color: black;' href='#' data-toggle='modal' data-target='#creaTarjeta?tarjetaJson=".$tarjetaJson."'>";
-					echo "<a style='color: black;' href='#' data-toggle='modal' data-target='#creaTarjeta?tarjetaJson=lalala'>";
+					echo "<tr><td style='background-color: #FFFF00'>";
+					//echo "<a style='color: black;' href='#' data-toggle='modal' data-target='#modalDetalleTarjeta'>";
+					//echo "<a style='color: black;' href='#' onclick='detalleTarjeta(".'"'.$tarjetaJson.'"'.")'>";
+					echo "<a style='color: black;' href='#' onclick='detalleTarjeta(".$tarjetaJson.")'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
 					echo "</a>";
 					echo "</td></tr>";
 				}
 			} else {
-				echo "<tr><td class='warning'>";
+				echo "<tr><td style='background-color: #FFFF00'>";
 				echo "<h6>NO EXISTEN TARJETAS PENDIENTES</h6>";
 				echo "</td></tr>";
 			}
@@ -325,13 +328,13 @@ class Funciones extends Conexion{
 				}
 				//var_dump($arreglo); die();
 				foreach ($arreglo as $tarjeta) {
-					echo "<tr><td class='info'>";
+					echo "<tr><td style='background-color: #0000FF'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
 					echo "</td></tr>";
 				}
 			} else {
-				echo "<tr><td class='info'>";
+				echo "<tr><td style='background-color: #0000FF'>";
 				echo "<h6>NO EXISTEN TARJETAS EN DESARROLLO</h6>";
 				echo "</td></tr>";
 			}
@@ -380,13 +383,13 @@ class Funciones extends Conexion{
 				}
 				//var_dump($arreglo); die();
 				foreach ($arreglo as $tarjeta) {
-					echo "<tr><td class='success'>";
+					echo "<tr><td style='background-color: #00FF00'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
 					echo "</td></tr>";
 				}
 			} else {
-				echo "<tr><td class='success'>";
+				echo "<tr><td style='background-color: #00FF00'>";
 				echo "<h6>NO EXISTEN TARJETAS TERMINADAS</h6>";
 				echo "</td></tr>";
 			}
@@ -435,13 +438,13 @@ class Funciones extends Conexion{
 				}
 				//var_dump($arreglo); die();
 				foreach ($arreglo as $tarjeta) {
-					echo "<tr><td class='danger'>";
+					echo "<tr><td style='background-color: #FF0000'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
 					echo "</td></tr>";
 				}
 			} else {
-				echo "<tr><td class='danger'>";
+				echo "<tr><td style='background-color: #FF0000'>";
 				echo "<h6>NO EXISTEN TARJETAS IMPEDIDAS</h6>";
 				echo "</td></tr>";
 			}				
