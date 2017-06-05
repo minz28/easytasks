@@ -174,47 +174,22 @@ $funciones = new Funciones;
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">NOMBRE TAREA<small>adas</small></h4><small>aasasasa</small>
+                    <h4 id="nombreTarea" class="modal-title"></h4>
                 </div>
                 <div class="modal-body">
+                	<p id="solicitante"></p>
+                	<p id="fechaSolicitud"></p>
+                	<p id="prioridad"></p>
+                	<p id="observaciones"></p>
                     <form id="form">
                         <input type="hidden" name="pagina" value="creaTarjeta" /><!--Variable oculta para identificar en el controlador-->
-                        <div class="form-group">
-                            <label for="cboTarea">Tarea (*)</label>
-                            <select class="form-control" id="cboTarea" name="cboTarea">
-                                <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboTarea(); ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="txtSolicitante">Solicitante (*)</label>
-                            <select class="form-control" id="txtSolicitante" name="txtSolicitante">
-                                <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboCliente(); ?>
-                            </select>
-                        </div>              
-                        <div class="form-group">
-                            <label for="cboPrioridad">Prioridad (*)</label>
-                            <select class="form-control" id="cboPrioridad" name="cboPrioridad">
-                                <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboPrioridad(); ?>
-                            </select>
-                        </div>
                         <div class="form-group">
                             <label for="cboEstado">Estado (*)</label>
                             <select class="form-control" id="cboEstado" name="cboEstado">
                                 <option value="seleccione">Seleccione</option>
                                 <?php $funciones->cboEstTarjeta(); ?>
                             </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="txtObservaciones">Observaciones</label>
-                            <textarea class="form-control" id="txtObservaciones" name="txtObservaciones" rows="4"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="fileAdjunto">Archivo adjunto</label>
-                            <input type="file" id="fileAdjunto"  name="fileAdjunto">
-                        </div>                        
+                        </div>                                                
                     </form>
                 </div>
                 <div class="modal-footer">

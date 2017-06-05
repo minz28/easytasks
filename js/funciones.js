@@ -60,8 +60,11 @@ function validaCrearUsuario(){
 }
 
 function detalleTarjeta(jsonTarjeta){
-    //alert(jsonTarjeta);
-    console.log(jsonTarjeta);    
-    var tarjeta = JSON.parse(jsonTarjeta);
-    alert(tarjeta.tarea);
+    $("#nombreTarea").text(jsonTarjeta.tarea);
+    $("#solicitante").text('Solicitado por: '+jsonTarjeta.solicitante);
+    $("#fechaSolicitud").text('Fecha solicitud: '+jsonTarjeta.fechaSolicitud);
+    $("#prioridad").text('Prioridad: '+jsonTarjeta.prioridad);
+    $("#observaciones").text(jsonTarjeta.observaciones);
+    $('#modalDetalleTarjeta').modal('show');
+    
 }

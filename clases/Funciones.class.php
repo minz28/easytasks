@@ -235,6 +235,7 @@ class Funciones extends Conexion{
 						C.AREA_CLIENTE,
 						TJ.FECHA_SOLICITUD,
 						P.DESCRIPCION_PRIORIDAD,
+						TJ.OBSERVACIONES,
 						TJ.ESTADO_TARJETA,
 						ET.DESCRIPCION_ESTADO_TAJETA
 					FROM
@@ -259,6 +260,7 @@ class Funciones extends Conexion{
 					$arreglo[$i]['solicitante'] = $datos['NOMBRE_CLIENTE']." - ".$datos['CARGO_CLIENTE']." - ".$datos['AREA_CLIENTE'];
 					$arreglo[$i]['fechaSolicitud'] = $datos['FECHA_SOLICITUD'];
 					$arreglo[$i]['prioridad'] = $datos['DESCRIPCION_PRIORIDAD'];
+					$arreglo[$i]['observaciones'] = $datos['OBSERVACIONES'];
 					$arreglo[$i]['idEstado'] = $datos['ESTADO_TARJETA'];
 					$arreglo[$i]['estado'] = $datos['DESCRIPCION_ESTADO_TAJETA'];
 					$i++;
@@ -267,11 +269,9 @@ class Funciones extends Conexion{
 				foreach ($arreglo as $tarjeta) {
 					//echo "<tr><td class='warning' style='background: url(ruta de la imagen);'>";
 					$tarjetaJson=json_encode($tarjeta);
-					//echo "onclick='detalleTarjeta('".$tarjetaJson."')'";die();
 					//echo $tarjetaJson; die();
 					echo "<tr><td style='background-color: #FFFF00'>";
 					//echo "<a style='color: black;' href='#' data-toggle='modal' data-target='#modalDetalleTarjeta'>";
-					//echo "<a style='color: black;' href='#' onclick='detalleTarjeta(".'"'.$tarjetaJson.'"'.")'>";
 					echo "<a style='color: black;' href='#' onclick='detalleTarjeta(".$tarjetaJson.")'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
