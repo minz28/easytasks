@@ -31,27 +31,29 @@ $funciones = new Funciones;
         	</button>
         	<a class="navbar-brand" href="#">EasyTasks</a>
         </div>
+        <?php if ($_SESSION['perfil'][0] != 3) { ?><!--Oculta este menú del perfil 'usuario'-->
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
+            <!--<li><a href="#">Link</a></li>
             <li><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>-->
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mantención<span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
+                    <li><a href="#" title="Usuarios del sistema">Usuarios</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#" title="Actores de la empresa (tabla Cliente)">Solicitantes (Clientes)</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="#">One more separated link</a></li>
+                    <li><a href="#">Áreas de tarea (Categoría)</a></li>                    
+                    <li><a href="#">Sistemas</a></li>
+                    <li><a href="#">Tareas</a></li>
                 </ul>
             </li>
-        </ul>-->
+            <li><a href="#">Bitácora</a></li>
+        </ul>
+        <?php } ?>
         <div class="row">
-        	<div class="col-md-4 col-md-offset-4">           	
+        	<div class="col-md-5 col-md-offset-3">           	
             	<h5 class="text-right">Bienvenido <?php echo $_SESSION['nombreUsuario']; ?></h5>            	
             </div>
             <div class="col-md-2">
