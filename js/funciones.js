@@ -64,7 +64,7 @@ function detalleTarjeta(jsonTarjeta){
     $("#solicitante").text('Solicitado por: '+jsonTarjeta.solicitante);
     $("#fechaSolicitud").text('Fecha solicitud: '+jsonTarjeta.fechaSolicitud);
     $("#prioridad").text('Prioridad: '+jsonTarjeta.prioridad);
-    $("#observaciones").text(jsonTarjeta.observaciones);
+    $("#observaciones").text('Observaciones: '+jsonTarjeta.observaciones);
     $('#modalDetalleTarjeta').modal('show');
     
 }
