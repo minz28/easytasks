@@ -19,43 +19,13 @@ $funciones = new Funciones;
 
 <body style="background-color: #E6E6E6;">
 
-<nav class="navbar navbar-default navbar-fixed">
+<nav class="navbar navbar-default" role="navigation">
     <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-	        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-		        <span class="sr-only">Toggle navigation</span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-        	</button>
-        	<a class="navbar-brand" href="#">EasyTasks</a>
+        <?php include("menu.php"); ?>
+        <div class="col-md-6">
+	        <h5 class="text-right">Bienvenido <?php echo $_SESSION['nombreUsuario']; ?>
+	        &nbsp;<a href="logout.php"><button type="button" class="btn btn-default">Cerrar Sesión</button></a></h5>
         </div>
-        <?php if ($_SESSION['perfil'][0] != 3) { ?><!--Oculta este menú del perfil 'usuario'-->
-        <!-- Collect the nav links, forms, and other content for toggling -->
-	    <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
-	        <ul class="nav navbar-nav">
-	            <!--<li><a href="#">Link</a></li>
-	            <li><a href="#">Link</a></li>
-	            <li><a href="#">Link</a></li>-->
-	            <li class="dropdown">
-	                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mantención<span class="caret"></span></a>
-	                <ul class="dropdown-menu">
-	                    <li><a href="#" title="Usuarios del sistema">Usuarios</a></li>
-	                    <li role="separator" class="divider"></li>
-	                    <li><a href="#" title="Actores solicitantes de tareas de la empresa (tabla Cliente)">Solicitantes</a></li>
-	                    <li role="separator" class="divider"></li>
-	                    <li><a href="#" title="Áreas de negocio de la tarea">Áreas de tarea (Categoría)</a></li>                    
-	                    <li><a href="#" title="Sistemas que se ven afectados por la tarea">Sistemas</a></li>
-	                    <li><a href="#" title="Tareas">Tareas</a></li>
-	                </ul>
-	            </li>
-	            <li><a href="#">Bitácora</a></li>
-	        </ul>
-	    </div>
-        <?php } ?>
-        <h5 class="text-right">Bienvenido <?php echo $_SESSION['nombreUsuario']; ?>
-        <a href="logout.php">&nbsp;<button type="button" class="btn btn-default">Cerrar Sesión</button></a></h5>
     </div><!-- /.container-fluid -->
 </nav>
 
@@ -81,7 +51,7 @@ $funciones = new Funciones;
                 <tr>
                     <th class="text-center" style="background-color: #F7FE2E;">PENDIENTES</th>
                 </tr>
-                <?php $arreglo=$funciones->muestraTarjetaPendientes(); ?>
+                <?php $funciones->muestraTarjetaPendientes(); ?>
             </table>
         </div>
         <div class="col-md-3">

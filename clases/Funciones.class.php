@@ -269,9 +269,7 @@ class Funciones extends Conexion{
 				foreach ($arreglo as $tarjeta) {
 					//echo "<tr><td class='warning' style='background: url(ruta de la imagen);'>";
 					$tarjetaJson=json_encode($tarjeta);
-					//echo $tarjetaJson; die();
 					echo "<tr><td style='background-color: #FFFF00'>";
-					//echo "<a style='color: black;' href='#' data-toggle='modal' data-target='#modalDetalleTarjeta'>";
 					echo "<a style='color: black;' href='#' onclick='detalleTarjeta(".$tarjetaJson.")'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
@@ -453,26 +451,6 @@ class Funciones extends Conexion{
     	}
     }
 
-    function creaTarea($datos){
-    	try {
-    		$tiempoEstimadoTarea = $datos['cboHH'].":".$datos['cboMM'].":"."00";    		
-    		$sql="INSERT INTO TAREA (CATEGORIA, SISTEMA, DESCRIPCION_TAREA, DIFICULTAD, TIEMPO_ESTIMADO_TAREA, ESTADO_REGISTRO) 
-	                VALUES (".$datos['cboCategoria'].", ".$datos['cboSistema'].", '".$datos['txtDescripcion']."', "
-	                	.$datos['cboDificultad'].", '".$tiempoEstimadoTarea."', 1)";
-	                //echo $sql;die();
-	        if($record=$this->insertEasyTasks($sql)){
-	            //echo "<script>alert('La tarea fue agregada exitosamente');</script>";
-	            return 1;
-	        } else {
-	            echo "<script>alert('Error al agregar tarea');</script>";
-	            echo "<script>window.history.back();</script>";
-	        }
-    		
-    	} catch (Exception $e) {
-    		echo 'Error: ', $e->getMessage(), "\n";
-    	}
-    }
-
     function creaUsuario($datos){
     	try {
     		$nombreUsername = explode(" ", utf8_decode($datos['txtNombre']));    		
@@ -499,6 +477,56 @@ class Funciones extends Conexion{
     		//echo "<script>alert('".$e->getMessage()."');</script>";
     	}
 	        
+    }
+
+    function listaTarea(){
+    	try {
+    		$sql = "SELECT
+						T.ID_TAREA,
+						C.DESCRIPCION_CATEGORIA,
+						S.DESCRIPCION_SISTEMA,
+						T.DESCRIPCION_TAREA,
+						D.DESCRIPCION_DIFICULTAD,
+						T.TIEMPO_ESTIMADO_TAREA
+					FROM
+						TAREA T
+					INNER JOIN CATEGORIA C ON T.CATEGORIA = C.ID_CATEGORIA
+					INNER JOIN SISTEMA S ON T.SISTEMA = S.ID_SISTEMA
+					INNER JOIN DIFICULTAD D ON T.DIFICULTAD = D.ID_DIFICULTAD
+					WHERE
+						C.EMPRESA = $_SESSION[empresa]
+					AND T.ESTADO_REGISTRO = 1";
+					//echo $sql; die();
+			if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					# code...
+				}
+			}
+    		
+    	} catch (Exception $e) {
+    		
+    	}
+    }
+
+    function creaTarea($datos){
+    	try {
+    		$tiempoEstimadoTarea = $datos['cboHH'].":".$datos['cboMM'].":"."00";    		
+    		$sql="INSERT INTO TAREA (CATEGORIA, SISTEMA, DESCRIPCION_TAREA, DIFICULTAD, TIEMPO_ESTIMADO_TAREA, ESTADO_REGISTRO) 
+	                VALUES (".$datos['cboCategoria'].", ".$datos['cboSistema'].", '".$datos['txtDescripcion']."', "
+	                	.$datos['cboDificultad'].", '".$tiempoEstimadoTarea."', 1)";
+	                //echo $sql;die();
+	        if($record=$this->insertEasyTasks($sql)){
+	            //echo "<script>alert('La tarea fue agregada exitosamente');</script>";
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al agregar tarea');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    		
+    	} catch (Exception $e) {
+    		echo 'Error: ', $e->getMessage(), "\n";
+    	}
     }
 
 
