@@ -1,6 +1,7 @@
 <?php
 //session_start();
 include("clases/Funciones.class.php");
+include ("constantes.php");
 $funciones = new Funciones;
 ?>
 <!doctype html>
@@ -8,7 +9,7 @@ $funciones = new Funciones;
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, maximun-scale=1">
-<title>EasyTask | Gestión visual de tareas</title>
+<title><?php echo TITULO; ?></title>
 
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
 
@@ -35,16 +36,15 @@ $funciones = new Funciones;
         	<div class="col-md-12 text-center">
         	   <h2>Tablero de tareas</h2>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1">
-            	<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalCreaTarjeta"><span class="glyphicon glyphicon-plus"></span></button>
-        	</div>
         </div>        
     </div>
 </header>
 
 <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalCreaTarjeta"><span class="glyphicon glyphicon-plus"></span></button><br><br>
+    </div>
     <div class="row">
         <div class="col-md-3">
             <table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">

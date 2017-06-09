@@ -500,12 +500,34 @@ class Funciones extends Conexion{
 			if($record = $this->selectEasyTasks($sql)){
 				$i=0;
 				while ($datos = mysql_fetch_assoc($record)) {
-					# code...
+					$arreglo[$i]['idTarea'] = $datos['ID_TAREA'];
+					$arreglo[$i]['categoria'] = $datos['DESCRIPCION_CATEGORIA'];
+					$arreglo[$i]['sistema'] = $datos['DESCRIPCION_SISTEMA'];
+					$arreglo[$i]['tarea'] = $datos['DESCRIPCION_TAREA'];
+					$arreglo[$i]['dificultad'] = $datos['DESCRIPCION_DIFICULTAD'];
+					$arreglo[$i]['tiempoEstimado'] = $datos['TIEMPO_ESTIMADO_TAREA'];
+					$i++;
 				}
+				$indiceTarea=1;
+				foreach ($arreglo as $tarea) {
+					$tareaJson = json_encode($tarea);
+					echo "<tr>";
+					echo "<td>".$indiceTarea."</td>";
+					echo "<td>".$tarea['categoria']."</td>";
+					echo "<td>".$tarea['sistema']."</td>";
+					echo "<td>".$tarea['tarea']."</td>";
+					echo "<td>".$tarea['dificultad']."</td>";
+					echo "<td>".$tarea['tiempoEstimado']."</td>";					
+					echo "<td><button type='button' class='btn btn-default' data-toggle='modal' data-target='#modalEdit'><span class='glyphicon glyphicon-edit'></span></button></td>";
+					echo "<td><button type='button' class='btn btn-default'><span class='glyphicon glyphicon-remove'></span></button></td>";
+					echo "</tr>";
+					$indiceTarea++;
+				}
+			} else {
+				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <a href='#'>acá</a>.</h4></td></tr>";
 			}
-    		
     	} catch (Exception $e) {
-    		
+    		echo "<script>alert('".$e->getMessage()."');</script>";    		
     	}
     }
 

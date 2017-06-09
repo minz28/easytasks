@@ -1,6 +1,7 @@
 <?php
 //session_start();
 include("clases/Funciones.class.php");
+include ("constantes.php");
 $funciones = new Funciones;
 ?>
 <!doctype html>
@@ -8,7 +9,7 @@ $funciones = new Funciones;
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, maximun-scale=1">
-<title>EasyTask | Gestión visual de tareas</title>
+<title><?php echo TITULO; ?></title>
 
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
 
@@ -17,7 +18,7 @@ $funciones = new Funciones;
 <script type="text/javascript" src="js/funciones.js"></script>
 </head>
 
-<body style="background-color: #E6E6E6;">
+<body>
 
 <nav class="navbar navbar-default" role="navigation">
     <div class="container">
@@ -35,21 +36,29 @@ $funciones = new Funciones;
         	<div class="col-md-12 text-center">
         	   <h2>Mantenedor de Tareas</h2>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1">
-            	<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalCreaTarjeta"><span class="glyphicon glyphicon-plus"></span></button>
-        	</div>
         </div>        
     </div>
 </header>
 
 <div class="container">
     <div class="row">
-        <div class="col-md-3">
-            <table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalAdd"><span class="glyphicon glyphicon-plus"></span></button><br><br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">            
+            <!--<table class="table table-hover table-condensed table-responsive" style="box-shadow: 10px 10px 5px lightgrey;">--><!--Tabla CON sombra-->
+            <table class="table table-hover table-condensed table-responsive"><!--Tabla SIN sombra-->
                 <tr>
-                    <th class="text-center" style="background-color: #F7FE2E;">PENDIENTES</th>
+                    <th>N°</th>
+                    <th>Categoría</th>
+                    <th>Sistema</th>
+                    <th>Tarea</th>
+                    <th>Dificultad</th>
+                    <th>Tiempo de desarrollo</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
                 </tr>
                 <?php $funciones->listaTarea(); ?>
             </table>
