@@ -519,7 +519,7 @@ class Funciones extends Conexion{
 					echo "<td>".$tarea['dificultad']."</td>";
 					echo "<td>".$tarea['tiempoEstimado']."</td>";					
 					echo "<td><button type='button' class='btn btn-default' data-toggle='modal' data-target='#modalEdit'><span class='glyphicon glyphicon-edit'></span></button></td>";
-					echo "<td><button type='button' class='btn btn-default'><span class='glyphicon glyphicon-remove'></span></button></td>";
+					echo "<td><button type='button' class='btn btn-default' onclick='eliminaTarea(".$tareaJson.")'><span class='glyphicon glyphicon-remove'></span></button></td>";
 					echo "</tr>";
 					$indiceTarea++;
 				}

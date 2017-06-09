@@ -64,63 +64,88 @@ $funciones = new Funciones;
             </table>
         </div>
     </div>
-    <!--Inicio modal ADD tarjeta-->
-    <div class="modal fade" id="modalCreaTarjeta" role="dialog">
+    <!--Inicio modal ADD tarea-->
+    <div class="modal fade" id="modalAdd" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Crear Tarjeta</h4>
+                    <h4 class="modal-title">Ingresar nueva tarea</h4>
                     <small>(*) Campos obligatorios</small>
                 </div>
                 <div class="modal-body">
                     <form id="form">
-                        <input type="hidden" name="pagina" value="creaTarjeta" /><!--Variable oculta para identificar en el controlador-->
+                        <input type="hidden" name="pagina" value="creaTarea" /><!--Variable oculta para identificar en el controlador-->
                         <div class="form-group">
-                            <label for="cboTarea">Tarea (*)</label>
-                            <select class="form-control" id="cboTarea" name="cboTarea">
+                            <label for="cboCategoria">Categoría (*)</label>
+                            <select class="form-control" id="cboCategoria" name="cboCategoria">
                                 <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboTarea(); ?>
+                                <?php $funciones->cboCategoria(); ?>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="txtSolicitante">Solicitante (*)</label>
-                            <select class="form-control" id="txtSolicitante" name="txtSolicitante">
+                            <label for="cboSistema">Sistema (*)</label>
+                            <select class="form-control" id="cboSistema" name="cboSistema">
                                 <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboCliente(); ?>
-                            </select>
-                        </div>              
-                        <div class="form-group">
-                            <label for="cboPrioridad">Prioridad (*)</label>
-                            <select class="form-control" id="cboPrioridad" name="cboPrioridad">
-                                <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboPrioridad(); ?>
+                                <?php $funciones->cboSistema(); ?>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="cboEstado">Estado (*)</label>
-                            <select class="form-control" id="cboEstado" name="cboEstado">
+                            <label for="txtDescripcion">Descripción (*)</label>
+                            <input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion" placeholder="Descripción tarea">
+                        </div>
+                        <div class="form-group">
+                            <label for="cboDificultad">Dificutad (*)</label>
+                            <select class="form-control" id="cboDificultad" name="cboDificultad">
                                 <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboEstTarjeta(); ?>
+                                <?php $funciones->cboDificultad(); ?>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="txtObservaciones">Observaciones</label>
-                            <textarea class="form-control" id="txtObservaciones" name="txtObservaciones" rows="4"></textarea>
+                            <label for="txtTiempoEstimado">Tiempo estimado predefinido (HH:MM) (*)</label>
+                            <br>
+                            <div class="col-md-2">
+                                <select class="form-control" id="cboHH" name="cboHH">
+                                    <?php
+                                    echo "<option value='00'>00</option><option value='01'>01</option><option value='02'>02</option><option value='03'>03</option><option value='04'>04</option><option value='05'>05</option><option value='06'>06</option><option value='07'>07</option><option value='08'>08</option><option value='09'>09</option>";
+                                    for ($i=10; $i<24; $i++) { 
+                                        echo "<option value='".$i."'>".$i."</option>";
+                                    }                                                           
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-control" id="cboMM" name="cboMM">
+                                    <?php
+                                    echo "<option value='00'>00</option><option value='01'>01</option><option value='02'>02</option><option value='03'>03</option><option value='04'>04</option><option value='05'>05</option><option value='06'>06</option><option value='07'>07</option><option value='08'>08</option><option value='09'>09</option>";
+                                    for ($i=10; $i<60; $i++) { 
+                                        echo "<option value='".$i."'>".$i."</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <!--Asignación de segundos al detalle de tarea
+                            <div class="col-md-2">
+                                <select class="form-control" id="cboSS" name="cboSS">
+                                    <?php/*
+                                    echo "<option value='00'>00</option><option value='01'>01</option><option value='02'>02</option><option value='03'>03</option><option value='04'>04</option><option value='05'>05</option><option value='06'>06</option><option value='07'>07</option><option value='08'>08</option><option value='09'>09</option>";
+                                    for ($i=10; $i<60; $i++) { 
+                                        echo "<option value='".$i."'>".$i."</option>";
+                                    }*/
+                                    ?>
+                                </select>
+                            </div>-->
                         </div>
-                        <div class="form-group">
-                            <label for="fileAdjunto">Archivo adjunto</label>
-                            <input type="file" id="fileAdjunto"  name="fileAdjunto">
-                        </div>                        
                     </form>
                 </div>
+                <br>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="validaTarjeta();">Grabar</button>
+                    <button type="button" class="btn btn-default" onclick="validaTarea();">Grabar</button>
                 </div>                
             </div>
         </div>
     </div>
-    <!--Fin modal ADD tarjeta-->
+    <!--Fin modal ADD tarea-->
     <!--Inicio modal DETALLE tarjeta-->
     <div class="modal fade" id="modalDetalleTarjeta" role="dialog">
         <div class="modal-dialog">
