@@ -34,16 +34,30 @@ switch($_POST['pagina']){
     
         $respuesta = $controlador->creaTarea($_POST);
         if($respuesta == 1){
-            header("location:../board.php");
+            header("location:../listaTarea.php");
         }
         
     break;
+
+    case 'editaTarea':
+
+        $respuesta = $controlador->editaTarea($_POST);
+        if($respuesta == 1){
+            header("location:../listaTarea.php");
+        }
+
+    case 'eliminaTarea':
+     
+        $respuesta = $controlador->eliminaTarea($_POST);
+        if($respuesta == 1){
+            header("location:../listaTarea.php");
+        }
 
     case 'creaUsuario':
     
         $respuesta = $controlador->creaUsuario($_POST);
         if($respuesta == 1){
-            header("location:../board.php");
+            header("location:../listaUsuario.php");
         }
         
     break;

@@ -68,6 +68,43 @@ function detalleTarjeta(jsonTarjeta){
     $('#modalDetalleTarjeta').modal('show');    
 }
 
+function editaTarea(json){
+    var tiempoEstimado = json.tiempoEstimado;
+    var tiempo = tiempoEstimado.split(':');
+    $('#idEdit').val(json.idTarea);
+    $('#cboCategoriaEdit option[value="'+ json.idCategoria +'"]').attr('selected',true);
+    $('#cboSistemaEdit option[value="'+ json.idSistema +'"]').attr('selected',true);
+    $('#txtDescripcionEdit').val(json.tarea);
+    $('#cboDificultadEdit option[value="'+ json.idDificultad +'"]').attr('selected',true);
+    $('#cboHHEdit option[value="'+ tiempo[0] +'"]').attr('selected',true);
+    $('#cboMMEdit option[value="'+ tiempo[1] +'"]').attr('selected',true);
+    $('#modalEdit').modal('show');
+}
+
+//Validar formulario editar de tarea
+function guardaEditaTarea(){
+    if(document.getElementById('cboCategoriaEdit').value == "seleccione" || document.getElementById('cboSistemaEdit').value == "seleccione" || document.getElementById('txtDescripcionEdit').value.trim() == "" || document.getElementById('cboDificultadEdit').value == "seleccione")
+    {
+        alert("Completar campos obligatorios");
+    } else {
+        if(confirm("¿Está seguro de editar esta tarea?") == true){
+            document.getElementById('formEdit').action = 'controlador/controlador.php';
+            document.getElementById('formEdit').method = 'post';
+            document.getElementById('formEdit').submit();
+        } else {
+            $('#modalEdit').modal('hide');
+        }
+    }
+}
+
 function eliminaTarea(json){
-    alert(json.idTarea);
+    if(confirm("¿Está seguro que desea eliminar esta tarea?") == true){
+        $('#pagina').val('eliminaTarea');
+        $('#idEdit').val(json.idTarea);
+        document.getElementById('formEdit').action = 'controlador/controlador.php';
+        document.getElementById('formEdit').method = 'post';
+        document.getElementById('formEdit').submit();
+    } else {
+        return false;
+    }
 }

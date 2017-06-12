@@ -98,7 +98,8 @@ class Funciones extends Conexion{
 	        	return 0;
 	        }				
     	} catch (Exception $e) {
-    		echo 'Error: ', $e->getMessage(), "\n";
+    		//echo 'Error: ', $e->getMessage(), "\n";
+    		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
 	}
 
@@ -218,8 +219,7 @@ class Funciones extends Conexion{
 	            echo "<script>window.history.back();</script>";
 	        }
     	} catch (Exception $e) {
-    		echo 'Error: ', $e->getMessage(), "\n";
-    		//echo "<script>alert('".$e->getMessage()."');</script>";
+    		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
 	        
     }
@@ -283,7 +283,7 @@ class Funciones extends Conexion{
 			}
 				
     	} catch (Exception $e) {
-    		echo 'Error: ', $e->getMessage(), "\n";
+    		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
     }
 
@@ -338,7 +338,7 @@ class Funciones extends Conexion{
 			}
 				
     	} catch (Exception $e) {
-    		echo 'Error: ', $e->getMessage(), "\n";
+    		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
     }
 
@@ -393,7 +393,7 @@ class Funciones extends Conexion{
 			}
 				
     	} catch (Exception $e) {
-    		echo 'Error: ', $e->getMessage(), "\n";
+    		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
     }
 
@@ -447,7 +447,7 @@ class Funciones extends Conexion{
 				echo "</td></tr>";
 			}				
     	} catch (Exception $e) {
-    		echo 'Error: ', $e->getMessage(), "\n";
+    		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
     }
 
@@ -473,8 +473,7 @@ class Funciones extends Conexion{
 	            echo "<script>window.history.back();</script>";
 	        }
     	} catch (Exception $e) {
-    		echo 'Error: ', $e->getMessage(), "\n";
-    		//echo "<script>alert('".$e->getMessage()."');</script>";
+    		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
 	        
     }
@@ -483,11 +482,14 @@ class Funciones extends Conexion{
     	try {
     		$sql = "SELECT
 						T.ID_TAREA,
+						T.CATEGORIA,
+						T.SISTEMA,
+						T.DESCRIPCION_TAREA,
+						T.DIFICULTAD,
+						T.TIEMPO_ESTIMADO_TAREA,
 						C.DESCRIPCION_CATEGORIA,
 						S.DESCRIPCION_SISTEMA,
-						T.DESCRIPCION_TAREA,
-						D.DESCRIPCION_DIFICULTAD,
-						T.TIEMPO_ESTIMADO_TAREA
+						D.DESCRIPCION_DIFICULTAD						
 					FROM
 						TAREA T
 					INNER JOIN CATEGORIA C ON T.CATEGORIA = C.ID_CATEGORIA
@@ -501,11 +503,14 @@ class Funciones extends Conexion{
 				$i=0;
 				while ($datos = mysql_fetch_assoc($record)) {
 					$arreglo[$i]['idTarea'] = $datos['ID_TAREA'];
-					$arreglo[$i]['categoria'] = $datos['DESCRIPCION_CATEGORIA'];
-					$arreglo[$i]['sistema'] = $datos['DESCRIPCION_SISTEMA'];
+					$arreglo[$i]['idCategoria'] = $datos['CATEGORIA'];
+					$arreglo[$i]['idSistema'] = $datos['SISTEMA'];
 					$arreglo[$i]['tarea'] = $datos['DESCRIPCION_TAREA'];
-					$arreglo[$i]['dificultad'] = $datos['DESCRIPCION_DIFICULTAD'];
+					$arreglo[$i]['idDificultad'] = $datos['DIFICULTAD'];
 					$arreglo[$i]['tiempoEstimado'] = $datos['TIEMPO_ESTIMADO_TAREA'];
+					$arreglo[$i]['categoria'] = $datos['DESCRIPCION_CATEGORIA'];
+					$arreglo[$i]['sistema'] = $datos['DESCRIPCION_SISTEMA'];					
+					$arreglo[$i]['dificultad'] = $datos['DESCRIPCION_DIFICULTAD'];
 					$i++;
 				}
 				$indiceTarea=1;
@@ -518,7 +523,7 @@ class Funciones extends Conexion{
 					echo "<td>".$tarea['tarea']."</td>";
 					echo "<td>".$tarea['dificultad']."</td>";
 					echo "<td>".$tarea['tiempoEstimado']."</td>";					
-					echo "<td><button type='button' class='btn btn-default' data-toggle='modal' data-target='#modalEdit'><span class='glyphicon glyphicon-edit'></span></button></td>";
+					echo "<td><button type='button' class='btn btn-default' onclick='editaTarea(".$tareaJson.")'><span class='glyphicon glyphicon-edit'></span></button></td>";
 					echo "<td><button type='button' class='btn btn-default' onclick='eliminaTarea(".$tareaJson.")'><span class='glyphicon glyphicon-remove'></span></button></td>";
 					echo "</tr>";
 					$indiceTarea++;
@@ -527,13 +532,13 @@ class Funciones extends Conexion{
 				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <a href='#'>acá</a>.</h4></td></tr>";
 			}
     	} catch (Exception $e) {
-    		echo "<script>alert('".$e->getMessage()."');</script>";    		
+    		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
     }
 
     function creaTarea($datos){
     	try {
-    		$tiempoEstimadoTarea = $datos['cboHH'].":".$datos['cboMM'].":"."00";    		
+    		$tiempoEstimadoTarea = $datos['cboHH'].":".$datos['cboMM'].":"."00";
     		$sql="INSERT INTO TAREA (CATEGORIA, SISTEMA, DESCRIPCION_TAREA, DIFICULTAD, TIEMPO_ESTIMADO_TAREA, ESTADO_REGISTRO) 
 	                VALUES (".$datos['cboCategoria'].", ".$datos['cboSistema'].", '".$datos['txtDescripcion']."', "
 	                	.$datos['cboDificultad'].", '".$tiempoEstimadoTarea."', 1)";
@@ -545,12 +550,50 @@ class Funciones extends Conexion{
 	            echo "<script>alert('Error al agregar tarea');</script>";
 	            echo "<script>window.history.back();</script>";
 	        }
-    		
     	} catch (Exception $e) {
-    		echo 'Error: ', $e->getMessage(), "\n";
+    		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
     }
 
+    function editaTarea($datos){
+    	try {
+    		$tiempoEstimadoTarea = $datos['cboHHEdit'].":".$datos['cboMMEdit'].":"."00";
+    		$sql="	UPDATE 	TAREA
+    				SET 	CATEGORIA = ".$datos['cboCategoriaEdit'].",
+							SISTEMA = ".$datos['cboSistemaEdit'].",
+							DESCRIPCION_TAREA = '".$datos['txtDescripcionEdit']."',
+							DIFICULTAD = ".$datos['cboDificultadEdit'].",
+							TIEMPO_ESTIMADO_TAREA = '".$tiempoEstimadoTarea."'
+					WHERE 	ID_TAREA = ".$datos['idEdit'];
+			//echo $sql; die();
+			if($record=$this->insertEasyTasks($sql)){
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al editar tarea');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function eliminaTarea($datos){
+    	try {
+    		$sql = "UPDATE TAREA
+					SET ESTADO_REGISTRO = 2
+					WHERE
+						ID_TAREA = ".$datos['idEdit'];
+			//echo $sql; die();
+    	if($record=$this->insertEasyTasks($sql)){
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al eliminar tarea');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }	
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
 
 }
 ?>

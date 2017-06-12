@@ -171,8 +171,8 @@ $funciones = new Funciones;
     <!--Fin modal DETALLE tarjeta-->
 </div>
 
-<div class="panel-footer navbar-fixed-bottom">
-    <div class="container">
+<div class="container-fluid">
+    <div class="panel-footer">
         <p>EasyTask® 2017 | Miguel Pinto - Miguel Inzunza - Hans Silva | Todos los derechos reservados</p>
     </div>
 </div>
