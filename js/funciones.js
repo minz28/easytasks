@@ -71,6 +71,7 @@ function detalleTarjeta(jsonTarjeta){
 function editaTarea(json){
     var tiempoEstimado = json.tiempoEstimado;
     var tiempo = tiempoEstimado.split(':');
+    $('#pagina').val('editaTarea');
     $('#idEdit').val(json.idTarea);
     $('#cboCategoriaEdit option[value="'+ json.idCategoria +'"]').attr('selected',true);
     $('#cboSistemaEdit option[value="'+ json.idSistema +'"]').attr('selected',true);
@@ -81,7 +82,7 @@ function editaTarea(json){
     $('#modalEdit').modal('show');
 }
 
-//Validar formulario editar de tarea
+//Validar formulario editar tarea
 function guardaEditaTarea(){
     if(document.getElementById('cboCategoriaEdit').value == "seleccione" || document.getElementById('cboSistemaEdit').value == "seleccione" || document.getElementById('txtDescripcionEdit').value.trim() == "" || document.getElementById('cboDificultadEdit').value == "seleccione")
     {

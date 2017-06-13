@@ -157,7 +157,7 @@ $funciones = new Funciones;
                 </div>
                 <div class="modal-body">
                     <form id="formEdit">
-                        <input type="hidden" name="pagina" id="pagina" value="editaTarea" /><!--Variable oculta para identificar en el controlador-->
+                        <input type="hidden" name="pagina" id="pagina" value="" /><!--Variable oculta para identificar en el controlador-->
                         <input type="hidden" name="idEdit" id="idEdit" value=""><!--Variable oculta para saber id de tarea a editar-->
                         <div class="form-group">
                             <label for="cboCategoriaEdit">Categoría (*)</label>
@@ -212,7 +212,7 @@ $funciones = new Funciones;
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="guardaEditaTarea();">Grabar</button>
+                    <button type="button" class="btn btn-default" onclick="guardaEditaTarea()">Grabar</button>
                 </div>                
             </div>
         </div>

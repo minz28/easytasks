@@ -47,7 +47,7 @@ switch($_POST['pagina']){
         }
 
     case 'eliminaTarea':
-     
+    
         $respuesta = $controlador->eliminaTarea($_POST);
         if($respuesta == 1){
             header("location:../listaTarea.php");
