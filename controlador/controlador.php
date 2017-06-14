@@ -46,12 +46,16 @@ switch($_REQUEST['pagina']){
             header("location:../listaTarea.php");
         }
 
+    break;
+
     case 'eliminaTarea':
     
         $respuesta = $controlador->eliminaTarea($_POST);
         if($respuesta == 1){
             header("location:../listaTarea.php");
         }
+
+    break;
 
     case 'creaUsuario':
     
