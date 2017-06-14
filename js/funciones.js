@@ -79,16 +79,17 @@ function editaTarea(json){
     $('#cboDificultadEdit option[value="'+ json.idDificultad +'"]').attr('selected',true);
     $('#cboHHEdit option[value="'+ tiempo[0] +'"]').attr('selected',true);
     $('#cboMMEdit option[value="'+ tiempo[1] +'"]').attr('selected',true);
+    //alert($('#pagina').val());
     $('#modalEdit').modal('show');
 }
 
 //Validar formulario editar tarea
-function guardaEditaTarea(){
+function guardaEditaTarea(){    
     if(document.getElementById('cboCategoriaEdit').value == "seleccione" || document.getElementById('cboSistemaEdit').value == "seleccione" || document.getElementById('txtDescripcionEdit').value.trim() == "" || document.getElementById('cboDificultadEdit').value == "seleccione")
     {
         alert("Completar campos obligatorios");
     } else {
-        if(confirm("¿Está seguro de editar esta tarea?") == true){
+        if(confirm("¿Está seguro de editar esta tarea?") == true){            
             document.getElementById('formEdit').action = 'controlador/controlador.php';
             document.getElementById('formEdit').method = 'post';
             document.getElementById('formEdit').submit();
@@ -98,10 +99,11 @@ function guardaEditaTarea(){
     }
 }
 
-function eliminaTarea(json){
+function eliminaTarea(id){
     if(confirm("¿Está seguro que desea eliminar esta tarea?") == true){
         $('#pagina').val('eliminaTarea');
-        $('#idEdit').val(json.idTarea);
+        $('#idEdit').val(id);
+        //alert($('#pagina').val());
         document.getElementById('formEdit').action = 'controlador/controlador.php';
         document.getElementById('formEdit').method = 'post';
         document.getElementById('formEdit').submit();

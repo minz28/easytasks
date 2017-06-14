@@ -524,12 +524,13 @@ class Funciones extends Conexion{
 					echo "<td>".$tarea['dificultad']."</td>";
 					echo "<td>".$tarea['tiempoEstimado']."</td>";					
 					echo "<td><button type='button' class='btn btn-default' onclick='editaTarea(".$tareaJson.")'><span class='glyphicon glyphicon-edit'></span></button></td>";
-					echo "<td><button type='button' class='btn btn-default' onclick='eliminaTarea(".$tareaJson.")'><span class='glyphicon glyphicon-remove'></span></button></td>";
+					echo "<td><button type='button' class='btn btn-default' onclick='eliminaTarea(".$tarea['idTarea'].")'><span class='glyphicon glyphicon-remove'></span></button></td>";
 					echo "</tr>";
 					$indiceTarea++;
 				}
 			} else {
-				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <a href='#'>acá</a>.</h4></td></tr>";
+				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <a href='#' data-toggle='modal' data-target='#modalAdd'>acá</a>.</h4></td></tr>";
+				//echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <button type='button' class='btn btn-link' data-toggle='modal' data-target='#modalAdd'>acá</button>.</h4></td></tr>";
 			}
     	} catch (Exception $e) {
     		echo "<script>alert('".$e->getMessage()."');</script>";
@@ -566,7 +567,7 @@ class Funciones extends Conexion{
 							TIEMPO_ESTIMADO_TAREA = '".$tiempoEstimadoTarea."'
 					WHERE 	ID_TAREA = ".$datos['idEdit'];
 			//echo $sql; die();
-			if($record=$this->insertEasyTasks($sql)){
+			if($record=$this->insertEasyTasks($sql)){	            
 	            return 1;
 	        } else {
 	            echo "<script>alert('Error al editar tarea');</script>";

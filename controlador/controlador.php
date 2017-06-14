@@ -2,7 +2,7 @@
 include('../clases/Funciones.class.php');
 $controlador = new Funciones;
 
-switch($_POST['pagina']){
+switch($_REQUEST['pagina']){
     
     case 'login':
     
@@ -40,8 +40,8 @@ switch($_POST['pagina']){
     break;
 
     case 'editaTarea':
-
-        $respuesta = $controlador->editaTarea($_POST);
+        
+        $respuesta = $controlador->editaTarea($_POST);        
         if($respuesta == 1){
             header("location:../listaTarea.php");
         }
