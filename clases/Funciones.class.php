@@ -451,33 +451,6 @@ class Funciones extends Conexion{
     	}
     }
 
-    function creaUsuario($datos){
-    	try {
-    		$nombreUsername = explode(" ", utf8_decode($datos['txtNombre']));    		
-    		$apellidoUsername = explode(" ", utf8_decode($datos['txtApellidos']));
-    		$username = substr($nombreUsername[0], 0, 1).$apellidoUsername[0];
-    		$sql="INSERT INTO USUARIO (NOMBRES, APELLIDOS, EMPRESA, EMAIL, TELEFONO, USERNAME, PASSWORD, ESTADO_REGISTRO) 
-	                VALUES ('".utf8_decode($datos['txtNombre'])."', '".utf8_decode($datos['txtApellidos'])."', 1, '".$datos['txtEmail']."',
-	                	'".$datos['txtTelefono']."', '".strtoupper($username)."', '".strtoupper($username)."', 1)";
-			//echo $sql;die();	        
-	        if($record=$this->insertEasyTasks($sql)){
-	            $ultimoId = $this->selectId();
-	            $sql2="INSERT INTO PERFIL_USUARIO
-	            		VALUES ($ultimoId, ".$datos['cboPerfil'].")";
-	            if($record2=$this->insertEasyTasks($sql2)){
-	            	//echo "<script>alert('La tarjeta fue creada exitosamente');</script>";
-	            	return 1;
-	            }
-	        } else {
-	            echo "<script>alert('Error al crear tarjeta');</script>";
-	            echo "<script>window.history.back();</script>";
-	        }
-    	} catch (Exception $e) {
-    		echo "<script>alert('".$e->getMessage()."');</script>";
-    	}
-	        
-    }
-
     function listaTarea(){
     	try {
     		$sql = "SELECT
@@ -509,7 +482,7 @@ class Funciones extends Conexion{
 					$arreglo[$i]['idDificultad'] = $datos['DIFICULTAD'];
 					$arreglo[$i]['tiempoEstimado'] = $datos['TIEMPO_ESTIMADO_TAREA'];
 					$arreglo[$i]['categoria'] = $datos['DESCRIPCION_CATEGORIA'];
-					$arreglo[$i]['sistema'] = $datos['DESCRIPCION_SISTEMA'];					
+					$arreglo[$i]['sistema'] = $datos['DESCRIPCION_SISTEMA'];
 					$arreglo[$i]['dificultad'] = $datos['DESCRIPCION_DIFICULTAD'];
 					$i++;
 				}
@@ -584,6 +557,128 @@ class Funciones extends Conexion{
 					SET ESTADO_REGISTRO = 2
 					WHERE
 						ID_TAREA = ".$datos['idEdit'];
+			//echo $sql; die();
+    	if($record=$this->insertEasyTasks($sql)){
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al eliminar tarea');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }	
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function listaUsuario(){
+    	try {
+    		$sql = "SELECT
+    					U.ID_USUARIO,
+						U.NOMBRES,
+						U.APELLIDOS,
+						U.EMAIL,
+						U.TELEFONO,
+						U.USERNAME
+					FROM
+						USUARIO U
+					WHERE
+						U.EMPRESA = $_SESSION[empresa]
+					AND U.ESTADO_REGISTRO = 1";
+					//echo $sql; die();
+			if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					$arreglo[$i]['idUsuario'] = $datos['ID_USUARIO'];
+					$arreglo[$i]['nombres'] = $datos['NOMBRES'];
+					$arreglo[$i]['apellidos'] = $datos['APELLIDOS'];
+					$arreglo[$i]['email'] = $datos['EMAIL'];
+					$arreglo[$i]['telefono'] = $datos['TELEFONO'];
+					$arreglo[$i]['username'] = $datos['USERNAME'];
+					$i++;
+				}
+				$indiceUsuario=1;
+				foreach ($arreglo as $usuario) {
+					$usuarioJson = json_encode($usuario);
+					echo "<tr>";
+					echo "<td>".$indiceUsuario."</td>";
+					echo "<td>".$usuario['nombres']." ".$usuario['apellidos'],"</td>";
+					echo "<td>".$usuario['email']."</td>";
+					echo "<td>".$usuario['telefono']."</td>";
+					echo "<td>".$usuario['username']."</td>";					
+					echo "<td><button type='button' class='btn btn-default' onclick='editaUsuario(".$usuarioJson.")'><span class='glyphicon glyphicon-edit'></span></button></td>";
+					echo "<td><button type='button' class='btn btn-default' onclick='eliminaUsuario(".$usuario['idUsuario'].")'><span class='glyphicon glyphicon-remove'></span></button></td>";
+					echo "</tr>";
+					$indiceUsuario++;
+				}
+			} else {
+				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <a href='#' data-toggle='modal' data-target='#modalAdd'>acá</a>.</h4></td></tr>";
+				//echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <button type='button' class='btn btn-link' data-toggle='modal' data-target='#modalAdd'>acá</button>.</h4></td></tr>";
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function creaUsuario($datos){
+    	try {
+    		$nombreUsername = explode(" ", utf8_decode($datos['txtNombre']));    		
+    		$apellidoUsername = explode(" ", utf8_decode($datos['txtApellidos']));
+    		$username = substr($nombreUsername[0], 0, 1).$apellidoUsername[0];
+    		$sql="INSERT INTO USUARIO (NOMBRES, APELLIDOS, EMPRESA, EMAIL, TELEFONO, USERNAME, PASSWORD, ESTADO_REGISTRO) 
+	                VALUES ('".utf8_decode($datos['txtNombre'])."', '".utf8_decode($datos['txtApellidos'])."', 1, '".$datos['txtEmail']."',
+	                	'".$datos['txtTelefono']."', '".strtoupper($username)."', '".strtoupper($username)."', 1)";
+			//echo $sql;die();	        
+	        if($record=$this->insertEasyTasks($sql)){
+	            $ultimoId = $this->selectId();
+	            $sql2="INSERT INTO PERFIL_USUARIO
+	            		VALUES ($ultimoId, ".$datos['cboPerfil'].")";
+	            if($record2=$this->insertEasyTasks($sql2)){
+	            	//echo "<script>alert('La tarjeta fue creada exitosamente');</script>";
+	            	return 1;
+	            }
+	        } else {
+	            echo "<script>alert('Error al crear usuario');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+	        
+    }
+
+    function editaUsuario($datos){
+    	try {
+    		$sql="	UPDATE 	USUARIO
+    				SET 	NOMBRES 		= '$datos[txtNombreEdit]',
+							APELLIDOS 	= '$datos[txtApellidosEdit]',
+							EMAIL 		= '$datos[txtEmailEdit]',
+							TELEFONO 	= '$datos[txtTelefonoEdit]',
+							PERFIL 		= $datos[cboPerfilEdit]
+					WHERE 	ID_USUARIO 	= $datos[idEdit]";
+
+			$sql="	UPDATE 	USUARIO
+    				SET 	NOMBRES 		= '$datos[txtNombreEdit]',
+							APELLIDOS 	= '$datos[txtApellidosEdit]',
+							EMAIL 		= '$datos[txtEmailEdit]',
+							TELEFONO 	= '$datos[txtTelefonoEdit]'
+					WHERE 	ID_USUARIO 	= $datos[idEdit]";
+			//echo $sql; die();
+			if($record=$this->insertEasyTasks($sql)){	            
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al editar usuario');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function eliminaUsuario($datos){
+    	try {
+    		$sql = "UPDATE USUARIO
+					SET ESTADO_REGISTRO = 2
+					WHERE
+						ID_USUARIO = ".$datos['idEdit'];
 			//echo $sql; die();
     	if($record=$this->insertEasyTasks($sql)){
 	            return 1;

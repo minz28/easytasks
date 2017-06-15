@@ -66,6 +66,24 @@ switch($_REQUEST['pagina']){
         
     break;
 
+    case 'editaUsuario':
+    
+        $respuesta = $controlador->editaUsuario($_POST);
+        if($respuesta == 1){
+            header("location:../listaUsuario.php");
+        }
+        
+    break;
+
+    case 'eliminaUsuario':
+    
+        $respuesta = $controlador->eliminaUsuario($_POST);
+        if($respuesta == 1){
+            header("location:../listaUsuario.php");
+        }
+        
+    break;
+
 
 
 }

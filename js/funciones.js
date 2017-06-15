@@ -33,6 +33,15 @@ function validaTarjeta(){
     }
 }
 
+function detalleTarjeta(jsonTarjeta){
+    $("#nombreTarea").text(jsonTarjeta.tarea);
+    $("#solicitante").text('Solicitado por: '+jsonTarjeta.solicitante);
+    $("#fechaSolicitud").text('Fecha solicitud: '+jsonTarjeta.fechaSolicitud);
+    $("#prioridad").text('Prioridad: '+jsonTarjeta.prioridad);
+    $("#observaciones").text('Observaciones: '+jsonTarjeta.observaciones);
+    $('#modalDetalleTarjeta').modal('show');    
+}
+
 //Validar formulario ingreso de tarjeta
 function validaTarea(){
     if(document.getElementById('cboCategoria').value == "seleccione" || document.getElementById('cboSistema').value == "seleccione" || document.getElementById('txtDescripcion').value.trim() == "" || document.getElementById('cboDificultad').value == "seleccione")
@@ -44,28 +53,6 @@ function validaTarea(){
         document.getElementById('form').submit();
         //alert("Enviado");
     }
-}
-
-//Validar formulario ingreso de tarjeta
-function validaCrearUsuario(){
-    if(document.getElementById('txtNombre').value.trim() == "" || document.getElementById('txtApellidos').value.trim() == "" || document.getElementById('cboPerfil').value == "seleccione")
-    {
-        alert("Completar campos obligatorios");
-    } else {        
-        document.getElementById('form').action = 'controlador/controlador.php';
-        document.getElementById('form').method = 'post';
-        document.getElementById('form').submit();
-        //alert("Enviado");
-    }
-}
-
-function detalleTarjeta(jsonTarjeta){
-    $("#nombreTarea").text(jsonTarjeta.tarea);
-    $("#solicitante").text('Solicitado por: '+jsonTarjeta.solicitante);
-    $("#fechaSolicitud").text('Fecha solicitud: '+jsonTarjeta.fechaSolicitud);
-    $("#prioridad").text('Prioridad: '+jsonTarjeta.prioridad);
-    $("#observaciones").text('Observaciones: '+jsonTarjeta.observaciones);
-    $('#modalDetalleTarjeta').modal('show');    
 }
 
 function editaTarea(json){
@@ -102,6 +89,59 @@ function guardaEditaTarea(){
 function eliminaTarea(id){
     if(confirm("¿Está seguro que desea eliminar esta tarea?") == true){
         $('#pagina').val('eliminaTarea');
+        $('#idEdit').val(id);
+        //alert($('#pagina').val());
+        document.getElementById('formEdit').action = 'controlador/controlador.php';
+        document.getElementById('formEdit').method = 'post';
+        document.getElementById('formEdit').submit();
+    } else {
+        return false;
+    }
+}
+
+//Validar formulario ingreso de tarjeta
+function validaCrearUsuario(){
+    if(document.getElementById('txtNombre').value.trim() == "" || document.getElementById('txtApellidos').value.trim() == "" || document.getElementById('cboPerfil').value == "seleccione")
+    {
+        alert("Completar campos obligatorios");
+    } else {        
+        document.getElementById('form').action = 'controlador/controlador.php';
+        document.getElementById('form').method = 'post';
+        document.getElementById('form').submit();
+        //alert("Enviado");
+    }
+}
+
+function editaUsuario(json){
+    $('#pagina').val('editaUsuario');
+    $('#idEdit').val(json.idUsuario);
+    $('#txtNombreEdit').val(json.nombres);
+    $('#txtApellidosEdit').val(json.apellidos);
+    $('#txtEmailEdit').val(json.email);
+    $('#txtTelefonoEdit').val(json.telefono);
+    //$('#cboPerfilEdit option[value="'+ json.idCategoria +'"]').attr('selected',true);
+    $('#modalEdit').modal('show');
+}
+
+//Validar formulario editar tarea
+function guardaEditaUsuario(){    
+    if(document.getElementById('txtNombreEdit').value.trim() == "" || document.getElementById('txtApellidosEdit').value.trim() == "" || document.getElementById('cboPerfilEdit').value == "seleccione")
+    {
+        alert("Completar campos obligatorios");
+    } else {
+        if(confirm("¿Está seguro de editar esta tarea?") == true){            
+            document.getElementById('formEdit').action = 'controlador/controlador.php';
+            document.getElementById('formEdit').method = 'post';
+            document.getElementById('formEdit').submit();
+        } else {
+            $('#modalEdit').modal('hide');
+        }
+    }
+}
+
+function eliminaUsuario(id){
+    if(confirm("¿Está seguro que desea eliminar esta tarea?") == true){
+        $('#pagina').val('eliminaUsuario');
         $('#idEdit').val(id);
         //alert($('#pagina').val());
         document.getElementById('formEdit').action = 'controlador/controlador.php';
