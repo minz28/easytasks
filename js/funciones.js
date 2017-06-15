@@ -151,3 +151,56 @@ function eliminaUsuario(id){
         return false;
     }
 }
+
+//Validar formulario ingreso de tarjeta
+function validaCrearSolicitante(){
+    if(document.getElementById('txtNombre').value.trim() == "" || document.getElementById('txtApellidos').value.trim() == "" || document.getElementById('cboPerfil').value == "seleccione")
+    {
+        alert("Completar campos obligatorios");
+    } else {        
+        document.getElementById('form').action = 'controlador/controlador.php';
+        document.getElementById('form').method = 'post';
+        document.getElementById('form').submit();
+        //alert("Enviado");
+    }
+}
+
+function editaSolicitante(json){
+    $('#pagina').val('editaUsuario');
+    $('#idEdit').val(json.idUsuario);
+    $('#txtNombreEdit').val(json.nombres);
+    $('#txtApellidosEdit').val(json.apellidos);
+    $('#txtEmailEdit').val(json.email);
+    $('#txtTelefonoEdit').val(json.telefono);
+    //$('#cboPerfilEdit option[value="'+ json.idCategoria +'"]').attr('selected',true);
+    $('#modalEdit').modal('show');
+}
+
+//Validar formulario editar tarea
+function guardaEditaSolicitante(){    
+    if(document.getElementById('txtNombreEdit').value.trim() == "" || document.getElementById('txtApellidosEdit').value.trim() == "" || document.getElementById('cboPerfilEdit').value == "seleccione")
+    {
+        alert("Completar campos obligatorios");
+    } else {
+        if(confirm("¿Está seguro de editar esta tarea?") == true){            
+            document.getElementById('formEdit').action = 'controlador/controlador.php';
+            document.getElementById('formEdit').method = 'post';
+            document.getElementById('formEdit').submit();
+        } else {
+            $('#modalEdit').modal('hide');
+        }
+    }
+}
+
+function eliminaSolicitante(id){
+    if(confirm("¿Está seguro que desea eliminar esta tarea?") == true){
+        $('#pagina').val('eliminaUsuario');
+        $('#idEdit').val(id);
+        //alert($('#pagina').val());
+        document.getElementById('formEdit').action = 'controlador/controlador.php';
+        document.getElementById('formEdit').method = 'post';
+        document.getElementById('formEdit').submit();
+    } else {
+        return false;
+    }
+}

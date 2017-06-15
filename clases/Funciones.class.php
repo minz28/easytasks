@@ -691,5 +691,111 @@ class Funciones extends Conexion{
     	}
     }
 
+    function listaSolicitante(){
+    	try {
+    		$sql = "SELECT
+    					C.ID_CLIENTE,
+						C.NOMBRE_CLIENTE,
+						C.AREA_CLIENTE,
+						C.CARGO_CLIENTE
+					FROM
+						CLIENTE C
+					WHERE
+						C.EMPRESA = $_SESSION[empresa]
+					AND C.ESTADO_REGISTRO = 1";
+					//echo $sql; die();
+			if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					$arreglo[$i]['idCliente'] = $datos['ID_CLIENTE'];
+					$arreglo[$i]['nombreCliente'] = $datos['NOMBRE_CLIENTE'];
+					$arreglo[$i]['areaCliente'] = $datos['AREA_CLIENTE'];
+					$arreglo[$i]['cargoCliente'] = $datos['CARGO_CLIENTE'];
+					$i++;
+				}
+				$indiceLista=1;
+				foreach ($arreglo as $solicitante) {
+					$json = json_encode($solicitante);
+					echo "<tr>";
+					echo "<td>".$indiceLista."</td>";
+					echo "<td>".$solicitante['nombreCliente']."</td>";
+					echo "<td>".$solicitante['areaCliente']."</td>";
+					echo "<td>".$solicitante['cargoCliente']."</td>";					
+					echo "<td><button type='button' class='btn btn-default' onclick='editaSolicitante(".$json.")'><span class='glyphicon glyphicon-edit'></span></button></td>";
+					echo "<td><button type='button' class='btn btn-default' onclick='eliminaSolicitante(".$solicitante['idCliente'].")'><span class='glyphicon glyphicon-remove'></span></button></td>";
+					echo "</tr>";
+					$indiceLista++;
+				}
+			} else {
+				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <a href='#' data-toggle='modal' data-target='#modalAdd'>acá</a>.</h4></td></tr>";
+				//echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <button type='button' class='btn btn-link' data-toggle='modal' data-target='#modalAdd'>acá</button>.</h4></td></tr>";
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function creaSolicitante($datos){
+    	try {
+    		$sql="INSERT INTO CLIENTE (NOMBRE_CLIENTE, EMPRESA, AREA_CLIENTE, CARGO_CLIENTE, ESTADO_REGISTRO) 
+	                VALUES ('".utf8_decode($datos['txtNombre'])."', '".utf8_decode($datos['txtApellidos'])."', 1, '".$datos['txtEmail']."',
+	                	'".$datos['txtTelefono']."', '".strtoupper($username)."', '".strtoupper($username)."', 1)";
+			//echo $sql;die();	        
+	        if($record=$this->insertEasyTasks($sql)){
+	            $ultimoId = $this->selectId();
+	            $sql2="INSERT INTO PERFIL_USUARIO
+	            		VALUES ($ultimoId, ".$datos['cboPerfil'].")";
+	            if($record2=$this->insertEasyTasks($sql2)){
+	            	//echo "<script>alert('La tarjeta fue creada exitosamente');</script>";
+	            	return 1;
+	            }
+	        } else {
+	            echo "<script>alert('Error al crear usuario');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+	        
+    }
+
+    function editaSolicitante($datos){
+    	try {
+			$sql="	UPDATE 	USUARIO
+    				SET 	NOMBRES 	= '$datos[txtNombreEdit]',
+							APELLIDOS 	= '$datos[txtApellidosEdit]',
+							EMAIL 		= '$datos[txtEmailEdit]',
+							TELEFONO 	= '$datos[txtTelefonoEdit]'
+					WHERE 	ID_USUARIO 	= $datos[idEdit]";
+			//echo $sql; die();
+			if($record=$this->insertEasyTasks($sql)){	            
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al editar usuario');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function eliminaSolicitante($datos){
+    	try {
+    		$sql = "UPDATE CLIENTE
+					SET ESTADO_REGISTRO = 2
+					WHERE
+						ID_CLIENTE = ".$datos['idEdit'];
+			//echo $sql; die();
+    	if($record=$this->insertEasyTasks($sql)){
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al eliminar cliente');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }	
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
 }
 ?>

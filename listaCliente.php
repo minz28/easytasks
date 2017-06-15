@@ -52,15 +52,13 @@ $funciones = new Funciones;
             <table class="table table-hover table-condensed table-responsive"><!--Tabla SIN sombra-->
                 <tr>
                     <th>N°</th>
-                    <th>Categoría</th>
-                    <th>Sistema</th>
-                    <th>Tarea</th>
-                    <th>Dificultad</th>
-                    <th>Tiempo de desarrollo</th>
+                    <th>Nombre</th>
+                    <th>Area</th>
+                    <th>Cargo</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>
-                <?php $funciones->listaTarea(); ?>
+                <?php $funciones->listaSolicitante(); ?>
             </table>
         </div>
     </div>
@@ -70,7 +68,7 @@ $funciones = new Funciones;
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Ingresar nueva tarea</h4>
+                    <h4 class="modal-title">Ingresar nuevo solicitante</h4>
                     <small>(*) Campos obligatorios</small>
                 </div>
                 <div class="modal-body">
