@@ -84,7 +84,59 @@ switch($_REQUEST['pagina']){
         
     break;
 
+    case 'creaSolicitante':
+    
+        $respuesta = $controlador->creaSolicitante($_POST);
+        if($respuesta == 1){
+            header("location:../listaCliente.php");
+        }
+        
+    break;
 
+    case 'editaSolicitante':
+    
+        $respuesta = $controlador->editaSolicitante($_POST);
+        if($respuesta == 1){
+            header("location:../listaCliente.php");
+        }
+        
+    break;
+
+    case 'eliminaSolicitante':
+    
+        $respuesta = $controlador->eliminaSolicitante($_POST);
+        if($respuesta == 1){
+            header("location:../listaCliente.php");
+        }
+        
+    break;
+
+    case 'creaCategoria':
+    
+        $respuesta = $controlador->creaCategoria($_POST);
+        if($respuesta == 1){
+            header("location:../listaArea.php");
+        }
+        
+    break;
+
+    case 'editaCategoria':
+    
+        $respuesta = $controlador->editaCategoria($_POST);
+        if($respuesta == 1){
+            header("location:../listaArea.php");
+        }
+        
+    break;
+
+    case 'eliminaCategoria':
+    
+        $respuesta = $controlador->eliminaCategoria($_POST);
+        if($respuesta == 1){
+            header("location:../listaArea.php");
+        }
+        
+    break;
 
 }
 

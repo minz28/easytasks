@@ -154,7 +154,7 @@ function eliminaUsuario(id){
 
 //Validar formulario ingreso de tarjeta
 function validaCrearSolicitante(){
-    if(document.getElementById('txtNombre').value.trim() == "" || document.getElementById('txtApellidos').value.trim() == "" || document.getElementById('cboPerfil').value == "seleccione")
+    if(document.getElementById('txtNombre').value.trim() == "" || document.getElementById('txtArea').value.trim() == "" || document.getElementById('txtCargo').value.trim() == "")
     {
         alert("Completar campos obligatorios");
     } else {        
@@ -166,19 +166,18 @@ function validaCrearSolicitante(){
 }
 
 function editaSolicitante(json){
-    $('#pagina').val('editaUsuario');
-    $('#idEdit').val(json.idUsuario);
-    $('#txtNombreEdit').val(json.nombres);
-    $('#txtApellidosEdit').val(json.apellidos);
-    $('#txtEmailEdit').val(json.email);
-    $('#txtTelefonoEdit').val(json.telefono);
+    $('#pagina').val('editaSolicitante');
+    $('#idEdit').val(json.idCliente);
+    $('#txtNombreEdit').val(json.nombreCliente);
+    $('#txtAreaEdit').val(json.areaCliente);
+    $('#txtCargoEdit').val(json.cargoCliente);
     //$('#cboPerfilEdit option[value="'+ json.idCategoria +'"]').attr('selected',true);
     $('#modalEdit').modal('show');
 }
 
 //Validar formulario editar tarea
 function guardaEditaSolicitante(){    
-    if(document.getElementById('txtNombreEdit').value.trim() == "" || document.getElementById('txtApellidosEdit').value.trim() == "" || document.getElementById('cboPerfilEdit').value == "seleccione")
+    if(document.getElementById('txtNombreEdit').value.trim() == "" || document.getElementById('txtAreaEdit').value.trim() == "" || document.getElementById('txtCargoEdit').value.trim() == "")
     {
         alert("Completar campos obligatorios");
     } else {
@@ -193,8 +192,60 @@ function guardaEditaSolicitante(){
 }
 
 function eliminaSolicitante(id){
-    if(confirm("¿Está seguro que desea eliminar esta tarea?") == true){
-        $('#pagina').val('eliminaUsuario');
+    if(confirm("¿Está seguro que desea eliminar a este solicitante?") == true){
+        $('#pagina').val('eliminaSolicitante');
+        $('#idEdit').val(id);
+        //alert($('#pagina').val());
+        document.getElementById('formEdit').action = 'controlador/controlador.php';
+        document.getElementById('formEdit').method = 'post';
+        document.getElementById('formEdit').submit();
+    } else {
+        return false;
+    }
+}
+
+//Validar formulario ingreso de tarjeta
+function validaCrearCategoria(){
+    if(document.getElementById('txtDescripcion').value.trim() == "")
+    {
+        alert("Completar campos obligatorios");
+    } else {        
+        document.getElementById('form').action = 'controlador/controlador.php';
+        document.getElementById('form').method = 'post';
+        document.getElementById('form').submit();
+        //alert("Enviado");
+    }
+}
+
+function editaCategoria(json){
+    $('#pagina').val('editaSolicitante');
+    $('#idEdit').val(json.idCliente);
+    $('#txtNombreEdit').val(json.nombreCliente);
+    $('#txtAreaEdit').val(json.areaCliente);
+    $('#txtCargoEdit').val(json.cargoCliente);
+    //$('#cboPerfilEdit option[value="'+ json.idCategoria +'"]').attr('selected',true);
+    $('#modalEdit').modal('show');
+}
+
+//Validar formulario editar tarea
+function guardaEditaCategoria(){    
+    if(document.getElementById('txtNombreEdit').value.trim() == "" || document.getElementById('txtAreaEdit').value.trim() == "" || document.getElementById('txtCargoEdit').value.trim() == "")
+    {
+        alert("Completar campos obligatorios");
+    } else {
+        if(confirm("¿Está seguro de editar esta tarea?") == true){            
+            document.getElementById('formEdit').action = 'controlador/controlador.php';
+            document.getElementById('formEdit').method = 'post';
+            document.getElementById('formEdit').submit();
+        } else {
+            $('#modalEdit').modal('hide');
+        }
+    }
+}
+
+function eliminaCategoria(id){
+    if(confirm("¿Está seguro que desea eliminar a este solicitante?") == true){
+        $('#pagina').val('eliminaSolicitante');
         $('#idEdit').val(id);
         //alert($('#pagina').val());
         document.getElementById('formEdit').action = 'controlador/controlador.php';

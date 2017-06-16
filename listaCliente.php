@@ -73,73 +73,24 @@ $funciones = new Funciones;
                 </div>
                 <div class="modal-body">
                     <form id="form">
-                        <input type="hidden" name="pagina" value="creaTarea" /><!--Variable oculta para identificar en el controlador-->
+                        <input type="hidden" name="pagina" value="creaSolicitante" /><!--Variable oculta para identificar en el controlador-->
                         <div class="form-group">
-                            <label for="cboCategoria">Categoría (*)</label>
-                            <select class="form-control" id="cboCategoria" name="cboCategoria">
-                                <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboCategoria(); ?>
-                            </select>
+                            <label for="txtDescripcion">Nombre (*)</label>
+                            <input type="text" class="form-control" id="txtNombre" name="txtNombre" placeholder="Nombre">
                         </div>
                         <div class="form-group">
-                            <label for="cboSistema">Sistema (*)</label>
-                            <select class="form-control" id="cboSistema" name="cboSistema">
-                                <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboSistema(); ?>
-                            </select>
+                            <label for="txtDescripcion">Area (*)</label>
+                            <input type="text" class="form-control" id="txtArea" name="txtArea" placeholder="Area">
                         </div>
                         <div class="form-group">
-                            <label for="txtDescripcion">Descripción (*)</label>
-                            <input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion" placeholder="Descripción tarea">
-                        </div>
-                        <div class="form-group">
-                            <label for="cboDificultad">Dificutad (*)</label>
-                            <select class="form-control" id="cboDificultad" name="cboDificultad">
-                                <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboDificultad(); ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="txtTiempoEstimado">Tiempo estimado predefinido (HH:MM) (*)</label>
-                            <br>
-                            <div class="col-md-2">
-                                <select class="form-control" id="cboHH" name="cboHH">
-                                    <?php
-                                    echo "<option value='00'>00</option><option value='01'>01</option><option value='02'>02</option><option value='03'>03</option><option value='04'>04</option><option value='05'>05</option><option value='06'>06</option><option value='07'>07</option><option value='08'>08</option><option value='09'>09</option>";
-                                    for ($i=10; $i<24; $i++) { 
-                                        echo "<option value='".$i."'>".$i."</option>";
-                                    }                                                           
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="col-md-1">:</div>
-                            <div class="col-md-2">
-                                <select class="form-control" id="cboMM" name="cboMM">
-                                    <?php
-                                    echo "<option value='00'>00</option><option value='01'>01</option><option value='02'>02</option><option value='03'>03</option><option value='04'>04</option><option value='05'>05</option><option value='06'>06</option><option value='07'>07</option><option value='08'>08</option><option value='09'>09</option>";
-                                    for ($i=10; $i<60; $i++) { 
-                                        echo "<option value='".$i."'>".$i."</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                            <!--Asignación de segundos al detalle de tarea
-                            <div class="col-md-2">
-                                <select class="form-control" id="cboSS" name="cboSS">
-                                    <?php/*
-                                    echo "<option value='00'>00</option><option value='01'>01</option><option value='02'>02</option><option value='03'>03</option><option value='04'>04</option><option value='05'>05</option><option value='06'>06</option><option value='07'>07</option><option value='08'>08</option><option value='09'>09</option>";
-                                    for ($i=10; $i<60; $i++) { 
-                                        echo "<option value='".$i."'>".$i."</option>";
-                                    }*/
-                                    ?>
-                                </select>
-                            </div>-->
+                            <label for="txtDescripcion">Cargo (*)</label>
+                            <input type="text" class="form-control" id="txtCargo" name="txtCargo" placeholder="Cargo">
                         </div>
                     </form>
                 </div>
                 <br>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="validaTarea();">Grabar</button>
+                    <button type="button" class="btn btn-default" onclick="validaCrearSolicitante()">Grabar</button>
                 </div>                
             </div>
         </div>
@@ -151,66 +102,28 @@ $funciones = new Funciones;
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 id="nombreTarea" class="modal-title">Editar tarea</h4>
+                    <h4 id="nombreTarea" class="modal-title">Editar solicitante</h4>
                 </div>
                 <div class="modal-body">
                     <form id="formEdit">
                         <input type="hidden" name="pagina" id="pagina" value="" /><!--Variable oculta para identificar en el controlador-->
                         <input type="hidden" name="idEdit" id="idEdit" value=""><!--Variable oculta para saber id de tarea a editar-->
                         <div class="form-group">
-                            <label for="cboCategoriaEdit">Categoría (*)</label>
-                            <select class="form-control" id="cboCategoriaEdit" name="cboCategoriaEdit">
-                                <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboCategoria(); ?>
-                            </select>
+                            <label for="txtDescripcion">Nombre (*)</label>
+                            <input type="text" class="form-control" id="txtNombreEdit" name="txtNombreEdit" placeholder="Nombre">
                         </div>
                         <div class="form-group">
-                            <label for="cboSistemaEdit">Sistema (*)</label>
-                            <select class="form-control" id="cboSistemaEdit" name="cboSistemaEdit">
-                                <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboSistema(); ?>
-                            </select>
+                            <label for="txtDescripcion">Area (*)</label>
+                            <input type="text" class="form-control" id="txtAreaEdit" name="txtAreaEdit" placeholder="Area">
                         </div>
                         <div class="form-group">
-                            <label for="txtDescripcionEdit">Descripción (*)</label>
-                            <input type="text" class="form-control" id="txtDescripcionEdit" name="txtDescripcionEdit" placeholder="Descripción tarea">
-                        </div>
-                        <div class="form-group">
-                            <label for="cboDificultadEdit">Dificutad (*)</label>
-                            <select class="form-control" id="cboDificultadEdit" name="cboDificultadEdit">
-                                <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboDificultad(); ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="txtTiempoEstimadoEdit">Tiempo estimado predefinido (HH:MM) (*)</label>
-                            <br>
-                            <div class="col-md-2">
-                                <select class="form-control" id="cboHHEdit" name="cboHHEdit">
-                                    <?php
-                                    echo "<option value='00'>00</option><option value='01'>01</option><option value='02'>02</option><option value='03'>03</option><option value='04'>04</option><option value='05'>05</option><option value='06'>06</option><option value='07'>07</option><option value='08'>08</option><option value='09'>09</option>";
-                                    for ($i=10; $i<24; $i++) { 
-                                        echo "<option value='".$i."'>".$i."</option>";
-                                    }                                                           
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="col-md-1">:</div>
-                            <div class="col-md-2">
-                                <select class="form-control" id="cboMMEdit" name="cboMMEdit">
-                                    <?php
-                                    echo "<option value='00'>00</option><option value='01'>01</option><option value='02'>02</option><option value='03'>03</option><option value='04'>04</option><option value='05'>05</option><option value='06'>06</option><option value='07'>07</option><option value='08'>08</option><option value='09'>09</option>";
-                                    for ($i=10; $i<60; $i++) { 
-                                        echo "<option value='".$i."'>".$i."</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
+                            <label for="txtDescripcion">Cargo (*)</label>
+                            <input type="text" class="form-control" id="txtCargoEdit" name="txtCargoEdit" placeholder="Cargo">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="guardaEditaTarea()">Grabar</button>
+                    <button type="button" class="btn btn-default" onclick="guardaEditaSolicitante()">Grabar</button>
                 </div>                
             </div>
         </div>

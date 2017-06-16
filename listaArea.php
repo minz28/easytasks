@@ -52,15 +52,11 @@ $funciones = new Funciones;
             <table class="table table-hover table-condensed table-responsive"><!--Tabla SIN sombra-->
                 <tr>
                     <th>N°</th>
-                    <th>Categoría</th>
-                    <th>Sistema</th>
-                    <th>Tarea</th>
-                    <th>Dificultad</th>
-                    <th>Tiempo de desarrollo</th>
+                    <th>Área</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>
-                <?php $funciones->listaTarea(); ?>
+                <?php $funciones->listaCategoria(); ?>
             </table>
         </div>
     </div>
@@ -75,73 +71,16 @@ $funciones = new Funciones;
                 </div>
                 <div class="modal-body">
                     <form id="form">
-                        <input type="hidden" name="pagina" value="creaTarea" /><!--Variable oculta para identificar en el controlador-->
-                        <div class="form-group">
-                            <label for="cboCategoria">Categoría (*)</label>
-                            <select class="form-control" id="cboCategoria" name="cboCategoria">
-                                <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboCategoria(); ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="cboSistema">Sistema (*)</label>
-                            <select class="form-control" id="cboSistema" name="cboSistema">
-                                <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboSistema(); ?>
-                            </select>
-                        </div>
+                        <input type="hidden" name="pagina" value="creaCategoria" /><!--Variable oculta para identificar en el controlador-->
                         <div class="form-group">
                             <label for="txtDescripcion">Descripción (*)</label>
-                            <input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion" placeholder="Descripción tarea">
-                        </div>
-                        <div class="form-group">
-                            <label for="cboDificultad">Dificutad (*)</label>
-                            <select class="form-control" id="cboDificultad" name="cboDificultad">
-                                <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboDificultad(); ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="txtTiempoEstimado">Tiempo estimado predefinido (HH:MM) (*)</label>
-                            <br>
-                            <div class="col-md-2">
-                                <select class="form-control" id="cboHH" name="cboHH">
-                                    <?php
-                                    echo "<option value='00'>00</option><option value='01'>01</option><option value='02'>02</option><option value='03'>03</option><option value='04'>04</option><option value='05'>05</option><option value='06'>06</option><option value='07'>07</option><option value='08'>08</option><option value='09'>09</option>";
-                                    for ($i=10; $i<24; $i++) { 
-                                        echo "<option value='".$i."'>".$i."</option>";
-                                    }                                                           
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="col-md-1">:</div>
-                            <div class="col-md-2">
-                                <select class="form-control" id="cboMM" name="cboMM">
-                                    <?php
-                                    echo "<option value='00'>00</option><option value='01'>01</option><option value='02'>02</option><option value='03'>03</option><option value='04'>04</option><option value='05'>05</option><option value='06'>06</option><option value='07'>07</option><option value='08'>08</option><option value='09'>09</option>";
-                                    for ($i=10; $i<60; $i++) { 
-                                        echo "<option value='".$i."'>".$i."</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                            <!--Asignación de segundos al detalle de tarea
-                            <div class="col-md-2">
-                                <select class="form-control" id="cboSS" name="cboSS">
-                                    <?php/*
-                                    echo "<option value='00'>00</option><option value='01'>01</option><option value='02'>02</option><option value='03'>03</option><option value='04'>04</option><option value='05'>05</option><option value='06'>06</option><option value='07'>07</option><option value='08'>08</option><option value='09'>09</option>";
-                                    for ($i=10; $i<60; $i++) { 
-                                        echo "<option value='".$i."'>".$i."</option>";
-                                    }*/
-                                    ?>
-                                </select>
-                            </div>-->
+                            <input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion" placeholder="Descripción categoria">
                         </div>
                     </form>
                 </div>
                 <br>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="validaTarea();">Grabar</button>
+                    <button type="button" class="btn btn-default" onclick="validaCrearCategoria();">Grabar</button>
                 </div>                
             </div>
         </div>
