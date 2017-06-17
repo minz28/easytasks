@@ -830,7 +830,7 @@ class Funciones extends Conexion{
     function creaCategoria($datos){
     	try {
     		$sql="INSERT INTO CATEGORIA (DESCRIPCION_CATEGORIA, EMPRESA, ESTADO_REGISTRO) 
-	                VALUES ('".utf8_decode($datos['txtDescripcion'])."', $_SESSION[empresa], 1)";
+	                VALUES ('$datos[txtDescripcion]', $_SESSION[empresa], 1)";
 	                //echo $sql;die();
 	        if($record=$this->insertEasyTasks($sql)){
 	            //echo "<script>alert('La tarea fue agregada exitosamente');</script>";
@@ -846,16 +846,14 @@ class Funciones extends Conexion{
 
     function editaCategoria($datos){
     	try {
-			$sql="	UPDATE 	CLIENTE
-    				SET 	NOMBRE_CLIENTE 	= '$datos[txtNombreEdit]',
-							AREA_CLIENTE 	= '$datos[txtAreaEdit]',
-							CARGO_CLIENTE	= '$datos[txtCargoEdit]'
-					WHERE 	ID_CLIENTE	 	= $datos[idEdit]";
+			$sql="	UPDATE 	CATEGORIA
+    				SET 	DESCRIPCION_CATEGORIA = '$datos[txtDescripcionEdit]'
+					WHERE 	ID_CATEGORIA = $datos[idEdit]";
 			//echo $sql; die();
 			if($record=$this->insertEasyTasks($sql)){	            
 	            return 1;
 	        } else {
-	            echo "<script>alert('Error al editar solicitante');</script>";
+	            echo "<script>alert('Error al editar categoría');</script>";
 	            echo "<script>window.history.back();</script>";
 	        }
     	} catch (Exception $e) {
@@ -865,15 +863,15 @@ class Funciones extends Conexion{
 
     function eliminaCategoria($datos){
     	try {
-    		$sql = "UPDATE CLIENTE
+    		$sql = "UPDATE CATEGORIA
 					SET ESTADO_REGISTRO = 2
 					WHERE
-						ID_CLIENTE = ".$datos['idEdit'];
+						ID_CATEGORIA = ".$datos['idEdit'];
 			//echo $sql; die();
     	if($record=$this->insertEasyTasks($sql)){
 	            return 1;
 	        } else {
-	            echo "<script>alert('Error al eliminar solicitante');</script>";
+	            echo "<script>alert('Error al eliminar categoría');</script>";
 	            echo "<script>window.history.back();</script>";
 	        }	
     	} catch (Exception $e) {

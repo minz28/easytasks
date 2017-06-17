@@ -218,22 +218,20 @@ function validaCrearCategoria(){
 }
 
 function editaCategoria(json){
-    $('#pagina').val('editaSolicitante');
-    $('#idEdit').val(json.idCliente);
-    $('#txtNombreEdit').val(json.nombreCliente);
-    $('#txtAreaEdit').val(json.areaCliente);
-    $('#txtCargoEdit').val(json.cargoCliente);
-    //$('#cboPerfilEdit option[value="'+ json.idCategoria +'"]').attr('selected',true);
+    $('#pagina').val('editaCategoria');
+    $('#idEdit').val(json.idCategoria);
+    $('#txtDescripcionEdit').val(json.descripcionCategoria);
+    //$('#txtDescripcionEdit').focus();
     $('#modalEdit').modal('show');
 }
 
 //Validar formulario editar tarea
 function guardaEditaCategoria(){    
-    if(document.getElementById('txtNombreEdit').value.trim() == "" || document.getElementById('txtAreaEdit').value.trim() == "" || document.getElementById('txtCargoEdit').value.trim() == "")
+    if(document.getElementById('txtDescripcionEdit').value.trim() == "")
     {
         alert("Completar campos obligatorios");
     } else {
-        if(confirm("¿Está seguro de editar esta tarea?") == true){            
+        if(confirm("¿Está seguro de editar esta categoría?") == true){            
             document.getElementById('formEdit').action = 'controlador/controlador.php';
             document.getElementById('formEdit').method = 'post';
             document.getElementById('formEdit').submit();
@@ -244,8 +242,8 @@ function guardaEditaCategoria(){
 }
 
 function eliminaCategoria(id){
-    if(confirm("¿Está seguro que desea eliminar a este solicitante?") == true){
-        $('#pagina').val('eliminaSolicitante');
+    if(confirm("¿Está seguro que desea eliminar esta categoría?") == true){
+        $('#pagina').val('eliminaCategoria');
         $('#idEdit').val(id);
         //alert($('#pagina').val());
         document.getElementById('formEdit').action = 'controlador/controlador.php';
