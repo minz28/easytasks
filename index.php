@@ -28,11 +28,11 @@ include ("constantes.php");
                 	<input type="hidden" name="pagina" value="login">
                 	<div class="form-group">
                     	<label for="txtUsuario">Usuario</label>
-                        <input type="text" class="form-control" id="txtUsuario" name="txtUsuario" placeholder="Usuario" value="minzunza">
+                        <input type="text" class="form-control" id="txtUsuario" name="txtUsuario" placeholder="Usuario" value="ZEUS">
                     </div>
                     <div class="form-group">
                     	<label for="txtPassword">Contraseña</label>
-                        <input type="password" class="form-control" id="txtPassword" name="txtPassword" placeholder="Contraseña" value="lalala99">
+                        <input type="password" class="form-control" id="txtPassword" name="txtPassword" placeholder="Contraseña" value="ZEUS">
                     </div>
                     <!--<a class="btn btn-default" href="board.php" role="button">Iniciar Sesión</a>-->
                     <button type="submit" class="btn btn-default">Iniciar Sesión</button>

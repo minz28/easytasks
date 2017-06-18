@@ -56,6 +56,7 @@ $funciones = new Funciones;
                     <th>E-mail</th>
                     <th>Teléfono</th>
                     <th>Username</th>
+                    <th>Perfil</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>

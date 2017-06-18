@@ -119,7 +119,7 @@ function editaUsuario(json){
     $('#txtApellidosEdit').val(json.apellidos);
     $('#txtEmailEdit').val(json.email);
     $('#txtTelefonoEdit').val(json.telefono);
-    //$('#cboPerfilEdit option[value="'+ json.idCategoria +'"]').attr('selected',true);
+    $('#cboPerfilEdit option[value="'+ json.idPerfil +'"]').attr('selected',true);
     $('#modalEdit').modal('show');
 }
 
@@ -171,7 +171,6 @@ function editaSolicitante(json){
     $('#txtNombreEdit').val(json.nombreCliente);
     $('#txtAreaEdit').val(json.areaCliente);
     $('#txtCargoEdit').val(json.cargoCliente);
-    //$('#cboPerfilEdit option[value="'+ json.idCategoria +'"]').attr('selected',true);
     $('#modalEdit').modal('show');
 }
 

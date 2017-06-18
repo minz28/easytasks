@@ -76,21 +76,17 @@ class Funciones extends Conexion{
 
 	function validaLogin($datos){
 		try {
-    		$sql="	SELECT 		U.NOMBRES, U.APELLIDOS, U.EMPRESA, PU.PERFIL
+    		$sql="	SELECT 		U.NOMBRES, U.APELLIDOS, U.EMPRESA, U.PERFIL
 					FROM 		USUARIO U
-					INNER JOIN 	PERFIL_USUARIO PU
-					ON 			U.ID_USUARIO = PU.USUARIO
 					WHERE 		U.USERNAME = '".$datos['txtUsuario']."' 
 					AND 		U.PASSWORD = '".$datos['txtPassword']."'
 					AND 		U.ESTADO_REGISTRO = 1";
 	                //echo $sql;die();
 	        if($record = $this->selectEasyTasks($sql)){
-	        	$i=0;
 				while($datos = mysql_fetch_assoc($record)){
 					$arreglo['nombreUsuario'] = $datos['NOMBRES']." ".$datos['APELLIDOS'];			
 					$arreglo['empresa'] = $datos['EMPRESA'];
-					$arreglo['perfil'][$i] = $datos['PERFIL'];
-					$i++;
+					$arreglo['perfil'] = $datos['PERFIL'];
 				}
 				//var_dump($arreglo); die();
 				return $arreglo;
@@ -577,9 +573,15 @@ class Funciones extends Conexion{
 						U.APELLIDOS,
 						U.EMAIL,
 						U.TELEFONO,
-						U.USERNAME
+						U.USERNAME,
+						U.PERFIL,
+						P.DESCRIPCION_PERFIL
 					FROM
 						USUARIO U
+					INNER JOIN
+						PERFIL P
+					ON
+						U.PERFIL = P.ID_PERFIL
 					WHERE
 						U.EMPRESA = $_SESSION[empresa]
 					AND U.ESTADO_REGISTRO = 1";
@@ -593,6 +595,8 @@ class Funciones extends Conexion{
 					$arreglo[$i]['email'] = $datos['EMAIL'];
 					$arreglo[$i]['telefono'] = $datos['TELEFONO'];
 					$arreglo[$i]['username'] = $datos['USERNAME'];
+					$arreglo[$i]['idPerfil'] = $datos['PERFIL'];
+					$arreglo[$i]['perfil'] = $datos['DESCRIPCION_PERFIL'];
 					$i++;
 				}
 				$indiceUsuario=1;
@@ -603,7 +607,8 @@ class Funciones extends Conexion{
 					echo "<td>".$usuario['nombres']." ".$usuario['apellidos'],"</td>";
 					echo "<td>".$usuario['email']."</td>";
 					echo "<td>".$usuario['telefono']."</td>";
-					echo "<td>".$usuario['username']."</td>";					
+					echo "<td>".$usuario['username']."</td>";
+					echo "<td>".$usuario['perfil']."</td>";
 					echo "<td><button type='button' class='btn btn-default' onclick='editaUsuario(".$usuarioJson.")'><span class='glyphicon glyphicon-edit'></span></button></td>";
 					echo "<td><button type='button' class='btn btn-default' onclick='eliminaUsuario(".$usuario['idUsuario'].")'><span class='glyphicon glyphicon-remove'></span></button></td>";
 					echo "</tr>";
@@ -623,18 +628,12 @@ class Funciones extends Conexion{
     		$nombreUsername = explode(" ", utf8_decode($datos['txtNombre']));    		
     		$apellidoUsername = explode(" ", utf8_decode($datos['txtApellidos']));
     		$username = substr($nombreUsername[0], 0, 1).$apellidoUsername[0];
-    		$sql="INSERT INTO USUARIO (NOMBRES, APELLIDOS, EMPRESA, EMAIL, TELEFONO, USERNAME, PASSWORD, ESTADO_REGISTRO) 
+    		$sql="INSERT INTO USUARIO (NOMBRES, APELLIDOS, EMPRESA, EMAIL, TELEFONO, USERNAME, PASSWORD, PERFIL, ESTADO_REGISTRO) 
 	                VALUES ('".utf8_decode($datos['txtNombre'])."', '".utf8_decode($datos['txtApellidos'])."', 1, '".$datos['txtEmail']."',
-	                	'".$datos['txtTelefono']."', '".strtoupper($username)."', '".strtoupper($username)."', 1)";
+	                	'".$datos['txtTelefono']."', '".strtoupper($username)."', '".strtoupper($username)."', $datos[cboPerfil], 1)";
 			//echo $sql;die();	        
 	        if($record=$this->insertEasyTasks($sql)){
-	            $ultimoId = $this->selectId();
-	            $sql2="INSERT INTO PERFIL_USUARIO
-	            		VALUES ($ultimoId, ".$datos['cboPerfil'].")";
-	            if($record2=$this->insertEasyTasks($sql2)){
-	            	//echo "<script>alert('La tarjeta fue creada exitosamente');</script>";
-	            	return 1;
-	            }
+            	return 1;
 	        } else {
 	            echo "<script>alert('Error al crear usuario');</script>";
 	            echo "<script>window.history.back();</script>";
@@ -648,18 +647,11 @@ class Funciones extends Conexion{
     function editaUsuario($datos){
     	try {
     		$sql="	UPDATE 	USUARIO
-    				SET 	NOMBRES 		= '$datos[txtNombreEdit]',
+    				SET 	NOMBRES 	= '$datos[txtNombreEdit]',
 							APELLIDOS 	= '$datos[txtApellidosEdit]',
 							EMAIL 		= '$datos[txtEmailEdit]',
 							TELEFONO 	= '$datos[txtTelefonoEdit]',
 							PERFIL 		= $datos[cboPerfilEdit]
-					WHERE 	ID_USUARIO 	= $datos[idEdit]";
-
-			$sql="	UPDATE 	USUARIO
-    				SET 	NOMBRES 		= '$datos[txtNombreEdit]',
-							APELLIDOS 	= '$datos[txtApellidosEdit]',
-							EMAIL 		= '$datos[txtEmailEdit]',
-							TELEFONO 	= '$datos[txtTelefonoEdit]'
 					WHERE 	ID_USUARIO 	= $datos[idEdit]";
 			//echo $sql; die();
 			if($record=$this->insertEasyTasks($sql)){	            
@@ -879,6 +871,95 @@ class Funciones extends Conexion{
     	}
     }
 
+	function listaArea(){
+    	try {
+    		$sql = "SELECT
+    					C.ID_CATEGORIA,
+						C.DESCRIPCION_CATEGORIA
+					FROM
+						CATEGORIA C
+					WHERE
+						C.EMPRESA = $_SESSION[empresa]
+					AND C.ESTADO_REGISTRO = 1";
+					//echo $sql; die();
+			if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					$arreglo[$i]['idCategoria'] = $datos['ID_CATEGORIA'];
+					$arreglo[$i]['descripcionCategoria'] = $datos['DESCRIPCION_CATEGORIA'];
+					$i++;
+				}
+				$indiceLista=1;
+				foreach ($arreglo as $categoria) {
+					$json = json_encode($categoria);
+					echo "<tr>";
+					echo "<td>".$indiceLista."</td>";
+					echo "<td>".$categoria['descripcionCategoria']."</td>";
+					echo "<td><button type='button' class='btn btn-default' onclick='editaCategoria(".$json.")'><span class='glyphicon glyphicon-edit'></span></button></td>";
+					echo "<td><button type='button' class='btn btn-default' onclick='eliminaCategoria(".$categoria['idCategoria'].")'><span class='glyphicon glyphicon-remove'></span></button></td>";
+					echo "</tr>";
+					$indiceLista++;
+				}
+			} else {
+				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <a href='#' data-toggle='modal' data-target='#modalAdd'>acá</a>.</h4></td></tr>";
+				//echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <button type='button' class='btn btn-link' data-toggle='modal' data-target='#modalAdd'>acá</button>.</h4></td></tr>";
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+    
+    function creaArea($datos){
+    	try {
+    		$sql="INSERT INTO CATEGORIA (DESCRIPCION_CATEGORIA, EMPRESA, ESTADO_REGISTRO) 
+	                VALUES ('$datos[txtDescripcion]', $_SESSION[empresa], 1)";
+	                //echo $sql;die();
+	        if($record=$this->insertEasyTasks($sql)){
+	            //echo "<script>alert('La tarea fue agregada exitosamente');</script>";
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al agregar categoria');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function editaArea($datos){
+    	try {
+			$sql="	UPDATE 	CATEGORIA
+    				SET 	DESCRIPCION_CATEGORIA = '$datos[txtDescripcionEdit]'
+					WHERE 	ID_CATEGORIA = $datos[idEdit]";
+			//echo $sql; die();
+			if($record=$this->insertEasyTasks($sql)){	            
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al editar categoría');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function eliminaArea($datos){
+    	try {
+    		$sql = "UPDATE CATEGORIA
+					SET ESTADO_REGISTRO = 2
+					WHERE
+						ID_CATEGORIA = ".$datos['idEdit'];
+			//echo $sql; die();
+    	if($record=$this->insertEasyTasks($sql)){
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al eliminar categoría');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }	
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }  
 
 }
 ?>
