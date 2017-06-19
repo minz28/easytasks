@@ -615,7 +615,7 @@ class Funciones extends Conexion{
 					$indiceUsuario++;
 				}
 			} else {
-				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <a href='#' data-toggle='modal' data-target='#modalAdd'>acá</a>.</h4></td></tr>";
+				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado usuarios, si desea agregar una haga click <a href='#' data-toggle='modal' data-target='#modalAdd'>acá</a>.</h4></td></tr>";
 				//echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <button type='button' class='btn btn-link' data-toggle='modal' data-target='#modalAdd'>acá</button>.</h4></td></tr>";
 			}
     	} catch (Exception $e) {
@@ -719,7 +719,7 @@ class Funciones extends Conexion{
 					$indiceLista++;
 				}
 			} else {
-				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <a href='#' data-toggle='modal' data-target='#modalAdd'>acá</a>.</h4></td></tr>";
+				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado solicitantes, si desea agregar una haga click <a href='#' data-toggle='modal' data-target='#modalAdd'>acá</a>.</h4></td></tr>";
 				//echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <button type='button' class='btn btn-link' data-toggle='modal' data-target='#modalAdd'>acá</button>.</h4></td></tr>";
 			}
     	} catch (Exception $e) {
@@ -811,7 +811,7 @@ class Funciones extends Conexion{
 					$indiceLista++;
 				}
 			} else {
-				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <a href='#' data-toggle='modal' data-target='#modalAdd'>acá</a>.</h4></td></tr>";
+				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado areas, si desea agregar una haga click <a href='#' data-toggle='modal' data-target='#modalAdd'>acá</a>.</h4></td></tr>";
 				//echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <button type='button' class='btn btn-link' data-toggle='modal' data-target='#modalAdd'>acá</button>.</h4></td></tr>";
 			}
     	} catch (Exception $e) {
@@ -871,54 +871,53 @@ class Funciones extends Conexion{
     	}
     }
 
-	function listaArea(){
+	function listaSistema(){
     	try {
     		$sql = "SELECT
-    					C.ID_CATEGORIA,
-						C.DESCRIPCION_CATEGORIA
+    					S.ID_SISTEMA,
+						S.DESCRIPCION_SISTEMA
 					FROM
-						CATEGORIA C
+						SISTEMA S
 					WHERE
-						C.EMPRESA = $_SESSION[empresa]
-					AND C.ESTADO_REGISTRO = 1";
+						S.EMPRESA = $_SESSION[empresa]
+					AND S.ESTADO_REGISTRO = 1";
 					//echo $sql; die();
 			if($record = $this->selectEasyTasks($sql)){
 				$i=0;
 				while ($datos = mysql_fetch_assoc($record)) {
-					$arreglo[$i]['idCategoria'] = $datos['ID_CATEGORIA'];
-					$arreglo[$i]['descripcionCategoria'] = $datos['DESCRIPCION_CATEGORIA'];
+					$arreglo[$i]['idSistema'] = $datos['ID_SISTEMA'];
+					$arreglo[$i]['descripcionSistema'] = $datos['DESCRIPCION_SISTEMA'];
 					$i++;
 				}
 				$indiceLista=1;
-				foreach ($arreglo as $categoria) {
-					$json = json_encode($categoria);
+				foreach ($arreglo as $sistema) {
+					$json = json_encode($sistema);
 					echo "<tr>";
 					echo "<td>".$indiceLista."</td>";
-					echo "<td>".$categoria['descripcionCategoria']."</td>";
-					echo "<td><button type='button' class='btn btn-default' onclick='editaCategoria(".$json.")'><span class='glyphicon glyphicon-edit'></span></button></td>";
-					echo "<td><button type='button' class='btn btn-default' onclick='eliminaCategoria(".$categoria['idCategoria'].")'><span class='glyphicon glyphicon-remove'></span></button></td>";
+					echo "<td>".$sistema['descripcionSistema']."</td>";
+					echo "<td><button type='button' class='btn btn-default' onclick='editaSistema(".$json.")'><span class='glyphicon glyphicon-edit'></span></button></td>";
+					echo "<td><button type='button' class='btn btn-default' onclick='eliminaSistema(".$categoria['idSistema'].")'><span class='glyphicon glyphicon-remove'></span></button></td>";
 					echo "</tr>";
 					$indiceLista++;
 				}
 			} else {
-				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <a href='#' data-toggle='modal' data-target='#modalAdd'>acá</a>.</h4></td></tr>";
-				//echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado tareas, si desea agregar una haga click <button type='button' class='btn btn-link' data-toggle='modal' data-target='#modalAdd'>acá</button>.</h4></td></tr>";
+				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado sistemas, si desea agregar una haga click <a href='#' data-toggle='modal' data-target='#modalAdd'>acá</a>.</h4></td></tr>";
 			}
     	} catch (Exception $e) {
     		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
     }
     
-    function creaArea($datos){
+    function creaSistema($datos){
     	try {
-    		$sql="INSERT INTO CATEGORIA (DESCRIPCION_CATEGORIA, EMPRESA, ESTADO_REGISTRO) 
+    		$sql="INSERT INTO SISTEMA (DESCRIPCION_SISTEMA, EMPRESA, ESTADO_REGISTRO) 
 	                VALUES ('$datos[txtDescripcion]', $_SESSION[empresa], 1)";
 	                //echo $sql;die();
 	        if($record=$this->insertEasyTasks($sql)){
 	            //echo "<script>alert('La tarea fue agregada exitosamente');</script>";
 	            return 1;
 	        } else {
-	            echo "<script>alert('Error al agregar categoria');</script>";
+	            echo "<script>alert('Error al agregar sistema');</script>";
 	            echo "<script>window.history.back();</script>";
 	        }
     	} catch (Exception $e) {
@@ -926,16 +925,16 @@ class Funciones extends Conexion{
     	}
     }
 
-    function editaArea($datos){
+    function editaSistema($datos){
     	try {
-			$sql="	UPDATE 	CATEGORIA
-    				SET 	DESCRIPCION_CATEGORIA = '$datos[txtDescripcionEdit]'
-					WHERE 	ID_CATEGORIA = $datos[idEdit]";
+			$sql="	UPDATE 	SISTEMA
+    				SET 	DESCRIPCION_SISTEMA = '$datos[txtDescripcionEdit]'
+					WHERE 	ID_SISTEMA = $datos[idEdit]";
 			//echo $sql; die();
 			if($record=$this->insertEasyTasks($sql)){	            
 	            return 1;
 	        } else {
-	            echo "<script>alert('Error al editar categoría');</script>";
+	            echo "<script>alert('Error al editar sistema');</script>";
 	            echo "<script>window.history.back();</script>";
 	        }
     	} catch (Exception $e) {
@@ -943,17 +942,17 @@ class Funciones extends Conexion{
     	}
     }
 
-    function eliminaArea($datos){
+    function eliminaSistema($datos){
     	try {
-    		$sql = "UPDATE CATEGORIA
+    		$sql = "UPDATE SISTEMA
 					SET ESTADO_REGISTRO = 2
 					WHERE
-						ID_CATEGORIA = ".$datos['idEdit'];
+						ID_SISTEMA = ".$datos['idEdit'];
 			//echo $sql; die();
     	if($record=$this->insertEasyTasks($sql)){
 	            return 1;
 	        } else {
-	            echo "<script>alert('Error al eliminar categoría');</script>";
+	            echo "<script>alert('Error al eliminar sistema');</script>";
 	            echo "<script>window.history.back();</script>";
 	        }	
     	} catch (Exception $e) {

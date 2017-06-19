@@ -252,3 +252,53 @@ function eliminaCategoria(id){
         return false;
     }
 }
+
+//Validar formulario ingreso de tarjeta
+function validaCrearSistema(){
+    if(document.getElementById('txtDescripcion').value.trim() == "")
+    {
+        alert("Completar campos obligatorios");
+    } else {        
+        document.getElementById('form').action = 'controlador/controlador.php';
+        document.getElementById('form').method = 'post';
+        document.getElementById('form').submit();
+        //alert("Enviado");
+    }
+}
+
+function editaSistema(json){
+    $('#pagina').val('editaSistema');
+    $('#idEdit').val(json.idSistema);
+    $('#txtDescripcionEdit').val(json.descripcionSistema);
+    //$('#txtDescripcionEdit').focus();
+    $('#modalEdit').modal('show');
+}
+
+//Validar formulario editar tarea
+function guardaEditaSistema(){    
+    if(document.getElementById('txtDescripcionEdit').value.trim() == "")
+    {
+        alert("Completar campos obligatorios");
+    } else {
+        if(confirm("¿Está seguro de editar este sistema?") == true){            
+            document.getElementById('formEdit').action = 'controlador/controlador.php';
+            document.getElementById('formEdit').method = 'post';
+            document.getElementById('formEdit').submit();
+        } else {
+            $('#modalEdit').modal('hide');
+        }
+    }
+}
+
+function eliminaSistema(id){
+    if(confirm("¿Está seguro que desea eliminar este sistema?") == true){
+        $('#pagina').val('eliminaSistema');
+        $('#idEdit').val(id);
+        //alert($('#pagina').val());
+        document.getElementById('formEdit').action = 'controlador/controlador.php';
+        document.getElementById('formEdit').method = 'post';
+        document.getElementById('formEdit').submit();
+    } else {
+        return false;
+    }
+}

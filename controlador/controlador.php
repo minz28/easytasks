@@ -138,6 +138,33 @@ switch($_REQUEST['pagina']){
         
     break;
 
+    case 'creaSistema':
+    
+        $respuesta = $controlador->creaSistema($_POST);
+        if($respuesta == 1){
+            header("location:../listaSistema.php");
+        }
+        
+    break;
+
+    case 'editaSistema':
+    
+        $respuesta = $controlador->editaSistema($_POST);
+        if($respuesta == 1){
+            header("location:../listaSistema.php");
+        }
+        
+    break;
+
+    case 'eliminaSistema':
+    
+        $respuesta = $controlador->eliminaSistema($_POST);
+        if($respuesta == 1){
+            header("location:../listaSistema.php");
+        }
+        
+    break;
+
 }
 
 ?>

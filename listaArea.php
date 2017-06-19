@@ -52,7 +52,7 @@ $funciones = new Funciones;
             <table class="table table-hover table-condensed table-responsive"><!--Tabla SIN sombra-->
                 <tr>
                     <th>N°</th>
-                    <th>Área</th>
+                    <th>Area</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>
@@ -66,7 +66,7 @@ $funciones = new Funciones;
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Ingresar nueva tarea</h4>
+                    <h4 class="modal-title">Ingresar nueva area</h4>
                     <small>(*) Campos obligatorios</small>
                 </div>
                 <div class="modal-body">
@@ -92,7 +92,7 @@ $funciones = new Funciones;
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 id="nombreTarea" class="modal-title">Editar tarea</h4>
+                    <h4 id="nombreTarea" class="modal-title">Editar area</h4>
                 </div>
                 <div class="modal-body">
                     <form id="formEdit">
