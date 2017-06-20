@@ -23,7 +23,7 @@ include ("constantes.php");
         	<div class="col-md-4">
         	   <h3>Bienvenido a EasyTasks</h3>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8 text-right"><br>
                 <form class="form-inline" method="POST" action="controlador/controlador.php">
                 	<input type="hidden" name="pagina" value="login">
                 	<div class="form-group">

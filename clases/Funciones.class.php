@@ -896,7 +896,7 @@ class Funciones extends Conexion{
 					echo "<td>".$indiceLista."</td>";
 					echo "<td>".$sistema['descripcionSistema']."</td>";
 					echo "<td><button type='button' class='btn btn-default' onclick='editaSistema(".$json.")'><span class='glyphicon glyphicon-edit'></span></button></td>";
-					echo "<td><button type='button' class='btn btn-default' onclick='eliminaSistema(".$categoria['idSistema'].")'><span class='glyphicon glyphicon-remove'></span></button></td>";
+					echo "<td><button type='button' class='btn btn-default' onclick='eliminaSistema(".$sistema['idSistema'].")'><span class='glyphicon glyphicon-remove'></span></button></td>";
 					echo "</tr>";
 					$indiceLista++;
 				}

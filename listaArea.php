@@ -73,8 +73,8 @@ $funciones = new Funciones;
                     <form id="form">
                         <input type="hidden" name="pagina" value="creaCategoria" /><!--Variable oculta para identificar en el controlador-->
                         <div class="form-group">
-                            <label for="txtDescripcion">Descripción (*)</label>
-                            <input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion" placeholder="Descripción categoria">
+                            <label for="txtDescripcion">Area (*)</label>
+                            <input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion" placeholder="Descripción area">
                         </div>
                     </form>
                 </div>
@@ -99,8 +99,8 @@ $funciones = new Funciones;
                         <input type="hidden" name="pagina" id="pagina" value="" /><!--Variable oculta para identificar en el controlador-->
                         <input type="hidden" name="idEdit" id="idEdit" value=""><!--Variable oculta para saber id de tarea a editar-->
                         <div class="form-group">
-                            <label for="txtDescripcion">Descripción (*)</label>
-                            <input type="text" class="form-control" id="txtDescripcionEdit" name="txtDescripcionEdit" placeholder="Descripción categoria">
+                            <label for="txtDescripcion">Area (*)</label>
+                            <input type="text" class="form-control" id="txtDescripcionEdit" name="txtDescripcionEdit" placeholder="Descripción area">
                         </div>
                     </form>
                 </div>
