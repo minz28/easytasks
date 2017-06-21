@@ -18,7 +18,8 @@ $funciones = new Funciones;
 <script type="text/javascript" src="js/funciones.js"></script>
 </head>
 
-<body style="background-color: #E6E6E6;">
+<!--<body style="background-color: #E6E6E6;">-->
+<body>
 
 <nav class="navbar navbar-default" role="navigation">
     <div class="container">
@@ -112,13 +113,14 @@ $funciones = new Funciones;
                                 <?php $funciones->cboPrioridad(); ?>
                             </select>
                         </div>
+                        <!--
                         <div class="form-group">
                             <label for="cboEstado">Estado (*)</label>
                             <select class="form-control" id="cboEstado" name="cboEstado">
                                 <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboEstTarjeta(); ?>
+                                <?php //$funciones->cboEstTarjeta(); ?>
                             </select>
-                        </div>
+                        </div>-->
                         <div class="form-group">
                             <label for="txtObservaciones">Observaciones</label>
                             <textarea class="form-control" id="txtObservaciones" name="txtObservaciones" rows="4"></textarea>
@@ -171,8 +173,10 @@ $funciones = new Funciones;
     <!--Fin modal DETALLE tarjeta-->
 </div>
 
-<div class="panel-footer navbar-fixed-bottom">
+<div class="panel-footer">
+    <div class="container">
         <p>EasyTask® 2017 | Miguel Pinto - Miguel Inzunza - Hans Silva | Todos los derechos reservados</p>
+    </div>
 </div>
 
 </body>

@@ -45,7 +45,10 @@ include ("constantes.php");
 <div class="container">
     <article>
         <p>
-            Quienes somos bla bla bla
+            Quienes somos
+        </p>
+        <p>
+        	
         </p>
     </article>
 </div>

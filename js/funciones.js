@@ -22,7 +22,8 @@ function div_hide(){
 
 //Validar formulario ingreso de tarjeta
 function validaTarjeta(){
-    if(document.getElementById('cboTarea').value == "seleccione" || document.getElementById('cboPrioridad').value == "seleccione" || document.getElementById('cboEstado').value == "seleccione")    
+    //if(document.getElementById('cboTarea').value == "seleccione" || document.getElementById('cboPrioridad').value == "seleccione" || document.getElementById('cboEstado').value == "seleccione")
+    if(document.getElementById('cboTarea').value == "seleccione" || document.getElementById('cboPrioridad').value == "seleccione")
     {
         alert("Completar campos obligatorios");
     } else {

@@ -204,7 +204,7 @@ class Funciones extends Conexion{
     function creaTarjeta($datos){
     	try {
     		$sql="INSERT INTO TARJETA (TAREA, CLIENTE_SOLICITANTE, FECHA_SOLICITUD, PRIORIDAD, OBSERVACIONES, ADJUNTO, ESTADO_TARJETA, ESTADO_REGISTRO) 
-	                VALUES (".$datos['cboTarea'].",".$datos['txtSolicitante'].", NOW(), ".$datos['cboPrioridad'].", '".$datos['txtObservaciones']."', '"
+	                VALUES (".$datos['cboTarea'].",".$datos['txtSolicitante'].", NOW(), 1, '".$datos['txtObservaciones']."', '"
 	                	.$datos['fileAdjunto']."', ".$datos['cboEstado'].", 1)";
 	                //echo $sql;die();
 	        if($record=$this->insertEasyTasks($sql)){
