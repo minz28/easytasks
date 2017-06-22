@@ -34,6 +34,10 @@ function validaTarjeta(){
     }
 }
 
+function editaTarjeta(json){
+    alert(json.idTarjeta);
+}
+
 function detalleTarjeta(jsonTarjeta){
     $("#nombreTarea").text(jsonTarjeta.tarea);
     $("#solicitante").text('Solicitado por: '+jsonTarjeta.solicitante);

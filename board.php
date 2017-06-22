@@ -45,6 +45,7 @@ $funciones = new Funciones;
     <div class="row">
         <div class="col-md-12">
             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalCreaTarjeta"><span class="glyphicon glyphicon-plus"></span></button><br><br>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-3">
@@ -165,7 +166,7 @@ $funciones = new Funciones;
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="validaTarjeta();">Grabar</button>
+                    <button type="button" class="btn btn-default" onclick="xxx();">Tomar tajeta</button>
                 </div>                
             </div>
         </div>

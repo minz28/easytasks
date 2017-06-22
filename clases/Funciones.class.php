@@ -204,8 +204,7 @@ class Funciones extends Conexion{
     function creaTarjeta($datos){
     	try {
     		$sql="INSERT INTO TARJETA (TAREA, CLIENTE_SOLICITANTE, FECHA_SOLICITUD, PRIORIDAD, OBSERVACIONES, ADJUNTO, ESTADO_TARJETA, ESTADO_REGISTRO) 
-	                VALUES (".$datos['cboTarea'].",".$datos['txtSolicitante'].", NOW(), 1, '".$datos['txtObservaciones']."', '"
-	                	.$datos['fileAdjunto']."', ".$datos['cboEstado'].", 1)";
+	                VALUES ($datos[cboTarea], $datos[txtSolicitante], NOW(), 1, '$datos[txtObservaciones]', '$datos[fileAdjunto]', 1, 1)";
 	                //echo $sql;die();
 	        if($record=$this->insertEasyTasks($sql)){
 	            //echo "<script>alert('La tarjeta fue creada exitosamente');</script>";
@@ -269,7 +268,8 @@ class Funciones extends Conexion{
 					echo "<a style='color: black;' href='#' onclick='detalleTarjeta(".$tarjetaJson.")'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
-					echo "</a>";
+					echo "</a><br>";
+					echo "<button type='button' class='btn btn-default' onclick='editaTarjeta($tarjetaJson);'><span class='glyphicon glyphicon-edit'></span></button>";
 					echo "</td></tr>";
 				}
 			} else {
@@ -730,7 +730,7 @@ class Funciones extends Conexion{
     function creaSolicitante($datos){
     	try {
     		$sql="INSERT INTO CLIENTE (NOMBRE_CLIENTE, EMPRESA, AREA_CLIENTE, CARGO_CLIENTE, ESTADO_REGISTRO) 
-	                VALUES ('".utf8_decode($datos['txtNombre'])."', $_SESSION[empresa], '".utf8_decode($datos['txtArea'])."', '".utf8_decode($datos['txtCargo'])."', 1)";
+	                VALUES ('$datos[txtNombre]', $_SESSION[empresa], '$datos[txtArea]', '$datos[txtCargo]', 1)";
 	                //echo $sql;die();
 	        if($record=$this->insertEasyTasks($sql)){
 	            //echo "<script>alert('La tarea fue agregada exitosamente');</script>";
