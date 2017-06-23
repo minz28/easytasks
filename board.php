@@ -153,18 +153,7 @@ $funciones = new Funciones;
                 	<p id="fechaSolicitud"></p>
                 	<p id="prioridad"></p>
                 	<p id="observaciones"></p>
-                    <form id="form">
-                        <input type="hidden" name="pagina" value="creaTarjeta" /><!--Variable oculta para identificar en el controlador-->
-                        <?php if ($_SESSION['perfil'][0] != 3) { ?><!--Oculta esta entrada del perfil 'usuario'-->
-                        <div class="form-group">
-                            <label for="cboEstado">Estado (*)</label>
-                            <select class="form-control" id="cboEstado" name="cboEstado">
-                                <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboEstTarjeta(); ?>
-                            </select>
-                        </div>
-                        <?php } ?>
-                    </form>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" onclick="autoAsignacionTarjeta();">Asignarme esta tarea</button>
