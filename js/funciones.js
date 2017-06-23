@@ -35,7 +35,30 @@ function validaTarjeta(){
 }
 
 function editaTarjeta(json){
-    alert(json.idTarjeta);
+    $('#pagina').val('editaTarjeta');
+    $('#idEdit').val(json.idTarjeta);
+    $('#cboTareaEdit option[value="'+ json.idTarea +'"]').attr('selected',true);
+    $('#txtSolicitanteEdit option[value="'+ json.idSolicitante +'"]').attr('selected',true);
+    $('#cboPrioridadEdit option[value="'+ json.idPrioridad +'"]').attr('selected',true);
+    $('#cboEstadoEdit option[value="'+ json.idEstado +'"]').attr('selected',true);
+    $('#txtObservacionesEdit').val(json.observaciones);
+    //$('#fileAdjuntoEdit').val(json.descripcionSistema);
+    $('#modalEdit').modal('show');
+}
+
+function guardaEditaTarjeta(){
+    if(document.getElementById('cboTareaEdit').value == "seleccione" || document.getElementById('cboPrioridadEdit').value == "seleccione" || document.getElementById('cboEstadoEdit').value == "seleccione")
+    {
+        alert("Completar campos obligatorios");
+    } else {
+        if(confirm("¿Está seguro de editar esta tarjeta?") == true){            
+            document.getElementById('formEdit').action = 'controlador/controlador.php';
+            document.getElementById('formEdit').method = 'post';
+            document.getElementById('formEdit').submit();
+        } else {
+            $('#modalEdit').modal('hide');
+        }
+    }
 }
 
 function detalleTarjeta(jsonTarjeta){
@@ -305,5 +328,11 @@ function eliminaSistema(id){
         document.getElementById('formEdit').submit();
     } else {
         return false;
+    }
+}
+
+function autoAsignacionTarjeta(){
+    if(confirm("¿Está seguro que desea asignarse esta tarea?") == true){
+        alert("Ok");
     }
 }

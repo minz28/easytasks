@@ -219,6 +219,27 @@ class Funciones extends Conexion{
 	        
     }
 
+    function editaTarjeta($datos){
+    	try {
+			$sql="	UPDATE 	TARJETA
+    				SET 	TAREA = $datos[cboTareaEdit],
+							CLIENTE_SOLICITANTE = $datos[txtSolicitanteEdit],
+							PRIORIDAD = $datos[cboPrioridadEdit],
+							OBSERVACIONES = '$datos[txtObservacionesEdit]',
+							ESTADO_TARJETA = $datos[cboEstadoEdit]
+					WHERE 	ID_TARJETA = $datos[idEdit]";
+			//echo $sql; die();
+			if($record=$this->insertEasyTasks($sql)){
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al editar tarjeta');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
     function muestraTarjetaPendientes(){
     	try {
     		$sql="	SELECT
@@ -230,7 +251,11 @@ class Funciones extends Conexion{
 						C.AREA_CLIENTE,
 						TJ.FECHA_SOLICITUD,
 						P.DESCRIPCION_PRIORIDAD,
+						TJ.TAREA,
+						TJ.CLIENTE_SOLICITANTE,
+						TJ.PRIORIDAD,
 						TJ.OBSERVACIONES,
+						TJ.ADJUNTO,
 						TJ.ESTADO_TARJETA,
 						ET.DESCRIPCION_ESTADO_TAJETA
 					FROM
@@ -255,7 +280,11 @@ class Funciones extends Conexion{
 					$arreglo[$i]['solicitante'] = $datos['NOMBRE_CLIENTE']." - ".$datos['CARGO_CLIENTE']." - ".$datos['AREA_CLIENTE'];
 					$arreglo[$i]['fechaSolicitud'] = $datos['FECHA_SOLICITUD'];
 					$arreglo[$i]['prioridad'] = $datos['DESCRIPCION_PRIORIDAD'];
+					$arreglo[$i]['idTarea'] = $datos['TAREA'];
+					$arreglo[$i]['idSolicitante'] = $datos['CLIENTE_SOLICITANTE'];
+					$arreglo[$i]['idPrioridad'] = $datos['PRIORIDAD'];
 					$arreglo[$i]['observaciones'] = $datos['OBSERVACIONES'];
+					//$arreglo[$i]['adjunto'] = $datos['ADJUNTO'];
 					$arreglo[$i]['idEstado'] = $datos['ESTADO_TARJETA'];
 					$arreglo[$i]['estado'] = $datos['DESCRIPCION_ESTADO_TAJETA'];
 					$i++;
@@ -269,7 +298,11 @@ class Funciones extends Conexion{
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
 					echo "</a><br>";
-					echo "<button type='button' class='btn btn-default' onclick='editaTarjeta($tarjetaJson);'><span class='glyphicon glyphicon-edit'></span></button>";
+					if ($_SESSION['perfil'] != 3) {
+						//echo "<span class='glyphicon glyphicon-edit'></span>";
+						echo "<button type='button' class='btn btn-default' onclick='editaTarjeta($tarjetaJson);'><span class='glyphicon glyphicon-edit'></span></button>";
+						//echo "<i onclick='editaTarjeta($tarjetaJson);' class='material-icons'>&#xe7f0;</i>";
+					}					
 					echo "</td></tr>";
 				}
 			} else {

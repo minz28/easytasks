@@ -12,6 +12,7 @@ $funciones = new Funciones;
 <title><?php echo TITULO; ?></title>
 
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><!--Íconos Google-->
 
 <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
@@ -166,12 +167,70 @@ $funciones = new Funciones;
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="xxx();">Tomar tajeta</button>
+                    <button type="button" class="btn btn-default" onclick="autoAsignacionTarjeta();">Asignarme esta tarea</button>
                 </div>                
             </div>
         </div>
     </div>
     <!--Fin modal DETALLE tarjeta-->
+    <!--Inicio modal EDITAR tarjeta-->
+    <div class="modal fade" id="modalEdit" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Editar Tarjeta</h4>
+                    <small>(*) Campos obligatorios</small>
+                </div>
+                <div class="modal-body">
+                    <form id="formEdit">
+                        <input type="hidden" name="pagina" id="pagina" value="" /><!--Variable oculta para identificar en el controlador-->
+                        <input type="hidden" name="idEdit" id="idEdit" value=""><!--Variable oculta para saber id de tarjeta a editar-->
+                        <div class="form-group">
+                            <label for="cboTareaEdit">Tarea (*)</label>
+                            <select class="form-control" id="cboTareaEdit" name="cboTareaEdit">
+                                <option value="seleccione">Seleccione</option>
+                                <?php $funciones->cboTarea(); ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtSolicitanteEdit">Solicitante (*)</label>
+                            <select class="form-control" id="txtSolicitanteEdit" name="txtSolicitanteEdit">
+                                <option value="seleccione">Seleccione</option>
+                                <?php $funciones->cboCliente(); ?>
+                            </select>
+                        </div>              
+                        <div class="form-group">
+                            <label for="cboPrioridadEdit">Prioridad (*)</label>
+                            <select class="form-control" id="cboPrioridadEdit" name="cboPrioridadEdit">
+                                <option value="seleccione">Seleccione</option>
+                                <?php $funciones->cboPrioridad(); ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cboEstadoEdit">Estado (*)</label>
+                            <select class="form-control" id="cboEstadoEdit" name="cboEstadoEdit">
+                                <option value="seleccione">Seleccione</option>
+                                <?php $funciones->cboEstTarjeta(); ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtObservacionesEdit">Observaciones</label>
+                            <textarea class="form-control" id="txtObservacionesEdit" name="txtObservacionesEdit" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="fileAdjuntoEdit">Archivo adjunto</label>
+                            <input type="file" id="fileAdjuntoEdit"  name="fileAdjuntoEdit">
+                        </div>                        
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="guardaEditaTarjeta();">Grabar</button>
+                </div>                
+            </div>
+        </div>
+    </div>
+    <!--Fin modal EDITAR tarjeta-->
 </div>
 
 <div class="panel-footer">

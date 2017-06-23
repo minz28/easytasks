@@ -30,6 +30,15 @@ switch($_REQUEST['pagina']){
 
     break;
 
+    case 'editaTarjeta':
+    
+        $respuesta = $controlador->editaTarjeta($_POST);
+        if($respuesta == 1){            
+            header("location:../board.php");
+        }
+
+    break;
+
     case 'creaTarea':
     
         $respuesta = $controlador->creaTarea($_POST);
