@@ -299,9 +299,9 @@ class Funciones extends Conexion{
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
 					echo "</a><br>";
 					if ($_SESSION['perfil'] != 3) {
-						//echo "<span class='glyphicon glyphicon-edit'></span>";
-						echo "<button type='button' class='btn btn-default' onclick='editaTarjeta($tarjetaJson);'><span class='glyphicon glyphicon-edit'></span></button>";
-						//echo "<i onclick='editaTarjeta($tarjetaJson);' class='material-icons'>&#xe7f0;</i>";
+						//echo "<button type='button' class='btn btn-default' onclick='editaTarjeta($tarjetaJson);'><span class='glyphicon glyphicon-edit'></span></button>";
+						echo "<a href='#' style='color: black' class='glyphicon glyphicon-edit' onclick='editaTarjeta($tarjetaJson);'></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+						echo "<a href='#' style='color: black' class='material-icons' onclick='asignarTarea($tarjetaJson);'>&#xe7f0;</i>";
 					}					
 					echo "</td></tr>";
 				}

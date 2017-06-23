@@ -336,3 +336,9 @@ function autoAsignacionTarjeta(){
         alert("Ok");
     }
 }
+
+function asignarTarjeta(){
+    if(confirm("¿Está seguro que desea asignar esta tarea?") == true){
+        alert("Ok");
+    }
+}
