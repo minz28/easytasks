@@ -174,6 +174,15 @@ switch($_REQUEST['pagina']){
         
     break;
 
+    case 'asignaTarjeta':
+        
+        $respuesta = $controlador->asignaTarjeta($_POST);
+        if($respuesta == 1){
+            header("location:../board.php");
+        }
+
+    break;
+
 }
 
 ?>

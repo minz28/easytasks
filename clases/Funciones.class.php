@@ -99,6 +99,20 @@ class Funciones extends Conexion{
     	}
 	}
 
+	function cboUsuario(){
+		$sql =	"SELECT U.ID_USUARIO, U.NOMBRES, U.APELLIDOS, U.USERNAME
+				FROM USUARIO U
+				WHERE U.EMPRESA = $_SESSION[empresa]
+				AND U.PERFIL != 1
+				AND U.ESTADO_REGISTRO = 1";
+		$record = $this->selectEasyTasks($sql);
+		//$arreglo['cboTarea']="";
+		while($usuario = mysql_fetch_assoc($record)){
+			$arreglo['cboUsuario'] .= "<option value='".$usuario['ID_USUARIO']."'>".$usuario['NOMBRES']." ".$usuario['APELLIDOS']." (".$usuario['USERNAME'].")"."</option>";
+		}
+		echo $arreglo['cboUsuario'];
+	}
+
 	function cboTarea(){
 		$sql="	SELECT 		T.ID_TAREA, T.DESCRIPCION_TAREA, S.DESCRIPCION_SISTEMA
 				FROM 		TAREA T
@@ -302,7 +316,7 @@ class Funciones extends Conexion{
 						//echo "<button type='button' class='btn btn-default' onclick='editaTarjeta($tarjetaJson);'><span class='glyphicon glyphicon-edit'></span></button>";
 						//echo "<a href='#' style='color: black' class='glyphicon glyphicon-edit' onclick='editaTarjeta($tarjetaJson);'></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 						echo "<a href='#' title='Editar tarjeta' style='color: black' class='material-icons' onclick='editaTarjeta($tarjetaJson);'>&#xe254;</a>&nbsp;&nbsp;";
-						echo "<a href='#' title='Asignar usuario' style='color: black' class='material-icons' onclick='asignarTarjeta($tarjetaJson);'>&#xe7f0;</i>";
+						echo "<a href='#' title='Asignar usuario' style='color: black' class='material-icons' onclick='muestraAsignarTarjeta($tarjeta[idTarjeta]);'>&#xe7f0;</i>";
 					}					
 					echo "</td></tr>";
 				}
@@ -992,7 +1006,25 @@ class Funciones extends Conexion{
     	} catch (Exception $e) {
     		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
-    }  
+    }
+
+    function asignaTarjeta($datos){
+    	try {
+    		$sql="INSERT INTO TARJETA_USUARIO (TARJETA, USUARIO_RESPONSABLE) 
+	                VALUES ($datos[idTarjeta], $datos[txtUsuarioAsignado])";
+	                //VALUES ($datos[idTarjeta], $datos[txtUsuarioAsignado], DATE(NOW()), TIME(NOW()))";
+	                //echo $sql;die();
+	        if($record=$this->insertEasyTasks($sql)){
+	            //echo "<script>alert('La tarea fue agregada exitosamente');</script>";
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al asignar tarjeta');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
 
 }
 ?>

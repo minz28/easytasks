@@ -220,6 +220,39 @@ $funciones = new Funciones;
         </div>
     </div>
     <!--Fin modal EDITAR tarjeta-->
+    <!--Inicio modal ASIGNAR tarjeta-->
+    <div class="modal fade" id="modalAsignar" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Asignar Tarjeta</h4>
+                    <small>(*) Campos obligatorios</small>
+                </div>
+                <div class="modal-body">
+                    <form id="formAsignar">
+                        <input type="hidden" name="pagina" value="asignaTarjeta" /><!--Variable oculta para identificar en el controlador-->
+                        <input type="hidden" name="idTarjeta" id="idTarjeta" value=""><!--Variable oculta para saber id de tarjeta a editar-->
+                        <div class="form-group">
+                            <label for="txtUsuarioAsignado">Usuario (*)</label>
+                            <select class="form-control" id="txtUsuarioAsignado" name="txtUsuarioAsignado">
+                                <option value="seleccione">Seleccione</option>
+                                <?php $funciones->cboUsuario(); ?>
+                            </select>
+                            <!--<input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion" placeholder="Descripción sistema">-->
+                        </div>
+                        <!--<input type="hidden" id="arrayIdUsuarios">--><!--Pensado para agregar múltiples usuarios de una vez. PENDIENTE por problemas al descartar un usuario-->
+                    	<!--<button type="button" class="btn btn-default" onclick="arrayAsignarUsuario()" ><span class="glyphicon glyphicon-plus"></span></button>--><!--Pensado para agregar múltiples usuarios de una vez. PENDIENTE por problemas al descartar un usuario-->
+                    </form>                    
+                    <div id="arrayUsuario"></div><!--Pensado para listar los múltiples usuarios agregados anteriormente. PENDIENTE por problemas al descartar un usuario-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="asignaTarjeta();">Grabar</button>
+                </div>                
+            </div>
+        </div>
+    </div>
+    <!--Fin modal ASIGNAR tarjeta-->
 </div>
 
 <div class="panel-footer">

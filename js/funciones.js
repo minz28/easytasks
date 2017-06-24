@@ -337,8 +337,35 @@ function autoAsignacionTarjeta(){
     }
 }
 
-function asignarTarjeta(){
+function muestraAsignarTarjeta(id){
+    $('#idTarjeta').val(id);
+    $('#modalAsignar').modal('show');
+}
+
+function arrayAsignarUsuario(){
+    //ESTA PARTE DE LA FUNCIÓN FUE PENSADA PARA ASIGNAR MÚLTIPLES USUARIOS DE UNA SOLA VEZ. QUEDA DESCARTADA HASTA SOLUCIONAR COMO ELIMINAR DEL ARRAY UN USUARIO ASIGNADO
+    /*
+    var arrayUsuario = [];
+    arrayUsuario.push($('#txtUsuarioAsignado option:selected').text()); 
+    //$('#arrayUsuario').text(arrayUsuario);
+    if($('#txtUsuarioAsignado').val() != 'seleccione'){
+        if($('#arrayUsuario').text() == ''){
+            $('#arrayIdUsuarios').val($('#txtUsuarioAsignado option:selected').val());
+            arrayUsuario.push($('#arrayIdUsuarios').val());
+            $('#arrayUsuario').text($('#txtUsuarioAsignado option:selected').text()).append(" <a href='#' onclick='xxx();'><img id='eliminaUsuarioAsignado' src='img/site/deletex.png' style='width: 15px; height: 15px;'></a>");
+        } else {
+            $('#arrayIdUsuarios').val($('#arrayIdUsuarios').val() + ',' + $('#txtUsuarioAsignado option:selected').val());
+            arrayUsuario.push($('#arrayIdUsuarios').val());
+            $('#arrayUsuario').text($('#arrayUsuario').text() + '; ' + $('#txtUsuarioAsignado option:selected').text()).append(" <a href='#' onclick='xxx();'><img id='eliminaUsuarioAsignado' src='img/site/deletex.png' style='width: 15px; height: 15px;'></a>");
+        }        
+    }
+    */
+}
+
+function asignaTarjeta(){
     if(confirm("¿Está seguro que desea asignar esta tarea?") == true){
-        alert("Ok");
+        document.getElementById('formAsignar').action = 'controlador/controlador.php';
+        document.getElementById('formAsignar').method = 'post';
+        document.getElementById('formAsignar').submit();
     }
 }
