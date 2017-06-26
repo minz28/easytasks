@@ -237,7 +237,7 @@ $funciones = new Funciones;
                             <label for="txtUsuarioAsignado">Usuario (*)</label>
                             <select class="form-control" id="txtUsuarioAsignado" name="txtUsuarioAsignado">
                                 <option value="seleccione">Seleccione</option>
-                                <?php $funciones->cboUsuario(); ?>
+                                <?php $funciones->cboUsuarioAsignar(); ?>
                             </select>
                             <!--<input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion" placeholder="Descripción sistema">-->
                         </div>

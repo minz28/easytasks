@@ -100,13 +100,27 @@ class Funciones extends Conexion{
 	}
 
 	function cboUsuario(){
-		$sql =	"SELECT U.ID_USUARIO, U.NOMBRES, U.APELLIDOS, U.USERNAME
+		$sql="	SELECT U.ID_USUARIO, U.NOMBRES, U.APELLIDOS, U.USERNAME
 				FROM USUARIO U
 				WHERE U.EMPRESA = $_SESSION[empresa]
 				AND U.PERFIL != 1
 				AND U.ESTADO_REGISTRO = 1";
 		$record = $this->selectEasyTasks($sql);
-		//$arreglo['cboTarea']="";
+		while($usuario = mysql_fetch_assoc($record)){
+			$arreglo['cboUsuario'] .= "<option value='".$usuario['ID_USUARIO']."'>".$usuario['NOMBRES']." ".$usuario['APELLIDOS']." (".$usuario['USERNAME'].")"."</option>";
+		}
+		echo $arreglo['cboUsuario'];
+	}
+
+	function cboUsuarioAsignar(){
+
+		$sql="	SELECT U.ID_USUARIO, U.NOMBRES, U.APELLIDOS, U.USERNAME
+				FROM USUARIO U				
+				WHERE U.ID_USUARIO NOT IN (SELECT TU.USUARIO_RESPONSABLE FROM TARJETA_USUARIO TU WHERE TU.FECHA_TERMINO = '0000-00-00')
+				AND U.EMPRESA = $_SESSION[empresa]
+				AND U.PERFIL != 1
+				AND U.ESTADO_REGISTRO = 1";
+		$record = $this->selectEasyTasks($sql);
 		while($usuario = mysql_fetch_assoc($record)){
 			$arreglo['cboUsuario'] .= "<option value='".$usuario['ID_USUARIO']."'>".$usuario['NOMBRES']." ".$usuario['APELLIDOS']." (".$usuario['USERNAME'].")"."</option>";
 		}
@@ -123,7 +137,6 @@ class Funciones extends Conexion{
 				WHERE 		C.EMPRESA = 1
 				AND 		T.ESTADO_REGISTRO = 1";
 		$record = $this->selectEasyTasks($sql);
-		//$arreglo['cboTarea']="";
 		while($tarea = mysql_fetch_assoc($record)){
 			$arreglo['cboTarea'] .= "<option value='".$tarea['ID_TAREA']."'>".$tarea['DESCRIPCION_SISTEMA']." - ".$tarea['DESCRIPCION_TAREA']."</option>";
 		}
