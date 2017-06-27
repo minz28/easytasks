@@ -149,6 +149,10 @@ $funciones = new Funciones;
                     <h4 id="nombreTarea" class="modal-title"></h4>
                 </div>
                 <div class="modal-body">
+                	<form id="formAutoAsignar">
+                		<input type="hidden" name="pagina" value="autoAsignaTarjeta" /><!--Variable oculta para identificar en el controlador-->
+                        <input type="hidden" name="idTarjeta" id="idTarjeta" value=""><!--Variable oculta para saber id de tarjeta a editar-->
+                	</form>
                 	<p id="solicitante"></p>
                 	<p id="fechaSolicitud"></p>
                 	<p id="prioridad"></p>

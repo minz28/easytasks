@@ -76,7 +76,7 @@ class Funciones extends Conexion{
 
 	function validaLogin($datos){
 		try {
-    		$sql="	SELECT 		U.NOMBRES, U.APELLIDOS, U.EMPRESA, U.PERFIL
+    		$sql="	SELECT 		U.ID_USUARIO, U.NOMBRES, U.APELLIDOS, U.EMPRESA, U.PERFIL
 					FROM 		USUARIO U
 					WHERE 		U.USERNAME = '".$datos['txtUsuario']."' 
 					AND 		U.PASSWORD = '".$datos['txtPassword']."'
@@ -84,6 +84,7 @@ class Funciones extends Conexion{
 	                //echo $sql;die();
 	        if($record = $this->selectEasyTasks($sql)){
 				while($datos = mysql_fetch_assoc($record)){
+					$arreglo['idUsuario'] = $datos['ID_USUARIO'];
 					$arreglo['nombreUsuario'] = $datos['NOMBRES']." ".$datos['APELLIDOS'];			
 					$arreglo['empresa'] = $datos['EMPRESA'];
 					$arreglo['perfil'] = $datos['PERFIL'];
@@ -230,16 +231,35 @@ class Funciones extends Conexion{
 
     function creaTarjeta($datos){
     	try {
-    		$sql="INSERT INTO TARJETA (TAREA, CLIENTE_SOLICITANTE, FECHA_SOLICITUD, PRIORIDAD, OBSERVACIONES, ADJUNTO, ESTADO_TARJETA, ESTADO_REGISTRO) 
-	                VALUES ($datos[cboTarea], $datos[txtSolicitante], NOW(), 1, '$datos[txtObservaciones]', '$datos[fileAdjunto]', 1, 1)";
-	                //echo $sql;die();
-	        if($record=$this->insertEasyTasks($sql)){
-	            //echo "<script>alert('La tarjeta fue creada exitosamente');</script>";
-	            return 1;
-	        } else {
-	            echo "<script>alert('Error al crear tarjeta');</script>";
-	            echo "<script>window.history.back();</script>";
-	        }
+    		if ($_SESSION['perfil'] == 3) {
+    			$sql="INSERT INTO TARJETA (TAREA, CLIENTE_SOLICITANTE, FECHA_SOLICITUD, PRIORIDAD, OBSERVACIONES, ADJUNTO, ESTADO_TARJETA, ESTADO_REGISTRO) 
+	                	VALUES ($datos[cboTarea], $datos[txtSolicitante], NOW(), 1, '$datos[txtObservaciones]', '$datos[fileAdjunto]', 2, 1)";
+	            if($record=$this->insertEasyTasks($sql)){
+	            	$ultimaTarjeta = $this->selectId();
+	            	$sql2="INSERT INTO TARJETA_USUARIO (TARJETA, USUARIO_RESPONSABLE, FECHA_INICIO, HORA_INICIO)
+	            	VALUES ($ultimaTarjeta, $_SESSION[idUsuario], DATE(NOW()), TIME(NOW()))";
+	            	if($record=$this->insertEasyTasks($sql2)){
+	            		return 1;
+	            	} else {
+	            		echo "<script>alert('Error al autoasignar tarjeta');</script>";
+	            		echo "<script>window.history.back();</script>";
+	            	}
+	            } else {
+	            	echo "<script>alert('Error al crear tarjeta');</script>";
+	            	echo "<script>window.history.back();</script>";
+	            }
+    		} elseif ($_SESSION['perfil'] != 1) {//CAMBIAR POR $_SESSION['perfil'] == 2
+    			$sql="INSERT INTO TARJETA (TAREA, CLIENTE_SOLICITANTE, FECHA_SOLICITUD, PRIORIDAD, OBSERVACIONES, ADJUNTO, ESTADO_TARJETA, ESTADO_REGISTRO) 
+		                VALUES ($datos[cboTarea], $datos[txtSolicitante], NOW(), 1, '$datos[txtObservaciones]', '$datos[fileAdjunto]', 1, 1)";
+		                //echo $sql;die();
+		        if($record=$this->insertEasyTasks($sql)){
+		            //echo "<script>alert('La tarjeta fue creada exitosamente');</script>";
+		            return 1;
+		        } else {
+		            echo "<script>alert('Error al crear tarjeta');</script>";
+		            echo "<script>window.history.back();</script>";
+		        }
+    		}	    		
     	} catch (Exception $e) {
     		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
@@ -1038,6 +1058,25 @@ class Funciones extends Conexion{
     		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
     }
+
+    function autoAsignaTarjeta($datos){
+    	try {
+    		$sql="INSERT INTO TARJETA_USUARIO (TARJETA, USUARIO_RESPONSABLE) 
+	                VALUES ($datos[idTarjeta], $datos[txtUsuarioAsignado])";
+	                //VALUES ($datos[idTarjeta], $datos[txtUsuarioAsignado], DATE(NOW()), TIME(NOW()))";
+	                //echo $sql;die();
+	        if($record=$this->insertEasyTasks($sql)){
+	            //echo "<script>alert('La tarea fue agregada exitosamente');</script>";
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al asignar tarjeta');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+    
 
 }
 ?>

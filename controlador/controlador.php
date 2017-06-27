@@ -9,6 +9,7 @@ switch($_REQUEST['pagina']){
         //echo "hola, vas bien encamidado pequeño padawan :D";
         if($respuesta = $controlador->validaLogin($_POST)){
             session_start();
+            $_SESSION['idUsuario'] = $respuesta['idUsuario'];
             $_SESSION['nombreUsuario'] = $respuesta['nombreUsuario'];
             $_SESSION['empresa'] = $respuesta['empresa'];
             $_SESSION['perfil'] = $respuesta['perfil'];
@@ -182,6 +183,16 @@ switch($_REQUEST['pagina']){
         }
 
     break;
+
+    case 'autoAsignaTarjeta':
+        
+        $respuesta = $controlador->autoAsignaTarjeta($_POST);
+        if($respuesta == 1){
+            header("location:../board.php");
+        }
+
+    break;
+    
 
 }
 

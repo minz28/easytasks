@@ -62,6 +62,7 @@ function guardaEditaTarjeta(){
 }
 
 function detalleTarjeta(jsonTarjeta){
+    $("#idTarjeta").val(jsonTarjeta.idTarjeta);
     $("#nombreTarea").text(jsonTarjeta.tarea);
     $("#solicitante").text('Solicitado por: '+jsonTarjeta.solicitante);
     $("#fechaSolicitud").text('Fecha solicitud: '+jsonTarjeta.fechaSolicitud);
@@ -331,12 +332,6 @@ function eliminaSistema(id){
     }
 }
 
-function autoAsignacionTarjeta(){
-    if(confirm("¿Está seguro que desea asignarse esta tarea?") == true){
-        alert("Ok");
-    }
-}
-
 function muestraAsignarTarjeta(id){
     $('#idTarjeta').val(id);
     $('#modalAsignar').modal('show');
@@ -367,5 +362,13 @@ function asignaTarjeta(){
         document.getElementById('formAsignar').action = 'controlador/controlador.php';
         document.getElementById('formAsignar').method = 'post';
         document.getElementById('formAsignar').submit();
+    }
+}
+
+function autoAsignacionTarjeta(){
+    if(confirm("¿Está seguro que desea asignarse esta tarea?") == true){
+        document.getElementById('formAutoAsignar').action = 'controlador/controlador.php';
+        document.getElementById('formAutoAsignar').method = 'post';
+        document.getElementById('formAutoAsignar').submit();
     }
 }
