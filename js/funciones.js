@@ -62,7 +62,7 @@ function guardaEditaTarjeta(){
 }
 
 function detalleTarjeta(jsonTarjeta){
-    $("#idTarjeta").val(jsonTarjeta.idTarjeta);
+    $("#idTarjetaAutoAsignar").val(jsonTarjeta.idTarjeta);
     $("#nombreTarea").text(jsonTarjeta.tarea);
     $("#solicitante").text('Solicitado por: '+jsonTarjeta.solicitante);
     $("#fechaSolicitud").text('Fecha solicitud: '+jsonTarjeta.fechaSolicitud);
@@ -333,7 +333,7 @@ function eliminaSistema(id){
 }
 
 function muestraAsignarTarjeta(id){
-    $('#idTarjeta').val(id);
+    $('#idTarjetaAsignar').val(id);
     $('#modalAsignar').modal('show');
 }
 

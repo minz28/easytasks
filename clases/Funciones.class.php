@@ -1044,7 +1044,7 @@ class Funciones extends Conexion{
     function asignaTarjeta($datos){
     	try {
     		$sql="INSERT INTO TARJETA_USUARIO (TARJETA, USUARIO_RESPONSABLE) 
-	                VALUES ($datos[idTarjeta], $datos[txtUsuarioAsignado])";
+	                VALUES ($datos[idTarjetaAsignar], $datos[txtUsuarioAsignado])";
 	                //VALUES ($datos[idTarjeta], $datos[txtUsuarioAsignado], DATE(NOW()), TIME(NOW()))";
 	                //echo $sql;die();
 	        if($record=$this->insertEasyTasks($sql)){
@@ -1061,15 +1061,20 @@ class Funciones extends Conexion{
 
     function autoAsignaTarjeta($datos){
     	try {
-    		$sql="INSERT INTO TARJETA_USUARIO (TARJETA, USUARIO_RESPONSABLE) 
-	                VALUES ($datos[idTarjeta], $datos[txtUsuarioAsignado])";
-	                //VALUES ($datos[idTarjeta], $datos[txtUsuarioAsignado], DATE(NOW()), TIME(NOW()))";
+    		$sql="INSERT INTO TARJETA_USUARIO (TARJETA, USUARIO_RESPONSABLE, FECHA_INICIO, HORA_INICIO) 
+	                VALUES ($datos[idTarjetaAutoAsignar], $_SESSION[idUsuario], DATE(NOW()), TIME(NOW()))";
 	                //echo $sql;die();
 	        if($record=$this->insertEasyTasks($sql)){
-	            //echo "<script>alert('La tarea fue agregada exitosamente');</script>";
-	            return 1;
+	            $sql2="UPDATE TARJETA SET ESTADO_TARJETA = 2 WHERE ID_TARJETA = $datos[idTarjetaAutoAsignar]";
+	            //echo $sql2;die();
+	            if($record=$this->insertEasyTasks($sql2)){
+	            	return 1;
+	            } else {
+	            	echo "<script>alert('Error al autoasignar tarjeta, no se ha podido actualizar el estado de la tajeta');</script>";
+	            	echo "<script>window.history.back();</script>";
+	            }	            
 	        } else {
-	            echo "<script>alert('Error al asignar tarjeta');</script>";
+	            echo "<script>alert('Error al autoasignar tarjeta');</script>";
 	            echo "<script>window.history.back();</script>";
 	        }
     	} catch (Exception $e) {

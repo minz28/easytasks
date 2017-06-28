@@ -151,7 +151,7 @@ $funciones = new Funciones;
                 <div class="modal-body">
                 	<form id="formAutoAsignar">
                 		<input type="hidden" name="pagina" value="autoAsignaTarjeta" /><!--Variable oculta para identificar en el controlador-->
-                        <input type="hidden" name="idTarjeta" id="idTarjeta" value=""><!--Variable oculta para saber id de tarjeta a editar-->
+                        <input type="hidden" name="idTarjetaAutoAsignar" id="idTarjetaAutoAsignar" value=""><!--Variable oculta para saber id de tarjeta a editar-->
                 	</form>
                 	<p id="solicitante"></p>
                 	<p id="fechaSolicitud"></p>
@@ -236,7 +236,7 @@ $funciones = new Funciones;
                 <div class="modal-body">
                     <form id="formAsignar">
                         <input type="hidden" name="pagina" value="asignaTarjeta" /><!--Variable oculta para identificar en el controlador-->
-                        <input type="hidden" name="idTarjeta" id="idTarjeta" value=""><!--Variable oculta para saber id de tarjeta a editar-->
+                        <input type="hidden" name="idTarjetaAsignar" id="idTarjetaAsignar" value=""><!--Variable oculta para saber id de tarjeta a editar-->
                         <div class="form-group">
                             <label for="txtUsuarioAsignado">Usuario (*)</label>
                             <select class="form-control" id="txtUsuarioAsignado" name="txtUsuarioAsignado">
