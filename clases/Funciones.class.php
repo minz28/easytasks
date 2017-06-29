@@ -1210,7 +1210,7 @@ class Funciones extends Conexion{
 					echo "<td>".$encuesta['periodo']."</td>";
 					echo "<td>".$encuesta['tipoEncuesta']."</td>";
 					echo "<td></td>";
-					echo "<td></td>";
+					echo "<td><button type='button' class='btn btn-default' data-toggle='modal' data-target='#modalAdd'><span class='glyphicon glyphicon-plus'></span></button></td>";
 					echo "<td><button type='button' class='btn btn-default' onclick='editaEncuesta(".$json.")'><span class='glyphicon glyphicon-edit'></span></button></td>";
 					echo "<td><button type='button' class='btn btn-default' onclick='eliminaEncuesta(".$encuesta['idEncuesta'].")'><span class='glyphicon glyphicon-remove'></span></button></td>";
 					echo "</tr>";
@@ -1269,7 +1269,7 @@ class Funciones extends Conexion{
     	if($record=$this->insertEasyTasks($sql)){
 	            return 1;
 	        } else {
-	            echo "<script>alert('Error al eliminar encuesta');</script>";
+	            echo "<script>alert('Error al eliminar encues');</script>";
 	            echo "<script>window.history.back();</script>";
 	        }	
     	} catch (Exception $e) {

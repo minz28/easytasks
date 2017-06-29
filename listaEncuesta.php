@@ -43,7 +43,7 @@ $funciones = new Funciones;
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalAdd"><span class="glyphicon glyphicon-plus"></span></button><br><br>
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalAdd"><span class="glyphicon glyphicon-plus"></span></button><br><br>            
         </div>
     </div>
     <div class="row">
