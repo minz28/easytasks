@@ -51,12 +51,15 @@ $funciones = new Funciones;
             <!--<table class="table table-hover table-condensed table-responsive" style="box-shadow: 10px 10px 5px lightgrey;">--><!--Tabla CON sombra-->
             <table class="table table-hover table-condensed table-responsive"><!--Tabla SIN sombra-->
                 <tr>
-                    <th>N°</th>
-                    <th>Area</th>
+                    <th>Año</th>
+                    <th>Período</th>
+                    <th>Tipo de encuesta</th>
+                    <th>Ver</th>
+                    <th>Asignar/Eliminar preguntas</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>
-                <?php $funciones->listaCategoria(); ?>
+                <?php $funciones->listaEncuestas(); ?>
             </table>
         </div>
     </div>
@@ -66,21 +69,32 @@ $funciones = new Funciones;
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Ingresar nueva area</h4>
+                    <h4 class="modal-title">Ingresar nueva encuesta</h4>
                     <small>(*) Campos obligatorios</small>
                 </div>
                 <div class="modal-body">
                     <form id="form">
-                        <input type="hidden" name="pagina" value="creaCategoria" /><!--Variable oculta para identificar en el controlador-->
+                        <input type="hidden" name="pagina" value="creaEncuesta" /><!--Variable oculta para identificar en el controlador-->
                         <div class="form-group">
-                            <label for="txtDescripcion">Area (*)</label>
-                            <input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion" placeholder="Descripción area">
+                            <label for="txtAnio">Año (*)</label>
+                            <input type="text" class="form-control" id="txtAnio" name="txtAnio" placeholder="Año encuesta" maxlength="4">
+                        </div>
+                        <div class="form-group">
+                            <label for="txtPeriodo">Período (*)</label>
+                            <input type="text" class="form-control" id="txtPeriodo" name="txtPeriodo" placeholder="Período encuesta">
+                        </div>
+                        <div class="form-group">
+                            <label for="cboTipoEncuesta">Tipo de encuesta (*)</label>
+                            <select class="form-control" id="cboTipoEncuesta" name="cboTipoEncuesta">
+                                <option value="seleccione">Seleccione</option>
+                                <?php $funciones->cboTipoEncuesta(); ?>
+                            </select>
                         </div>
                     </form>
                 </div>
                 <br>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="validaCrearCategoria();">Grabar</button>
+                    <button type="button" class="btn btn-default" onclick="validaCrearEncuesta();">Grabar</button>
                 </div>                
             </div>
         </div>
@@ -99,13 +113,24 @@ $funciones = new Funciones;
                         <input type="hidden" name="pagina" id="pagina" value="" /><!--Variable oculta para identificar en el controlador-->
                         <input type="hidden" name="idEdit" id="idEdit" value=""><!--Variable oculta para saber id de tarea a editar-->
                         <div class="form-group">
-                            <label for="txtDescripcion">Area (*)</label>
-                            <input type="text" class="form-control" id="txtDescripcionEdit" name="txtDescripcionEdit" placeholder="Descripción area">
+                            <label for="txtAnioEdit">Año (*)</label>
+                            <input type="text" class="form-control" id="txtAnioEdit" name="txtAnioEdit" placeholder="Año encuesta" maxlength="4">
+                        </div>
+                        <div class="form-group">
+                            <label for="txtPeriodoEdit">Período (*)</label>
+                            <input type="text" class="form-control" id="txtPeriodoEdit" name="txtPeriodoEdit" placeholder="Período encuesta">
+                        </div>
+                        <div class="form-group">
+                            <label for="cboTipoEncuestaEdit">Tipo de encuesta (*)</label>
+                            <select class="form-control" id="cboTipoEncuestaEdit" name="cboTipoEncuestaEdit">
+                                <option value="seleccione">Seleccione</option>
+                                <?php $funciones->cboTipoEncuesta(); ?>
+                            </select>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="guardaEditaCategoria()">Grabar</button>
+                    <button type="button" class="btn btn-default" onclick="guardaEditaEncuesta()">Grabar</button>
                 </div>                
             </div>
         </div>

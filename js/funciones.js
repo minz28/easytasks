@@ -421,3 +421,54 @@ function eliminaPregunta(id){
         return false;
     }
 }
+
+//Validar formulario ingreso de tarjeta
+function validaCrearEncuesta(){
+    if(document.getElementById('txtAnio').value.trim() == "" || document.getElementById('txtPeriodo').value.trim() == "" || document.getElementById('cboTipoEncuesta').value == "seleccione")
+    {
+        alert("Completar campos obligatorios");
+    } else {        
+        document.getElementById('form').action = 'controlador/controlador.php';
+        document.getElementById('form').method = 'post';
+        document.getElementById('form').submit();
+        //alert("Enviado");
+    }
+}
+
+function editaEncuesta(json){
+    $('#pagina').val('editaEncuesta');
+    $('#idEdit').val(json.idEncuesta);
+    $('#txtAnioEdit').val(json.anio);
+    $('#txtPeriodoEdit').val(json.periodo);
+    $('#cboTipoEncuestaEdit option[value="'+ json.idTipoEncuesta +'"]').attr('selected',true);
+    $('#modalEdit').modal('show');
+}
+
+//Validar formulario editar tarea
+function guardaEditaEncuesta(){    
+    if(document.getElementById('txtAnioEdit').value.trim() == "" || document.getElementById('txtPeriodoEdit').value.trim() == "" || document.getElementById('cboTipoEncuestaEdit').value == "seleccione")
+    {
+        alert("Completar campos obligatorios");
+    } else {
+        if(confirm("¿Está seguro de editar esta encuesta?") == true){            
+            document.getElementById('formEdit').action = 'controlador/controlador.php';
+            document.getElementById('formEdit').method = 'post';
+            document.getElementById('formEdit').submit();
+        } else {
+            $('#modalEdit').modal('hide');
+        }
+    }
+}
+
+function eliminaEncuesta(id){
+    if(confirm("¿Está seguro que desea eliminar esta encuesta?") == true){
+        $('#pagina').val('eliminaEncuesta');
+        $('#idEdit').val(id);
+        //alert($('#pagina').val());
+        document.getElementById('formEdit').action = 'controlador/controlador.php';
+        document.getElementById('formEdit').method = 'post';
+        document.getElementById('formEdit').submit();
+    } else {
+        return false;
+    }
+}

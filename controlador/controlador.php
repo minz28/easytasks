@@ -220,6 +220,33 @@ switch($_REQUEST['pagina']){
 
     break;
 
+    case 'creaEncuesta':
+    
+        $respuesta = $controlador->creaEncuesta($_POST);
+        if($respuesta == 1){
+            header("location:../listaEncuesta.php");
+        }
+        
+    break;
+
+    case 'editaEncuesta':
+        
+        $respuesta = $controlador->editaEncuesta($_POST);        
+        if($respuesta == 1){
+            header("location:../listaEncuesta.php");
+        }
+
+    break;
+
+    case 'eliminaEncuesta':
+    
+        $respuesta = $controlador->eliminaEncuesta($_POST);
+        if($respuesta == 1){
+            header("location:../listaEncuesta.php");
+        }
+
+    break;
+
 }
 
 ?>
