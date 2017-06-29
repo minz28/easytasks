@@ -193,6 +193,32 @@ switch($_REQUEST['pagina']){
 
     break;
     
+    case 'creaPregunta':
+    
+        $respuesta = $controlador->creaPregunta($_POST);
+        if($respuesta == 1){
+            header("location:../listaPreguntas.php");
+        }
+        
+    break;
+
+    case 'editaPregunta':
+        
+        $respuesta = $controlador->editaPregunta($_POST);        
+        if($respuesta == 1){
+            header("location:../listaPreguntas.php");
+        }
+
+    break;
+
+    case 'eliminaPregunta':
+    
+        $respuesta = $controlador->eliminaPregunta($_POST);
+        if($respuesta == 1){
+            header("location:../listaPreguntas.php");
+        }
+
+    break;
 
 }
 

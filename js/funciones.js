@@ -372,3 +372,52 @@ function autoAsignacionTarjeta(){
         document.getElementById('formAutoAsignar').submit();
     }
 }
+
+//Validar formulario ingreso de tarjeta
+function validaCrearPregunta(){
+    if(document.getElementById('txtDescripcion').value.trim() == "")
+    {
+        alert("Completar campos obligatorios");
+    } else {        
+        document.getElementById('form').action = 'controlador/controlador.php';
+        document.getElementById('form').method = 'post';
+        document.getElementById('form').submit();
+        //alert("Enviado");
+    }
+}
+
+function editaPregunta(json){
+    $('#pagina').val('editaPregunta');
+    $('#idEdit').val(json.idPregunta);
+    $('#txtDescripcionEdit').val(json.pregunta);
+    $('#modalEdit').modal('show');
+}
+
+//Validar formulario editar tarea
+function guardaEditaPregunta(){    
+    if(document.getElementById('txtDescripcionEdit').value.trim() == "")
+    {
+        alert("Completar campos obligatorios");
+    } else {
+        if(confirm("¿Está seguro de editar esta pregunta?") == true){            
+            document.getElementById('formEdit').action = 'controlador/controlador.php';
+            document.getElementById('formEdit').method = 'post';
+            document.getElementById('formEdit').submit();
+        } else {
+            $('#modalEdit').modal('hide');
+        }
+    }
+}
+
+function eliminaPregunta(id){
+    if(confirm("¿Está seguro que desea eliminar esta pregunta?") == true){
+        $('#pagina').val('eliminaPregunta');
+        $('#idEdit').val(id);
+        //alert($('#pagina').val());
+        document.getElementById('formEdit').action = 'controlador/controlador.php';
+        document.getElementById('formEdit').method = 'post';
+        document.getElementById('formEdit').submit();
+    } else {
+        return false;
+    }
+}

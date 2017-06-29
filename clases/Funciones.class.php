@@ -229,6 +229,18 @@ class Funciones extends Conexion{
 		echo $arreglo['cboPerfil'];
 	}
 
+	function cboTipoEncuesta(){
+		$sql="	SELECT 	TE.ID_TIPO_ENCUESTA, TE.DESCRIPCION_TIPO_ENCUESTA
+				FROM 	TIPO_ENCUESTA TE
+				WHERE 	TE.ESTADO_REGISTRO = 1";
+		$record = $this->selectEasyTasks($sql);
+		$arreglo['cboTipoEncuesta']="";
+		while($tarea = mysql_fetch_assoc($record)){
+			$arreglo['cboTipoEncuesta'] .= "<option value='".$tarea['ID_TIPO_ENCUESTA']."'>".$tarea['DESCRIPCION_TIPO_ENCUESTA']."</option>";
+		}
+		echo $arreglo['cboTipoEncuesta'];
+	}
+
     function creaTarjeta($datos){
     	try {
     		if ($_SESSION['perfil'] == 3) {
@@ -1082,6 +1094,95 @@ class Funciones extends Conexion{
     	}
     }
     
+    function listaPreguntas(){
+    	try {
+    		$sql = "SELECT
+    					P.ID_PREGUNTA,
+						P.PREGUNTA
+					FROM
+						PREGUNTA P
+					WHERE
+						P.EMPRESA = $_SESSION[empresa]
+					AND P.ESTADO_REGISTRO = 1";
+					//echo $sql; die();
+			if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					$arreglo[$i]['idPregunta'] = $datos['ID_PREGUNTA'];
+					$arreglo[$i]['pregunta'] = $datos['PREGUNTA'];
+					$i++;
+				}
+				$indiceLista=1;
+				foreach ($arreglo as $pregunta) {
+					$json = json_encode($pregunta);
+					echo "<tr>";
+					echo "<td>".$indiceLista."</td>";
+					echo "<td>".$pregunta['pregunta']."</td>";
+					echo "<td><button type='button' class='btn btn-default' onclick='editaPregunta(".$json.")'><span class='glyphicon glyphicon-edit'></span></button></td>";
+					echo "<td><button type='button' class='btn btn-default' onclick='eliminaPregunta(".$pregunta['idPregunta'].")'><span class='glyphicon glyphicon-remove'></span></button></td>";
+					echo "</tr>";
+					$indiceLista++;
+				}
+			} else {
+				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado preguntas, si desea agregar una haga click <a href='#' data-toggle='modal' data-target='#modalAdd'>acá</a>.</h4></td></tr>";
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+    
+    function creaPregunta($datos){
+    	try {
+    		$sql="INSERT INTO PREGUNTA (PREGUNTA, EMPRESA, ESTADO_REGISTRO) 
+	                VALUES ('$datos[txtDescripcion]', $_SESSION[empresa], 1)";
+	                //echo $sql;die();
+	        if($record=$this->insertEasyTasks($sql)){
+	            //echo "<script>alert('La tarea fue agregada exitosamente');</script>";
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al agregar pregunta');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function editaPregunta($datos){
+    	try {
+			$sql="	UPDATE 	PREGUNTA
+    				SET 	PREGUNTA = '$datos[txtDescripcionEdit]'
+					WHERE 	ID_PREGUNTA = $datos[idEdit]";
+			//echo $sql; die();
+			if($record=$this->insertEasyTasks($sql)){	            
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al editar pregunta');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function eliminaPregunta($datos){
+    	try {
+    		$sql = "UPDATE PREGUNTA
+					SET ESTADO_REGISTRO = 2
+					WHERE
+						ID_PREGUNTA = ".$datos['idEdit'];
+			//echo $sql; die();
+    	if($record=$this->insertEasyTasks($sql)){
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al eliminar pregunta');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }	
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
 
 }
 ?>
