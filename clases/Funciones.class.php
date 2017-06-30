@@ -241,6 +241,32 @@ class Funciones extends Conexion{
 		echo $arreglo['cboTipoEncuesta'];
 	}
 
+	//SIN USO HASTA ARREGLAR PASO DE VRIABLES
+	function cboPreguntaAsignada($encuesta){
+		$sql="	SELECT 	P.ID_PREGUNTA, P.PREGUNTA
+				FROM 	PREGUNTA P
+				WHERE 	P.ID_PREGUNTA NOT IN (SELECT PE.PREGUNTA FROM PREGUNTA_ENCUESTA PE WHERE PE.ENCUESTA = $encuesta)
+				AND 	P.EMPRESA = $_SESSION[empresa]
+				AND 	P.ESTADO_REGISTRO = 1";
+		$record = $this->selectEasyTasks($sql);
+		while($pregunta = mysql_fetch_assoc($record)){
+			$arreglo['cboPregunta'] .= "<option value='".$pregunta['ID_PREGUNTA']."'>".$pregunta['PREGUNTA']."</option>";
+		}
+		echo $arreglo['cboPregunta'];
+	}
+
+	function cboPregunta(){
+		$sql="	SELECT 	P.ID_PREGUNTA, P.PREGUNTA
+				FROM 	PREGUNTA P
+				WHERE 	P.EMPRESA = $_SESSION[empresa]
+				AND 	P.ESTADO_REGISTRO = 1";
+		$record = $this->selectEasyTasks($sql);
+		while($pregunta = mysql_fetch_assoc($record)){
+			$arreglo['cboPregunta'] .= "<option value='".$pregunta['ID_PREGUNTA']."'>".$pregunta['PREGUNTA']."</option>";
+		}
+		echo $arreglo['cboPregunta'];
+	}
+
     function creaTarjeta($datos){
     	try {
     		if ($_SESSION['perfil'] == 3) {
@@ -260,7 +286,7 @@ class Funciones extends Conexion{
 	            	echo "<script>alert('Error al crear tarjeta');</script>";
 	            	echo "<script>window.history.back();</script>";
 	            }
-    		} elseif ($_SESSION['perfil'] != 1) {//CAMBIAR POR $_SESSION['perfil'] == 2
+    		} elseif ($_SESSION['perfil'] != 3) {//CAMBIAR POR $_SESSION['perfil'] == 2
     			$sql="INSERT INTO TARJETA (TAREA, CLIENTE_SOLICITANTE, FECHA_SOLICITUD, PRIORIDAD, OBSERVACIONES, ADJUNTO, ESTADO_TARJETA, ESTADO_REGISTRO) 
 		                VALUES ($datos[cboTarea], $datos[txtSolicitante], NOW(), 1, '$datos[txtObservaciones]', '$datos[fileAdjunto]', 1, 1)";
 		                //echo $sql;die();
@@ -1185,7 +1211,7 @@ class Funciones extends Conexion{
 
     function listaEncuestas(){					
     	try {
-    		$sql = "SELECT 		E.ID_ENCUESTA, E.ANIO, E.PERIODO, E.TIPO_ENCUESTA, TE.DESCRIPCION_TIPO_ENCUESTA
+    		$sql = "SELECT 		E.ID_ENCUESTA, E.ANIO, E.PERIODO, E.TIPO_ENCUESTA, E.ESTADO_ENCUESTA, TE.DESCRIPCION_TIPO_ENCUESTA
 					FROM 		ENCUESTA E
 					INNER JOIN 	TIPO_ENCUESTA TE
 					ON 			E.TIPO_ENCUESTA = TE.ID_TIPO_ENCUESTA
@@ -1201,6 +1227,7 @@ class Funciones extends Conexion{
 					$arreglo[$i]['periodo'] = $datos['PERIODO'];
 					$arreglo[$i]['idTipoEncuesta'] = $datos['TIPO_ENCUESTA'];
 					$arreglo[$i]['tipoEncuesta'] = $datos['DESCRIPCION_TIPO_ENCUESTA'];
+					$arreglo[$i]['estadoEncuesta'] = $datos['ESTADO_ENCUESTA'];
 					$i++;
 				}
 				foreach ($arreglo as $encuesta) {
@@ -1209,8 +1236,11 @@ class Funciones extends Conexion{
 					echo "<td>".substr($encuesta['anio'], 0, 4)."</td>";
 					echo "<td>".$encuesta['periodo']."</td>";
 					echo "<td>".$encuesta['tipoEncuesta']."</td>";
-					echo "<td></td>";
-					echo "<td><button type='button' class='btn btn-default' data-toggle='modal' data-target='#modalAdd'><span class='glyphicon glyphicon-plus'></span></button></td>";
+					echo "<td><button type='button' class='btn btn-default' onclick='verEncuesta(".$encuesta['idEncuesta'].")'><span class='glyphicon glyphicon-eye-open'></span></button></td>";
+					echo "<td><button type='button' class='btn btn-default' onclick='asignaPregunta(".$encuesta['idEncuesta'].")'><span class='glyphicon glyphicon-plus'></span></button></td>";
+					echo "<td><button type='button' class='btn btn-default' onclick='publicaEncuesta(".$encuesta['idEncuesta'].")'><span class='glyphicon glyphicon-publish'></span></button></td>";
+					if($encuesta['estadoEncuesta'] == 0){ $estadoEncuesta = "Inactiva"; } else { $estadoEncuesta = "Activa"; }
+					echo "<td>$estadoEncuesta</td>";
 					echo "<td><button type='button' class='btn btn-default' onclick='editaEncuesta(".$json.")'><span class='glyphicon glyphicon-edit'></span></button></td>";
 					echo "<td><button type='button' class='btn btn-default' onclick='eliminaEncuesta(".$encuesta['idEncuesta'].")'><span class='glyphicon glyphicon-remove'></span></button></td>";
 					echo "</tr>";
@@ -1226,8 +1256,8 @@ class Funciones extends Conexion{
     function creaEncuesta($datos){
     	try {
     		$annio = $datos['txtAnio']."-00-00";
-    		$sql="INSERT INTO ENCUESTA (TIPO_ENCUESTA, PERIODO, ANIO, EMPRESA, ESTADO_REGISTRO) 
-	                VALUES ($datos[cboTipoEncuesta], '$datos[txtPeriodo]', '$annio', $_SESSION[empresa], 1)";
+    		$sql="INSERT INTO ENCUESTA (TIPO_ENCUESTA, PERIODO, ANIO, ESTADO_ENCUESTA, EMPRESA, ESTADO_REGISTRO) 
+	                VALUES ($datos[cboTipoEncuesta], '$datos[txtPeriodo]', '$annio', 0, $_SESSION[empresa], 1)";
 	                //echo $sql;die();
 	        if($record=$this->insertEasyTasks($sql)){
 	            //echo "<script>alert('La tarea fue agregada exitosamente');</script>";
@@ -1277,8 +1307,147 @@ class Funciones extends Conexion{
     	}
     }
 
+    function asignaPregunta($datos){
+    	try {
+    		$sql="INSERT INTO PREGUNTA_ENCUESTA (ENCUESTA, PREGUNTA) 
+	                VALUES ($datos[idEncuesta], $datos[cboPreguntaAsignada])";
+	                //echo $sql;die();
+	        if($record=$this->insertEasyTasks($sql)){
+	            //echo "<script>alert('La tarea fue agregada exitosamente');</script>";
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al asignar pregunta a encuesta');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function verEncuesta($datos){
+    	try {
+    		$sql="	SELECT 		P.PREGUNTA
+					FROM 		PREGUNTA_ENCUESTA PE
+					INNER JOIN 	PREGUNTA P
+					ON 			PE.PREGUNTA = P.ID_PREGUNTA
+					WHERE 		PE.ENCUESTA = $datos[idEncuestaVer]";
+	                //echo $sql;die();
+	        if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					$arreglo[$i] = $datos['PREGUNTA'];
+					$i++;
+				}
+				$valorIndice = 1;
+				foreach ($arreglo as $pregunta) {
+					$json = json_encode($pregunta);
+					echo "<div>$valorIndice - $pregunta</div>";
+					echo "<div class='radio'>";
+					echo "<label><input type='radio' name='respuesta' value='1'>1</label>";
+					echo "<label><input type='radio' name='respuesta' value='2'>2</label>";
+					echo "<label><input type='radio' name='respuesta' value='3'>3</label>";
+					echo "<label><input type='radio' name='respuesta' value='4'>4</label>";
+					echo "<label><input type='radio' name='respuesta' value='5'>5</label>";
+					echo "</div>";
+					$valorIndice++;
+				}
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
 
 
+
+    function despliegaEncuesta($datos){
+    	try {
+    		$sql="	SELECT 		P.PREGUNTA
+					FROM 		PREGUNTA_ENCUESTA PE
+					INNER JOIN 	PREGUNTA P
+					ON 			PE.PREGUNTA = P.ID_PREGUNTA
+					WHERE 		PE.ENCUESTA = $datos[idEncuestaVer]";
+	                //echo $sql;die();
+	        if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					$arreglo[$i] = $datos['PREGUNTA'];
+					$i++;
+				}
+				$valorIndice = 1;
+				foreach ($arreglo as $pregunta) {
+					$json = json_encode($pregunta);
+					echo "<div>$valorIndice - $pregunta</div>";
+					echo "<div class='radio'>";
+					echo "<label><input type='radio' name='respuesta' value='1'>1</label>";
+					echo "<label><input type='radio' name='respuesta' value='2'>2</label>";
+					echo "<label><input type='radio' name='respuesta' value='3'>3</label>";
+					echo "<label><input type='radio' name='respuesta' value='4'>4</label>";
+					echo "<label><input type='radio' name='respuesta' value='5'>5</label>";
+					echo "</div>";
+					$valorIndice++;
+				}
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function publicaEncuesta($idEncuesta){
+    	echo "<script>alert(".$idEncuesta.");</alert>"; die();
+    	try {
+    		$sql="INSERT INTO PREGUNTA_ENCUESTA (ENCUESTA, PREGUNTA) 
+	                VALUES ($datos[idEncuesta], $datos[cboPreguntaAsignada])";
+	                //echo $sql;die();
+	        if($record=$this->insertEasyTasks($sql)){
+	            //echo "<script>alert('La tarea fue agregada exitosamente');</script>";
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al asignar pregunta a encuesta');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function validaTareaVigente(){
+    	try {
+    		$sql="SELECT TARJETA FROM TARJETA_USUARIO WHERE USUARIO_RESPONSABLE = $_SESSION[idUsuario] AND FECHA_TERMINO = '0000-00-00'";
+    		//$sql="SELECT TARJETA FROM TARJETA_USUARIO WHERE USUARIO_RESPONSABLE = $_SESSION[idUsuario] AND FECHA_INICIO != '0000-00-00' AND FECHA_TERMINO = '0000-00-00'";
+	                //echo $sql;die();
+	        if($record = $this->selectEasyTasks($sql)){
+	        	while ($datos = mysql_fetch_assoc($record)) {
+					$tarjeta = $datos['TARJETA'];
+				}
+	        	return $tarjeta;
+			} else {
+				return 2;
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function finalizaTarea(){
+    	try {
+    		$sql = "UPDATE TARJETA_USUARIO
+					SET FECHA_TERMINO = DATE(NOW()), HORA_TERMINO = TIME(NOW()), DURACION_TOTAL = TIMEDIFF(HORA_TERMINO, HORA_INICIO)
+					WHERE TARJETA = $_SESSION[tarjetaVigente]";
+			//echo $sql; die();
+    	if($record=$this->insertEasyTasks($sql)){
+    			$sql2 = "UPDATE TARJETA SET ESTADO_TARJETA = 3 WHERE ID_TARJETA = $_SESSION[tarjetaVigente]";
+    			if($record=$this->insertEasyTasks($sql2)){
+    				$_SESSION['tarjetaVigente'] = "";
+	            	return 1;	
+    			}    			
+	        } else {
+	            echo "<script>alert('Error al finalizar tarjeta');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }	
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
 
 
 

@@ -472,3 +472,46 @@ function eliminaEncuesta(id){
         return false;
     }
 }
+
+function asignaPregunta(idEncuesta){
+    $('#idEncuesta').val(idEncuesta);
+    $('#modalAsignaPregunta').modal('show');
+}
+
+function guardaAsignaPregunta(){
+    if(confirm("¿Está seguro que desea eliminar asignar esta pregunta?") == true){
+        $('#pagina').val('asignaPregunta');
+        //alert($('#pagina').val());
+        document.getElementById('formAsignaPregunta').action = 'controlador/controlador.php';
+        document.getElementById('formAsignaPregunta').method = 'post';
+        document.getElementById('formAsignaPregunta').submit();
+    } else {
+        return false;
+    }
+}
+
+function verEncuesta(idEncuesta){
+    $('#idEncuestaVer').val(idEncuesta);
+    document.getElementById('formVerEncuesta').action = 'controlador/controlador.php';
+    document.getElementById('formVerEncuesta').method = 'post';
+    document.getElementById('formVerEncuesta').submit();
+    $('#modalVerEncuesta').modal('show');    
+}
+
+function publicaEncuesta(idEncuesta){
+    if(confirm("¿Está seguro que desea publicar esta encuesta?") == true){
+        window.location('controlador/controlador.php?pagina=publicaEncuesta&idEncuesta='+idEncuesta);
+    } else {
+        return false;
+    }
+}
+
+function finalizaTarea(idEncuesta){
+    if(confirm("¿Está seguro que desea dar por finalizada su tarjeta actual?") == true){
+        document.getElementById('form').action = 'controlador/controlador.php';
+        document.getElementById('form').method = 'post';
+        document.getElementById('form').submit();
+    } else {
+        return false;
+    }
+}

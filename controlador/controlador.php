@@ -8,12 +8,18 @@ switch($_REQUEST['pagina']){
     
         //echo "hola, vas bien encamidado pequeño padawan :D";
         if($respuesta = $controlador->validaLogin($_POST)){
-            session_start();
+            #session_start();
             $_SESSION['idUsuario'] = $respuesta['idUsuario'];
             $_SESSION['nombreUsuario'] = $respuesta['nombreUsuario'];
             $_SESSION['empresa'] = $respuesta['empresa'];
             $_SESSION['perfil'] = $respuesta['perfil'];
-            header("location:../board.php");
+            $respuesta2 = $controlador->validaTareaVigente();            
+            if($respuesta2 == 2){
+                header("location:../board.php");
+            } else {
+                $_SESSION['tarjetaVigente'] = $respuesta2;
+                header("location:../tareaVigente.php");
+            }            
         }
         elseif($respuesta == 0){            
             header("location:../index.php?mensaje=noexiste");
@@ -23,10 +29,14 @@ switch($_REQUEST['pagina']){
 
     case 'creaTarjeta':
     
-        //echo "hola, vas bien encamidado pequeño padawan :D";
         $respuesta = $controlador->creaTarjeta($_POST);
-        if($respuesta == 1){        	
-            header("location:../board.php");
+        if($respuesta == 1){
+            if ($_SESSION['perfil'] == 2) {
+                header("location:../board.php");
+            } elseif ($_SESSION['perfil'] == 3){
+                header("location:../tareaVigente.php");
+            }
+            
         }
 
     break;
@@ -246,6 +256,40 @@ switch($_REQUEST['pagina']){
         }
 
     break;
+
+    case 'asignaPregunta':
+        
+        $respuesta = $controlador->asignaPregunta($_POST);
+        if($respuesta == 1){
+            header("location:../listaEncuesta.php");
+        }
+
+    break;
+
+    case 'verEncuesta':
+        
+        //$controlador->verEncuesta($_POST);
+
+    break;
+
+    case 'publicaEncuesta':
+        
+        $respuesta = $controlador->publicaEncuesta($_GET['idEncuesta']);
+        if($respuesta == 1){
+            header("location:../listaEncuesta.php");
+        }
+
+    break;
+
+    case 'finalizaTarea':
+        
+        $respuesta = $controlador->finalizaTarea();
+        if($respuesta == 1){
+            header("location:../board.php");
+        }
+
+    break;
+
 
 }
 

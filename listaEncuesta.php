@@ -56,6 +56,8 @@ $funciones = new Funciones;
                     <th>Tipo de encuesta</th>
                     <th>Ver</th>
                     <th>Asignar/Eliminar preguntas</th>
+                    <th>Publicar encuesta</th>
+                    <th>Estado encuesta</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>
@@ -135,7 +137,57 @@ $funciones = new Funciones;
             </div>
         </div>
     </div>
-    <!--Fin modal DETALLE tarjeta-->
+    <!--Fin modal EDITAR tarjeta-->
+    <!--Inicio modal ASIGNA preguntas-->
+    <div class="modal fade" id="modalAsignaPregunta" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 id="nombreTarea" class="modal-title">Asignar preguntas a encuesta</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="formAsignaPregunta">
+                        <input type="hidden" name="pagina" id="pagina" value="asignaPregunta" /><!--Variable oculta para identificar en el controlador-->
+                        <input type="hidden" name="idEncuesta" id="idEncuesta" value=""><!--Variable oculta para saber id de tarea a editar-->
+                        <div class="form-group">
+                            <label for="cboPreguntaAsignada">Pregunta (*)</label>
+                            <select class="form-control" id="cboPreguntaAsignada" name="cboPreguntaAsignada">
+                                <option value="seleccione">Seleccione</option>
+                                <?php $funciones->cboPregunta(); ?>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="guardaAsignaPregunta()">Grabar</button>
+                </div>                
+            </div>
+        </div>
+    </div>
+    <!--Fin modal ASIGNA preguntas-->
+    <!--Inicio modal VER encuesta-->
+    <div class="modal fade" id="modalVerEncuesta" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 id="nombreEncuesta" class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                	<form id="formVerEncuesta">
+                		<input type="hidden" name="pagina" id="pagina" value="verEncuesta" /><!--Variable oculta para identificar en el controlador-->
+                		<input type="hidden" name="idEncuestaVer" id="idEncuestaVer" value=""><!--Variable oculta para saber id de encuesta a mostrar-->
+                		<?php $funciones->verEncuesta(); ?>
+                	</form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="guardaAsignaPregunta()">Grabar</button>
+                </div>                
+            </div>
+        </div>
+    </div>
+    <!--Fin modal VER encuesta-->
 </div>
 
 <div class="panel-footer">
