@@ -52,7 +52,8 @@ $funciones = new Funciones;
         <div class="col-md-3">
             <table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">
                 <tr>
-                    <th class="text-center" style="background-color: #F7FE2E;">PENDIENTES</th>
+                    <!--<th class="text-center" style="background-color: #F7FE2E;">PENDIENTES</th>-->
+                    <th class="text-center" style="background-color: #fdfd96; color: black;">PENDIENTES</th>
                 </tr>
                 <?php $funciones->muestraTarjetaPendientes(); ?>
             </table>
@@ -60,7 +61,8 @@ $funciones = new Funciones;
         <div class="col-md-3">
             <table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">
                 <tr>
-                    <th class="text-center" style="background-color: #2E2EFE">EN DESARROLLO</th>
+                    <!--<th class="text-center" style="background-color: #2E2EFE">EN DESARROLLO</th>-->
+                    <th class="text-center" style="background-color: #779ecb; color: black;">EN DESARROLLO</th>
                 </tr>
                 <?php $funciones->muestraTarjetaEnDesarrollo(); ?>
             </table>
@@ -68,7 +70,8 @@ $funciones = new Funciones;
         <div class="col-md-3">
             <table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">
                 <tr>
-                    <th class="text-center" style="background-color: #2EFE2E">TERMINADAS</th>
+                    <!--<th class="text-center" style="background-color: #2EFE2E">TERMINADAS</th>-->
+                    <th class="text-center" style="background-color: #6ae96a; color: black;">TERMINADAS</th>
                 </tr>
                 <?php $funciones->muestraTarjetaTerminadas(); ?>
             </table>
@@ -76,7 +79,8 @@ $funciones = new Funciones;
         <div class="col-md-3">
             <table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">
                 <tr>
-                    <th class="text-center" style="background-color: #FE2E2E">IMPEDIDAS</th>
+                    <!--<th class="text-center" style="background-color: #FE2E2E">IMPEDIDAS</th>-->
+                    <th class="text-center" style="background-color: #c23b22; color: black;">IMPEDIDAS</th>
                 </tr>
                 <?php $funciones->muestraTarjetaImpedidas(); ?>
             </table>
@@ -259,11 +263,7 @@ $funciones = new Funciones;
     <!--Fin modal ASIGNAR tarjeta-->
 </div>
 
-<div class="panel-footer">
-    <div class="container">
-        <p>EasyTask® 2017 | Miguel Pinto - Miguel Inzunza - Hans Silva | Todos los derechos reservados</p>
-    </div>
-</div>
+<?php include("footer.php"); ?>
 
 </body>
 </html>

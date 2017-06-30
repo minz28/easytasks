@@ -155,11 +155,7 @@ $funciones = new Funciones;
     <!--Fin modal DETALLE tarjeta-->
 </div>
 
-<div class="panel-footer">
-    <div class="container">
-        <p>EasyTask® 2017 | Miguel Pinto - Miguel Inzunza - Hans Silva | Todos los derechos reservados</p>
-    </div>
-</div>
+<?php include("footer.php"); ?>
 
 </body>
 </html>

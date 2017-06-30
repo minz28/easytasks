@@ -355,7 +355,7 @@ class Funciones extends Conexion{
 					AND TJ.ESTADO_TARJETA = 1
 					AND TJ.ESTADO_REGISTRO = 1
 					ORDER BY
-						TJ.ESTADO_TARJETA ASC, TJ.FECHA_SOLICITUD ASC";
+						TJ.PRIORIDAD DESC, TJ.FECHA_SOLICITUD ASC";
 						//echo $sql; die();
 			if($record = $this->selectEasyTasks($sql)){
 				$i=0;
@@ -378,7 +378,7 @@ class Funciones extends Conexion{
 				foreach ($arreglo as $tarjeta) {
 					//echo "<tr><td class='warning' style='background: url(ruta de la imagen);'>";
 					$tarjetaJson=json_encode($tarjeta);
-					echo "<tr><td style='background-color: #FFFF00'>";
+					echo "<tr><td style='background-color: #fdfd96; color: black'>";
 					echo "<a style='color: black;' href='#' onclick='detalleTarjeta(".$tarjetaJson.")'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
@@ -392,7 +392,7 @@ class Funciones extends Conexion{
 					echo "</td></tr>";
 				}
 			} else {
-				echo "<tr><td style='background-color: #FFFF00'>";
+				echo "<tr><td style='background-color: #fdfd96; color: black'>";
 				echo "<h6>NO EXISTEN TARJETAS PENDIENTES</h6>";
 				echo "</td></tr>";
 			}
@@ -441,13 +441,13 @@ class Funciones extends Conexion{
 				}
 				//var_dump($arreglo); die();
 				foreach ($arreglo as $tarjeta) {
-					echo "<tr><td style='background-color: #0000FF'>";
+					echo "<tr><td style='background-color: #779ecb; color: black'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
 					echo "</td></tr>";
 				}
 			} else {
-				echo "<tr><td style='background-color: #0000FF'>";
+				echo "<tr><td style='background-color: #779ecb; color: black'>";
 				echo "<h6>NO EXISTEN TARJETAS EN DESARROLLO</h6>";
 				echo "</td></tr>";
 			}
@@ -476,9 +476,11 @@ class Funciones extends Conexion{
 					INNER JOIN CLIENTE C ON TJ.CLIENTE_SOLICITANTE = C.ID_CLIENTE
 					INNER JOIN PRIORIDAD P ON TJ.PRIORIDAD = P.ID_PRIORIDAD
 					INNER JOIN ESTADO_TARJETA ET ON TJ.ESTADO_TARJETA = ET.ID_ESTADO_TARJETA
+					INNER JOIN TARJETA_USUARIO TU ON TJ.ID_TARJETA = TU.TARJETA
 					WHERE
 						C.EMPRESA = ".$_SESSION['empresa']."
 					AND TJ.ESTADO_TARJETA = 3
+					AND TU.FECHA_TERMINO = DATE(NOW())
 					AND TJ.ESTADO_REGISTRO = 1
 					ORDER BY
 						TJ.ESTADO_TARJETA ASC, TJ.FECHA_SOLICITUD ASC";
@@ -496,13 +498,13 @@ class Funciones extends Conexion{
 				}
 				//var_dump($arreglo); die();
 				foreach ($arreglo as $tarjeta) {
-					echo "<tr><td style='background-color: #00FF00'>";
+					echo "<tr><td style='background-color: #6ae96a; color: black'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
 					echo "</td></tr>";
 				}
 			} else {
-				echo "<tr><td style='background-color: #00FF00'>";
+				echo "<tr><td style='background-color: #6ae96a; color: black'>";
 				echo "<h6>NO EXISTEN TARJETAS TERMINADAS</h6>";
 				echo "</td></tr>";
 			}
@@ -551,13 +553,13 @@ class Funciones extends Conexion{
 				}
 				//var_dump($arreglo); die();
 				foreach ($arreglo as $tarjeta) {
-					echo "<tr><td style='background-color: #FF0000'>";
+					echo "<tr><td style='background-color: #c23b22; color: black'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
 					echo "</td></tr>";
 				}
 			} else {
-				echo "<tr><td style='background-color: #FF0000'>";
+				echo "<tr><td style='background-color: #c23b22; color: black'>";
 				echo "<h6>NO EXISTEN TARJETAS IMPEDIDAS</h6>";
 				echo "</td></tr>";
 			}				
