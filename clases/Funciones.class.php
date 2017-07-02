@@ -553,13 +553,13 @@ class Funciones extends Conexion{
 				}
 				//var_dump($arreglo); die();
 				foreach ($arreglo as $tarjeta) {
-					echo "<tr><td style='background-color: #c23b22; color: black'>";
+					echo "<tr><td style='background-color: #fe2e2e; color: black'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
 					echo "</td></tr>";
 				}
 			} else {
-				echo "<tr><td style='background-color: #c23b22; color: black'>";
+				echo "<tr><td style='background-color: #fe2e2e; color: black'>";
 				echo "<h6>NO EXISTEN TARJETAS IMPEDIDAS</h6>";
 				echo "</td></tr>";
 			}				
@@ -1414,16 +1414,18 @@ class Funciones extends Conexion{
 
     function validaTareaVigente(){
     	try {
-    		$sql="SELECT TARJETA FROM TARJETA_USUARIO WHERE USUARIO_RESPONSABLE = $_SESSION[idUsuario] AND FECHA_TERMINO = '0000-00-00'";
+    		//$sql="SELECT TARJETA FROM TARJETA_USUARIO WHERE USUARIO_RESPONSABLE = $_SESSION[idUsuario] AND FECHA_TERMINO = '0000-00-00'";
     		//$sql="SELECT TARJETA FROM TARJETA_USUARIO WHERE USUARIO_RESPONSABLE = $_SESSION[idUsuario] AND FECHA_INICIO != '0000-00-00' AND FECHA_TERMINO = '0000-00-00'";
+    		$sql="SELECT TARJETA, FECHA_INICIO FROM TARJETA_USUARIO WHERE USUARIO_RESPONSABLE = $_SESSION[idUsuario] AND FECHA_TERMINO = '0000-00-00'";
 	                //echo $sql;die();
 	        if($record = $this->selectEasyTasks($sql)){
 	        	while ($datos = mysql_fetch_assoc($record)) {
-					$tarjeta = $datos['TARJETA'];
+					$tarjeta['idTarjeta'] = $datos['TARJETA'];
+					$tarjeta['fechaInicio'] = $datos['FECHA_INICIO'];
 				}
 	        	return $tarjeta;
 			} else {
-				return 2;
+				return 0;
 			}
     	} catch (Exception $e) {
     		echo "<script>alert('".$e->getMessage()."');</script>";
@@ -1451,7 +1453,61 @@ class Funciones extends Conexion{
     	}
     }
 
+    function verTarjetaAsignada($idTarjeta){
+    	try {
+    		$sql="	SELECT
+						S.DESCRIPCION_SISTEMA,
+						T.DESCRIPCION_TAREA,
+						C.NOMBRE_CLIENTE,
+						C.CARGO_CLIENTE,
+						C.AREA_CLIENTE,
+						TJ.FECHA_SOLICITUD,
+						P.DESCRIPCION_PRIORIDAD,
+						TJ.OBSERVACIONES
+					FROM
+						TARJETA TJ
+					INNER JOIN TAREA T ON TJ.TAREA = T.ID_TAREA
+					INNER JOIN SISTEMA S ON T.SISTEMA = S.ID_SISTEMA
+					INNER JOIN CLIENTE C ON TJ.CLIENTE_SOLICITANTE = C.ID_CLIENTE
+					INNER JOIN PRIORIDAD P ON TJ.PRIORIDAD = P.ID_PRIORIDAD
+					WHERE
+						TJ.ID_TARJETA = $idTarjeta";
+	                //echo $sql;die();
+	        if($record = $this->selectEasyTasks($sql)){
+	        	while ($datos = mysql_fetch_assoc($record)) {
+					$tarjeta['tarea'] = $datos['DESCRIPCION_SISTEMA']." - ".$datos['DESCRIPCION_TAREA'];
+					$tarjeta['solicitante'] = $datos['NOMBRE_CLIENTE']." - ".$datos['CARGO_CLIENTE']." - ".$datos['AREA_CLIENTE'];
+					$tarjeta['fechaSolicitud'] = $datos['FECHA_SOLICITUD'];
+					$tarjeta['prioridad'] = $datos['DESCRIPCION_PRIORIDAD'];
+					$tarjeta['observaciones'] = $datos['OBSERVACIONES'];
+				}
+	        	return $tarjeta;
+			} else {
+				return 0;
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
 
+    function iniciarTarjeta(){
+    	try {
+    		$sql= " UPDATE TARJETA_USUARIO 
+	                SET FECHA_INICIO = DATE(NOW()), HORA_INICIO = TIME(NOW())
+	                WHERE TARJETA = $_SESSION[idTarjetaVigente]
+	                AND USUARIO_RESPONSABLE = $_SESSION[idUsuario]";
+	                //echo $sql; die();
+	        if($record=$this->insertEasyTasks($sql)){
+	            //echo "<script>alert('La tarea fue agregada exitosamente');</script>";
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al dar inicio a tarjeta asignada');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
 
 }
 ?>

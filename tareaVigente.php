@@ -39,24 +39,27 @@ $funciones = new Funciones;
         </div>        
     </div>
 </header>
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <p>Estimado <?php echo $_SESSION['nombreUsuario']; ?>, usted actualmente tiene una tarjeta en ejecucuión, ¿qué desea hacer?</p>
+            <p>Estimado <?php echo $_SESSION['nombreUsuario']; ?>, usted actualmente tiene una tarjeta en desarrollo, ¿qué desea hacer?</p>
         </div>
     </div>
-    <form id="form">
-        <input type="hidden" name="pagina" id="pagina" value="finalizaTarea" /><!--Variable oculta para identificar en el controlador-->    
-    </form>    
-    <div><button type="button" class="btn btn-default" onclick="finalizaTarea();">Finalizar Tarea</button>
-    <button type="button" class="btn btn-default" onclick="declaraTareaImpedida();">Declarar Tarea Impedida</button></div><br>
-</div>
-
-<div class="panel-footer">
-    <div class="container">
-        <p>EasyTask® 2017 | Miguel Pinto - Miguel Inzunza - Hans Silva | Todos los derechos reservados</p>
+    <div class="row">
+        <form id="form">
+            <input type="hidden" name="pagina" id="pagina" value="finalizaTarea" /><!--Variable oculta para identificar en el controlador-->    
+        </form>
+        <div class="col-md-3 col-xs-12 text-center">
+            <button type="button" class="btn btn-default" onclick="finalizaTarea();">Finalizar Tarea</button>
+        </div>
+        <div class="col-md-3 col-xs-12 text-center">
+            <button type="button" class="btn btn-default" onclick="declaraTareaImpedida();">Declarar Tarea Impedida</button>
+        </div>
     </div>
 </div>
+
+<?php include("footer.php"); ?>
 
 </body>
 </html>

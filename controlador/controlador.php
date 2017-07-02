@@ -6,23 +6,38 @@ switch($_REQUEST['pagina']){
     
     case 'login':
     
-        //echo "hola, vas bien encamidado pequeño padawan :D";
         if($respuesta = $controlador->validaLogin($_POST)){
             #session_start();
             $_SESSION['idUsuario'] = $respuesta['idUsuario'];
             $_SESSION['nombreUsuario'] = $respuesta['nombreUsuario'];
             $_SESSION['empresa'] = $respuesta['empresa'];
             $_SESSION['perfil'] = $respuesta['perfil'];
-            $respuesta2 = $controlador->validaTareaVigente();            
-            if($respuesta2 == 2){
+            $respuesta2 = $controlador->validaTareaVigente();
+            if($respuesta2 == 0){	//NO EXISTE TAJETA ASIGNADA
+            	$_SESSION['tarjetaVigente'] = 0;
                 header("location:../board.php");
-            } else {
-                $_SESSION['tarjetaVigente'] = $respuesta2;
-                header("location:../tareaVigente.php");
-            }            
+            } else {	//SI EXISTE TARJETA ASIGNADA
+                $_SESSION['idTarjetaVigente'] = $respuesta2['idTarjeta'];
+                //$_SESSION['fechaInicioTarjeta'] = $respuesta['fechaInicio'];
+                $_SESSION['tarjetaVigente'] = 1;                
+                $fechaInicio = $respuesta2['fechaInicio'];
+                if($_SESSION['perfil'] == 2){
+                	header("location:../board.php");
+                } elseif ($_SESSION['perfil'] == 3) {
+                	if ($fechaInicio == '0000-00-00') {
+                		header("location:../aceptarTarjetaAsignada.php");
+                	} elseif ($fechaInicio != '0000-00-00') {
+                		header("location:../tareaVigente.php");
+                	}                	
+                }
+            }
         }
-        elseif($respuesta == 0){            
-            header("location:../index.php?mensaje=noexiste");
+        elseif($respuesta == 0){
+        	echo "<script>";
+        	echo "alert('Usuario no existe en el sistema.');";
+        	echo "window.location='../index.php';";        	
+        	echo "</script>";
+            //header("location:../index.php");
         }
 
     break;
@@ -286,6 +301,15 @@ switch($_REQUEST['pagina']){
         $respuesta = $controlador->finalizaTarea();
         if($respuesta == 1){
             header("location:../board.php");
+        }
+
+    break;
+
+    case 'iniciarTarjeta':
+        
+        $respuesta = $controlador->iniciarTarjeta();
+        if($respuesta == 1){
+            header("location:../tareaVigente.php");
         }
 
     break;

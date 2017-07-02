@@ -3,6 +3,7 @@
 include("clases/Funciones.class.php");
 include ("constantes.php");
 $funciones = new Funciones;
+if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("location:../tareaVigente.php"); }
 ?>
 <!doctype html>
 <html>
@@ -80,7 +81,7 @@ $funciones = new Funciones;
             <table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">
                 <tr>
                     <!--<th class="text-center" style="background-color: #FE2E2E">IMPEDIDAS</th>-->
-                    <th class="text-center" style="background-color: #c23b22; color: black;">IMPEDIDAS</th>
+                    <th class="text-center" style="background-color: #fe2e2e; color: black;">IMPEDIDAS</th>
                 </tr>
                 <?php $funciones->muestraTarjetaImpedidas(); ?>
             </table>

@@ -20,6 +20,19 @@ function div_hide(){
 	document.getElementById('abc').style.display = "none";
 }
 
+function validaLogin(){
+    if($("#txtUsuario").val().trim() == "" || $("#txtPassword").val().trim() == ""){
+        alert("Completar campos obligatorios");
+        $("#txtUsuario").val("");
+        $("#txtPassword").val("");
+        $("#txtUsuario").focus();
+    } else {
+        document.getElementById('form').action = 'controlador/controlador.php';
+        document.getElementById('form').method = 'post';
+        document.getElementById('form').submit();   
+    }
+}
+
 //Validar formulario ingreso de tarjeta
 function validaTarjeta(){
     //if(document.getElementById('cboTarea').value == "seleccione" || document.getElementById('cboPrioridad').value == "seleccione" || document.getElementById('cboEstado').value == "seleccione")
@@ -30,7 +43,7 @@ function validaTarjeta(){
         document.getElementById('form').action = 'controlador/controlador.php';
         document.getElementById('form').method = 'post';
         document.getElementById('form').submit();
-        alert("Enviado");
+        //alert("Enviado");
     }
 }
 
@@ -506,8 +519,18 @@ function publicaEncuesta(idEncuesta){
     }
 }
 
-function finalizaTarea(idEncuesta){
+function finalizaTarea(){
     if(confirm("¿Está seguro que desea dar por finalizada su tarjeta actual?") == true){
+        document.getElementById('form').action = 'controlador/controlador.php';
+        document.getElementById('form').method = 'post';
+        document.getElementById('form').submit();
+    } else {
+        return false;
+    }
+}
+
+function iniciarTarjeta(){
+    if(confirm("¿Está seguro que desea dar inicio en este momento a la tarjeta asignada?") == true){
         document.getElementById('form').action = 'controlador/controlador.php';
         document.getElementById('form').method = 'post';
         document.getElementById('form').submit();

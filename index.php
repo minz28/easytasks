@@ -24,7 +24,7 @@ include ("constantes.php");
         	   <h3>Bienvenido a EasyTasks</h3>
             </div>
             <div class="col-md-8 text-right"><br>
-                <form class="form-inline" method="POST" action="controlador/controlador.php">
+                <form id="form" class="form-inline">
                 	<input type="hidden" name="pagina" value="login">
                 	<div class="form-group">
                     	<label for="txtUsuario">Usuario</label>
@@ -35,7 +35,7 @@ include ("constantes.php");
                         <input type="password" class="form-control" id="txtPassword" name="txtPassword" placeholder="Contraseña" value="">
                     </div>
                     <!--<a class="btn btn-default" href="board.php" role="button">Iniciar Sesión</a>-->
-                    <button type="submit" class="btn btn-default">Iniciar Sesión</button>
+                    <button type="button" class="btn btn-default" onclick="validaLogin();">Iniciar Sesión</button>
                 </form>
             </div>
         </div>               
@@ -68,11 +68,8 @@ include ("constantes.php");
 <div class="col-md-offset-4 col-md-4 text-center">
 	
 </div>
-<div class="panel-footer navbar-fixed-bottom">
-    <div class="container">
-        <p>EasyTask® 2017 | Miguel Pinto - Miguel Inzunza - Hans Silva | Todos los derechos reservados</p>
-    </div>
-</div>
+
+<?php include("footer.php") ?>
 
 </body>
 </html> 
