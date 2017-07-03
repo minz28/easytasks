@@ -277,6 +277,8 @@ class Funciones extends Conexion{
 	            	$sql2="INSERT INTO TARJETA_USUARIO (TARJETA, USUARIO_RESPONSABLE, FECHA_INICIO, HORA_INICIO)
 	            	VALUES ($ultimaTarjeta, $_SESSION[idUsuario], DATE(NOW()), TIME(NOW()))";
 	            	if($record=$this->insertEasyTasks($sql2)){
+	            		$_SESSION['tarjetaVigente'] = 1;
+    					$_SESSION['idTarjetaVigente'] = $ultimaTarjeta;
 	            		return 1;
 	            	} else {
 	            		echo "<script>alert('Error al autoasignar tarjeta');</script>";
@@ -1432,16 +1434,49 @@ class Funciones extends Conexion{
     	}
     }
 
-    function finalizaTarea(){
+    function 	finalizaTarea(){
     	try {
-    		$sql = "UPDATE TARJETA_USUARIO
-					SET FECHA_TERMINO = DATE(NOW()), HORA_TERMINO = TIME(NOW()), DURACION_TOTAL = TIMEDIFF(HORA_TERMINO, HORA_INICIO)
-					WHERE TARJETA = $_SESSION[tarjetaVigente]";
+    		/*$sql = "UPDATE TARJETA_USUARIO
+					SET FECHA_TERMINO = DATE(NOW()), 
+					HORA_TERMINO = TIME(NOW()), 
+					DURACION_TOTAL = 
+					IF (
+						DAY (FECHA_INICIO) = DAY (NOW()),
+						SEC_TO_TIME(
+							TIMESTAMPDIFF(
+								SECOND,
+								NOW(),
+								CONCAT(FECHA_INICIO,' ',HORA_INICIO)
+							)
+						),
+						SEC_TO_TIME(
+							TIMESTAMPDIFF(
+								SECOND,
+								CONCAT(FECHA_INICIO,' ',HORA_INICIO),
+								NOW()
+							)
+						)
+					)
+					WHERE TARJETA = $_SESSION[idTarjetaVigente]";*/
+
+			$sql = "UPDATE TARJETA_USUARIO
+					SET FECHA_TERMINO = DATE(NOW()), 
+					HORA_TERMINO = TIME(NOW()), 
+					DURACION_TOTAL = 					
+						SEC_TO_TIME(
+							TIMESTAMPDIFF(
+								SECOND,
+								CONCAT(FECHA_INICIO,' ',HORA_INICIO),
+								NOW()
+							)
+						)
+					WHERE TARJETA = $_SESSION[idTarjetaVigente]";
 			//echo $sql; die();
-    	if($record=$this->insertEasyTasks($sql)){
-    			$sql2 = "UPDATE TARJETA SET ESTADO_TARJETA = 3 WHERE ID_TARJETA = $_SESSION[tarjetaVigente]";
+    		if($record=$this->insertEasyTasks($sql)){
+    			$sql2 = "UPDATE TARJETA SET ESTADO_TARJETA = 3 WHERE ID_TARJETA = $_SESSION[idTarjetaVigente]";
     			if($record=$this->insertEasyTasks($sql2)){
-    				$_SESSION['tarjetaVigente'] = "";
+    				$_SESSION['tarjetaVigente'] = 0;
+    				$_SESSION['idTarjetaVigente'] = "";
 	            	return 1;	
     			}    			
 	        } else {
@@ -1498,8 +1533,13 @@ class Funciones extends Conexion{
 	                AND USUARIO_RESPONSABLE = $_SESSION[idUsuario]";
 	                //echo $sql; die();
 	        if($record=$this->insertEasyTasks($sql)){
-	            //echo "<script>alert('La tarea fue agregada exitosamente');</script>";
-	            return 1;
+	        	$sql2 = "UPDATE TARJETA SET ESTADO_TARJETA = 2 WHERE ID_TARJETA = $_SESSION[idTarjetaVigente]";
+	        	if($record=$this->insertEasyTasks($sql2)){
+		            return 1;
+	        	} else {
+	        		echo "<script>alert('Error al cambiar estado de tarjeta asignada');</script>";
+	            	echo "<script>window.history.back();</script>";
+	        	}		            
 	        } else {
 	            echo "<script>alert('Error al dar inicio a tarjeta asignada');</script>";
 	            echo "<script>window.history.back();</script>";
