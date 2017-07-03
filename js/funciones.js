@@ -538,3 +538,13 @@ function iniciarTarjeta(){
         return false;
     }
 }
+
+function validaRazonImpedimento(){
+    if(confirm("¿Está seguro que desea declarar esta tarjeta como impedida?") == true){
+        document.getElementById('form').action = 'controlador/controlador.php';
+        document.getElementById('form').method = 'post';
+        document.getElementById('form').submit();
+    } else {
+        return false;
+    }
+}

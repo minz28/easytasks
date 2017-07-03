@@ -42,7 +42,7 @@ $funciones = new Funciones;
 <div class="container">
     <div class="row">
         <div class="col-md-12">            
-            <p>Estimado <?php echo $_SESSION['nombreUsuario']; ?>, recientemente se le ha asignado una tarea (<a href="#" data-toggle="modal" data-target="#modalDetalleTarjeta">Ver detalle</a>). </p>
+            <p>Estimado <?php echo $_SESSION['nombreUsuario']; ?>, recientemente se le ha asignado una tarea (<a href="#" data-toggle="modal" data-target="#modalDetalleTarjeta">Ver detalle tarjeta</a>). </p>
         </div>
     </div>      
     <div>

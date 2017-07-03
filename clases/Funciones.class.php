@@ -76,8 +76,10 @@ class Funciones extends Conexion{
 
 	function validaLogin($datos){
 		try {
-    		$sql="	SELECT 		U.ID_USUARIO, U.NOMBRES, U.APELLIDOS, U.EMPRESA, U.PERFIL
+    		$sql="	SELECT 		U.ID_USUARIO, U.NOMBRES, U.APELLIDOS, U.EMPRESA, E.DESCRIPCION_EMPRESA, U.PERFIL
 					FROM 		USUARIO U
+					INNER JOIN 	EMPRESA E
+					ON 			U.EMPRESA = E.ID_EMPRESA
 					WHERE 		U.USERNAME = '".$datos['txtUsuario']."' 
 					AND 		U.PASSWORD = '".$datos['txtPassword']."'
 					AND 		U.ESTADO_REGISTRO = 1";
@@ -87,6 +89,7 @@ class Funciones extends Conexion{
 					$arreglo['idUsuario'] = $datos['ID_USUARIO'];
 					$arreglo['nombreUsuario'] = $datos['NOMBRES']." ".$datos['APELLIDOS'];			
 					$arreglo['empresa'] = $datos['EMPRESA'];
+					$arreglo['descripcionEmpresa'] = $datos['DESCRIPCION_EMPRESA'];
 					$arreglo['perfil'] = $datos['PERFIL'];
 				}
 				//var_dump($arreglo); die();
@@ -227,6 +230,18 @@ class Funciones extends Conexion{
 			$arreglo['cboPerfil'] .= "<option value='".$tarea['ID_PERFIL']."'>".$tarea['DESCRIPCION_PERFIL']."</option>";
 		}
 		echo $arreglo['cboPerfil'];
+	}
+
+	function cboRazonImpedimento(){
+		$sql="	SELECT 	RI.ID_RAZON, RI.DESCRIPCION_RAZON
+				FROM 	RAZON_IMPEDIMENTO RI
+				WHERE 	RI.ESTADO_REGISTRO = 1";
+		$record = $this->selectEasyTasks($sql);
+		$arreglo['cboRazonImpedimento']="";
+		while($tarea = mysql_fetch_assoc($record)){
+			$arreglo['cboRazonImpedimento'] .= "<option value='".$tarea['ID_RAZON']."'>".$tarea['DESCRIPCION_RAZON']."</option>";
+		}
+		echo $arreglo['cboRazonImpedimento'];
 	}
 
 	function cboTipoEncuesta(){

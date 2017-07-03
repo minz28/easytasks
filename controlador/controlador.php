@@ -11,6 +11,7 @@ switch($_REQUEST['pagina']){
             $_SESSION['idUsuario'] = $respuesta['idUsuario'];
             $_SESSION['nombreUsuario'] = $respuesta['nombreUsuario'];
             $_SESSION['empresa'] = $respuesta['empresa'];
+            $_SESSION['descripcionEmpresa'] = $respuesta['descripcionEmpresa'];
             $_SESSION['perfil'] = $respuesta['perfil'];
             $respuesta2 = $controlador->validaTareaVigente();
             if($respuesta2 == 0){	//NO EXISTE TAJETA ASIGNADA

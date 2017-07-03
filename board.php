@@ -3,7 +3,7 @@
 include("clases/Funciones.class.php");
 include ("constantes.php");
 $funciones = new Funciones;
-if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("location:../tareaVigente.php"); }
+if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("location:tareaVigente.php"); }
 ?>
 <!doctype html>
 <html>
@@ -37,7 +37,7 @@ if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("locat
     <div class="container">
     	<div class="row">
         	<div class="col-md-12 text-center">
-        	   <h2>Tablero de tareas</h2>
+        	   <h2>Tablero de tareas para <?php echo ucwords(strtolower($_SESSION['descripcionEmpresa'])); ?></h2>
             </div>
         </div>        
     </div>

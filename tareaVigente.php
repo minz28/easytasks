@@ -43,7 +43,7 @@ $funciones = new Funciones;
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <p>Estimado <?php echo $_SESSION['nombreUsuario']; ?>, usted actualmente tiene una tarjeta en desarrollo, ¿qué desea hacer?</p>
+            <p>Estimado <?php echo $_SESSION['nombreUsuario']; ?>, usted actualmente tiene una tarjeta en desarrollo (<a href="#" data-toggle="modal" data-target="#modalDetalleTarjeta">Ver tarjeta</a>), ¿qué desea hacer?</p>
         </div>
     </div>
     <div class="row">
@@ -54,9 +54,57 @@ $funciones = new Funciones;
             <button type="button" class="btn btn-default" onclick="finalizaTarea();">Finalizar Tarea</button>
         </div>
         <div class="col-md-3 col-xs-12 text-center">
-            <button type="button" class="btn btn-default" onclick="declaraTareaImpedida();">Declarar Tarea Impedida</button>
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalRazonImpedimento">Declarar Tarea Impedida</button>
         </div>
     </div>
+    <!--Inicio modal ADD Razon Impedimento-->
+    <div class="modal fade" id="modalRazonImpedimento" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Ingresar razón de impedimento</h4>
+                    <small>(*) Campos obligatorios</small>
+                </div>
+                <div class="modal-body">
+                    <form id="form">
+                        <input type="hidden" name="pagina" value="creaSistema" /><!--Variable oculta para identificar en el controlador-->
+                        <div class="form-group">
+                            <label for="cboTipoEncuesta">Motivo de impedimento (*)</label>
+                            <select class="form-control" id="cboTipoEncuesta" name="cboTipoEncuesta">
+                                <option value="seleccione">Seleccione</option>
+                                <?php $funciones->cboRazonImpedimento(); ?>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <br>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="validaRazonImpedimento();">Grabar</button>
+                </div>                
+            </div>
+        </div>
+    </div>
+    <!--Fin modal ADD Razon Impedimento-->
+    <!--Inicio modal DETALLE tarjeta-->
+    <div class="modal fade" id="modalDetalleTarjeta" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <?php $datos=$funciones->verTarjetaAsignada($_SESSION['idTarjetaVigente']); ?>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 id="nombreTarea" class="modal-title"><?php echo $datos['tarea']; ?></h4>
+                </div>
+                <div class="modal-body">                    
+                    <p id="solicitante">Solicitado por: <?php echo $datos['solicitante']; ?></p>
+                    <p id="fechaSolicitud">Fecha de solicitud: <?php echo $datos['fechaSolicitud']; ?></p>
+                    <p id="prioridad">Prioridad: <?php echo $datos['prioridad']; ?></p>
+                    <p id="observaciones">Observaciones: <?php echo $datos['observaciones']; ?></p>                    
+                </div>                
+            </div>
+        </div>
+    </div>
+    <!--Fin modal DETALLE tarjeta-->
 </div>
 
 <?php include("footer.php"); ?>
