@@ -47,14 +47,14 @@ $funciones = new Funciones;
         </div>
     </div>
     <div class="row">
-        <form id="form">
+        <form id="formFinalilzaTarjeta">
             <input type="hidden" name="pagina" id="pagina" value="finalizaTarea" /><!--Variable oculta para identificar en el controlador-->    
         </form>
         <div class="col-md-3 col-xs-12 text-center">
-            <button type="button" class="btn btn-default" onclick="finalizaTarea();">Finalizar Tarea</button>
+            <button type="button" class="btn btn-default" onclick="finalizaTarea();">Finalizar Tarjeta</button>
         </div>
         <div class="col-md-3 col-xs-12 text-center">
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalRazonImpedimento">Declarar Tarea Impedida</button>
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalRazonImpedimento">Declarar Tarjeta Impedida</button>
         </div>
     </div>
     <!--Inicio modal ADD Razon Impedimento-->
@@ -67,11 +67,11 @@ $funciones = new Funciones;
                     <small>(*) Campos obligatorios</small>
                 </div>
                 <div class="modal-body">
-                    <form id="form">
-                        <input type="hidden" name="pagina" value="creaSistema" /><!--Variable oculta para identificar en el controlador-->
+                    <form id="formTarjetaImpedida">
+                        <input type="hidden" name="pagina" id="pagina" value="validaRazonImpedimento" /><!--Variable oculta para identificar en el controlador-->
                         <div class="form-group">
-                            <label for="cboTipoEncuesta">Motivo de impedimento (*)</label>
-                            <select class="form-control" id="cboTipoEncuesta" name="cboTipoEncuesta">
+                            <label for="cboRazonImpedimento">Motivo de impedimento (*)</label>
+                            <select class="form-control" id="cboRazonImpedimento" name="cboRazonImpedimento">
                                 <option value="seleccione">Seleccione</option>
                                 <?php $funciones->cboRazonImpedimento(); ?>
                             </select>

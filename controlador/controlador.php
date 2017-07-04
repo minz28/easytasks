@@ -215,7 +215,7 @@ switch($_REQUEST['pagina']){
         
         $respuesta = $controlador->autoAsignaTarjeta($_POST);
         if($respuesta == 1){
-            header("location:../board.php");
+            header("location:../tareaVigente.php");
         }
 
     break;
@@ -312,6 +312,15 @@ switch($_REQUEST['pagina']){
         $respuesta = $controlador->iniciarTarjeta();
         if($respuesta == 1){
             header("location:../tareaVigente.php");
+        }
+
+    break;
+    
+    case 'validaRazonImpedimento':
+        
+        $respuesta = $controlador->validaRazonImpedimento($_POST);
+        if($respuesta == 1){
+            header("location:../board.php");
         }
 
     break;

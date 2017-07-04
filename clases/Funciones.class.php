@@ -120,7 +120,7 @@ class Funciones extends Conexion{
 
 		$sql="	SELECT U.ID_USUARIO, U.NOMBRES, U.APELLIDOS, U.USERNAME
 				FROM USUARIO U				
-				WHERE U.ID_USUARIO NOT IN (SELECT TU.USUARIO_RESPONSABLE FROM TARJETA_USUARIO TU WHERE TU.FECHA_TERMINO = '0000-00-00')
+				WHERE U.ID_USUARIO NOT IN (SELECT TU.USUARIO_RESPONSABLE FROM TARJETA_USUARIO TU WHERE TU.FECHA_TERMINO = '0000-00-00' AND TU.RAZON_ESTADO_IMPEDIDO IS NULL)
 				AND U.EMPRESA = $_SESSION[empresa]
 				AND U.PERFIL != 1
 				AND U.ESTADO_REGISTRO = 1";
@@ -303,7 +303,7 @@ class Funciones extends Conexion{
 	            	echo "<script>alert('Error al crear tarjeta');</script>";
 	            	echo "<script>window.history.back();</script>";
 	            }
-    		} elseif ($_SESSION['perfil'] != 3) {//CAMBIAR POR $_SESSION['perfil'] == 2
+    		} elseif ($_SESSION['perfil'] == 2) {//CAMBIAR POR $_SESSION['perfil'] == 2
     			$sql="INSERT INTO TARJETA (TAREA, CLIENTE_SOLICITANTE, FECHA_SOLICITUD, PRIORIDAD, OBSERVACIONES, ADJUNTO, ESTADO_TARJETA, ESTADO_REGISTRO) 
 		                VALUES ($datos[cboTarea], $datos[txtSolicitante], NOW(), 1, '$datos[txtObservaciones]', '$datos[fileAdjunto]', 1, 1)";
 		                //echo $sql;die();
@@ -1125,6 +1125,8 @@ class Funciones extends Conexion{
 	            $sql2="UPDATE TARJETA SET ESTADO_TARJETA = 2 WHERE ID_TARJETA = $datos[idTarjetaAutoAsignar]";
 	            //echo $sql2;die();
 	            if($record=$this->insertEasyTasks($sql2)){
+	            	$_SESSION['tarjetaVigente'] = 1;
+    				$_SESSION['idTarjetaVigente'] = $datos['idTarjetaAutoAsignar'];
 	            	return 1;
 	            } else {
 	            	echo "<script>alert('Error al autoasignar tarjeta, no se ha podido actualizar el estado de la tajeta');</script>";
@@ -1433,7 +1435,7 @@ class Funciones extends Conexion{
     	try {
     		//$sql="SELECT TARJETA FROM TARJETA_USUARIO WHERE USUARIO_RESPONSABLE = $_SESSION[idUsuario] AND FECHA_TERMINO = '0000-00-00'";
     		//$sql="SELECT TARJETA FROM TARJETA_USUARIO WHERE USUARIO_RESPONSABLE = $_SESSION[idUsuario] AND FECHA_INICIO != '0000-00-00' AND FECHA_TERMINO = '0000-00-00'";
-    		$sql="SELECT TARJETA, FECHA_INICIO FROM TARJETA_USUARIO WHERE USUARIO_RESPONSABLE = $_SESSION[idUsuario] AND FECHA_TERMINO = '0000-00-00'";
+    		$sql="SELECT TARJETA, FECHA_INICIO FROM TARJETA_USUARIO WHERE USUARIO_RESPONSABLE = $_SESSION[idUsuario] AND FECHA_TERMINO = '0000-00-00' AND RAZON_ESTADO_IMPEDIDO IS NULL";
 	                //echo $sql;die();
 	        if($record = $this->selectEasyTasks($sql)){
 	        	while ($datos = mysql_fetch_assoc($record)) {
@@ -1449,7 +1451,7 @@ class Funciones extends Conexion{
     	}
     }
 
-    function 	finalizaTarea(){
+    function finalizaTarea(){
     	try {
     		/*$sql = "UPDATE TARJETA_USUARIO
 					SET FECHA_TERMINO = DATE(NOW()), 
@@ -1563,6 +1565,45 @@ class Funciones extends Conexion{
     		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
     }
+
+    function validaRazonImpedimento($datos){
+    	try {
+    		$sql= " UPDATE TARJETA_USUARIO 
+	                SET RAZON_ESTADO_IMPEDIDO = $datos[cboRazonImpedimento], 
+	                FECHA_IMPEDIDO = DATE(NOW()), 
+	                HORA_IMPEDIDO = TIME(NOW()),
+	                DURACION_TOTAL = 					
+						SEC_TO_TIME(
+							TIMESTAMPDIFF(
+								SECOND,
+								CONCAT(FECHA_INICIO,' ',HORA_INICIO),
+								NOW()
+							)
+						)
+	                WHERE TARJETA = $_SESSION[idTarjetaVigente]
+	                AND USUARIO_RESPONSABLE = $_SESSION[idUsuario]";
+	                //echo $sql; die();
+	        if($record=$this->insertEasyTasks($sql)){
+	        	$sql2 = "UPDATE TARJETA SET ESTADO_TARJETA = 4 WHERE ID_TARJETA = $_SESSION[idTarjetaVigente]";
+	        	if($record=$this->insertEasyTasks($sql2)){
+	        		$_SESSION['tarjetaVigente'] = 0;
+    				$_SESSION['idTarjetaVigente'] = "";
+		            return 1;
+	        	} else {
+	        		echo "<script>alert('Error al cambiar estado de tarjeta a impedida');</script>";
+	            	echo "<script>window.history.back();</script>";
+	        	}		            
+	        } else {
+	            echo "<script>alert('Error al declarar impedida la tarjeta');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+
+
 
 }
 ?>

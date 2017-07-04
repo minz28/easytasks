@@ -521,9 +521,9 @@ function publicaEncuesta(idEncuesta){
 
 function finalizaTarea(){
     if(confirm("¿Está seguro que desea dar por finalizada su tarjeta actual?") == true){
-        document.getElementById('form').action = 'controlador/controlador.php';
-        document.getElementById('form').method = 'post';
-        document.getElementById('form').submit();
+        document.getElementById('formFinalilzaTarjeta').action = 'controlador/controlador.php';
+        document.getElementById('formFinalilzaTarjeta').method = 'post';
+        document.getElementById('formFinalilzaTarjeta').submit();
     } else {
         return false;
     }
@@ -541,9 +541,9 @@ function iniciarTarjeta(){
 
 function validaRazonImpedimento(){
     if(confirm("¿Está seguro que desea declarar esta tarjeta como impedida?") == true){
-        document.getElementById('form').action = 'controlador/controlador.php';
-        document.getElementById('form').method = 'post';
-        document.getElementById('form').submit();
+        document.getElementById('formTarjetaImpedida').action = 'controlador/controlador.php';
+        document.getElementById('formTarjetaImpedida').method = 'post';
+        document.getElementById('formTarjetaImpedida').submit();
     } else {
         return false;
     }
