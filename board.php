@@ -3,6 +3,7 @@
 include("clases/Funciones.class.php");
 include ("constantes.php");
 $funciones = new Funciones;
+if($_SESSION['existe'] == false){ header("location:index.php");}
 if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("location:tareaVigente.php"); }
 ?>
 <!doctype html>

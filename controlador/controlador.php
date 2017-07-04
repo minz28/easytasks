@@ -8,6 +8,7 @@ switch($_REQUEST['pagina']){
     
         if($respuesta = $controlador->validaLogin($_POST)){
             #session_start();
+            $_SESSION['existe'] = true;
             $_SESSION['idUsuario'] = $respuesta['idUsuario'];
             $_SESSION['nombreUsuario'] = $respuesta['nombreUsuario'];
             $_SESSION['empresa'] = $respuesta['empresa'];
