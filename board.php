@@ -47,7 +47,14 @@ if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("locat
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalCreaTarjeta"><span class="glyphicon glyphicon-plus"></span></button><br><br>
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalCreaTarjeta"><span class="glyphicon glyphicon-plus"></span> Agregar tarjeta</button>
+            <?php if(!($_SESSION['perfil'] == 2 && $_SESSION['tarjetaVigente'] == 1)){ ?>
+            <button type="button" class="btn btn-default" onclick="location.href='controlador/controlador.php?pagina=verificaTarjetaAsignada'"><span class="glyphicon glyphicon-refresh"></span> Buscar tarjetas asignadas</button>
+            <?php } ?>
+            <?php if($_SESSION['perfil'] == 2 && $_SESSION['tarjetaVigente'] == 1){ ?>
+            <button type="button" class="btn btn-default" onclick="location.href='tareaVigente.php'"><span class="glyphicon glyphicon-saved"></span> Finalizar tarjetas asignadas</button>
+            <?php } ?>
+            <br><br>
         </div>
     </div>
     <div class="row">

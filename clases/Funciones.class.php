@@ -1487,7 +1487,8 @@ class Funciones extends Conexion{
 								NOW()
 							)
 						)
-					WHERE TARJETA = $_SESSION[idTarjetaVigente]";
+					WHERE TARJETA = $_SESSION[idTarjetaVigente]
+					AND USUARIO_RESPONSABLE = $_SESSION[idUsuario]";
 			//echo $sql; die();
     		if($record=$this->insertEasyTasks($sql)){
     			$sql2 = "UPDATE TARJETA SET ESTADO_TARJETA = 3 WHERE ID_TARJETA = $_SESSION[idTarjetaVigente]";

@@ -22,13 +22,13 @@ switch($_REQUEST['pagina']){
                 $_SESSION['idTarjetaVigente'] = $respuesta2['idTarjeta'];
                 //$_SESSION['fechaInicioTarjeta'] = $respuesta['fechaInicio'];
                 $_SESSION['tarjetaVigente'] = 1;                
-                $fechaInicio = $respuesta2['fechaInicio'];
+                $fechaInicioTarjeta = $respuesta2['fechaInicio'];
                 if($_SESSION['perfil'] == 2){
                 	header("location:../board.php");
                 } elseif ($_SESSION['perfil'] == 3) {
-                	if ($fechaInicio == '0000-00-00') {
+                	if ($fechaInicioTarjeta == '0000-00-00') {
                 		header("location:../aceptarTarjetaAsignada.php");
-                	} elseif ($fechaInicio != '0000-00-00') {
+                	} elseif ($fechaInicioTarjeta != '0000-00-00') {
                 		header("location:../tareaVigente.php");
                 	}                	
                 }
@@ -322,6 +322,29 @@ switch($_REQUEST['pagina']){
         if($respuesta == 1){
             header("location:../board.php");
         }
+
+    break;
+
+    case 'verificaTarjetaAsignada':
+    	
+    	$respuesta = $controlador->validaTareaVigente();
+    	if($respuesta == 0) {
+    		echo "<script>";
+        	echo "alert('Actualmente no cuenta con tarjetas asignadas');";
+        	echo "window.location='../board.php';";        	
+        	echo "</script>";
+    	} else {
+    		$_SESSION['tarjetaVigente']=1;
+			$_SESSION['idTarjetaVigente']=$respuesta['idTarjeta'];
+			$fechaInicioTarjeta = $respuesta['fechaInicio'];
+			if($fechaInicioTarjeta == '0000-00-00'){
+				header("location:../aceptarTarjetaAsignada.php");
+			} elseif ($fechaInicioTarjeta != '0000-00-00') {
+				if($_SESSION['perfil'] == 2){
+					header("location:../board.php");
+				}
+			}    		
+    	}
 
     break;
 
