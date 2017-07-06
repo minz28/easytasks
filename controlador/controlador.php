@@ -235,6 +235,24 @@ switch($_REQUEST['pagina']){
 
     break;
 
+    case 'reactivarImpedida':
+        
+        $respuesta = $controlador->reactivarImpedida($_POST);
+        if($respuesta == 1){
+            header("location:../board.php");
+        }
+
+    break;
+
+    case 'eliminarImpedida':
+        
+        $respuesta = $controlador->eliminarImpedida($_POST);
+        if($respuesta == 1){
+            header("location:../board.php");
+        }
+
+    break;
+
     case 'iniciarTarjeta':
         
         $respuesta = $controlador->iniciarTarjeta();

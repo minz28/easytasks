@@ -21,7 +21,7 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mantención<span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                <?php if ($_SESSION['perfil'] == 1) { ?>}
+                <?php if ($_SESSION['perfil'] == 1) { ?>
                     <li><a href="listaUsuario.php" title="Usuarios del sistema">Usuarios</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="listaCliente.php" title="Actores solicitantes de tareas de la empresa (tabla Cliente)">Solicitantes</a></li>

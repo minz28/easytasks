@@ -81,6 +81,16 @@ function detalleTarjeta(jsonTarjeta){
     $("#fechaSolicitud").text('Fecha solicitud: '+jsonTarjeta.fechaSolicitud);
     $("#prioridad").text('Prioridad: '+jsonTarjeta.prioridad);
     $("#observaciones").text('Observaciones: '+jsonTarjeta.observaciones);
+    if(jsonTarjeta.idEstado == 1) {
+        $("#footerDetalleTarjeta1").show();
+        $("#footerDetalleTarjeta4").hide();
+    } else if(jsonTarjeta.idEstado == 4) {
+        $("#footerDetalleTarjeta1").hide();
+        $("#footerDetalleTarjeta4").show();
+    } else {
+        $("#footerDetalleTarjeta1").hide();
+        $("#footerDetalleTarjeta4").hide();
+    }
     $('#modalDetalleTarjeta').modal('show');    
 }
 
@@ -380,6 +390,7 @@ function asignaTarjeta(){
 
 function autoAsignacionTarjeta(){
     if(confirm("¿Está seguro que desea asignarse esta tarea?") == true){
+        $('#pagina').val('autoAsignaTarjeta');
         document.getElementById('formAutoAsignar').action = 'controlador/controlador.php';
         document.getElementById('formAutoAsignar').method = 'post';
         document.getElementById('formAutoAsignar').submit();
@@ -393,6 +404,24 @@ function finalizaTarea(){
         document.getElementById('formFinalilzaTarjeta').submit();
     } else {
         return false;
+    }
+}
+
+function reactivarImpedida(){
+    if(confirm("¿Está seguro que desea volver esta tarjeta a estado pendiente?") == true){
+        $('#pagina').val('reactivarImpedida');
+        document.getElementById('formAutoAsignar').action = 'controlador/controlador.php';
+        document.getElementById('formAutoAsignar').method = 'post';
+        document.getElementById('formAutoAsignar').submit();
+    }
+}
+
+function eliminarImpedida(){
+    if(confirm("¿Está seguro que desea eliminar esta tarea?") == true){
+        $('#pagina').val('eliminarImpedida');
+        document.getElementById('formAutoAsignar').action = 'controlador/controlador.php';
+        document.getElementById('formAutoAsignar').method = 'post';
+        document.getElementById('formAutoAsignar').submit();
     }
 }
 
@@ -543,7 +572,7 @@ function borraPreguntaEncuesta(json){
 
 function publicaEncuesta(idEncuesta){
     if(confirm("¿Está seguro que desea publicar esta encuesta?") == true){
-        window.location='controlador/controlador.php?pagina=publicaEncuesta&idEncuesta='+idEncuesta;
+        window.location='controlador/controlador.php?pagina=publicaEncuesta&idEncuesta='+idEncuesta;        
     } else {
         return false;
     }

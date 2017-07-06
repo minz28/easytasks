@@ -38,7 +38,7 @@ $encuesta = $_GET['encuesta'];
     		<h4>Listado de preguntas:</h4>
     	</div>
         <div class="col-md-4 col-md-offset-3">
-            <button type='button' class='btn btn-default' data-toggle='modal' data-target='#modalAsignaPregunta'><span class='glyphicon glyphicon-plus'>Agregar pregunta</span></button>
+            <button type='button' class='btn btn-default' data-toggle='modal' data-target='#modalAsignaPregunta'><span class='glyphicon glyphicon-plus'></span> Agregar pregunta</button>
         </div>
         <div class="col-md-12">
         	<br>

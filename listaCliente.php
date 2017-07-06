@@ -12,6 +12,7 @@ $funciones = new Funciones;
 <title><?php echo TITULO; ?></title>
 
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="css/estilos.css">
 
 <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
@@ -43,7 +44,7 @@ $funciones = new Funciones;
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalAdd"><span class="glyphicon glyphicon-plus"></span></button><br><br>
+            <button type="button" class="btn btn-default btnNaranja" data-toggle="modal" data-target="#modalAdd"><span class="glyphicon glyphicon-plus"></span>  Agregar solicitante</button><br><br>
         </div>
     </div>
     <div class="row">

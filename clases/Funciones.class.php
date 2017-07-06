@@ -395,18 +395,22 @@ class Funciones extends Conexion{
 				foreach ($arreglo as $tarjeta) {
 					//echo "<tr><td class='warning' style='background: url(ruta de la imagen);'>";
 					$tarjetaJson=json_encode($tarjeta);
-					echo "<tr><td style='background-color: #fdfd96; color: black'>";
+					echo "<tr><td style='background-color: #fdfd96; color: black; 
+					border-radius: 0px 0px 50px 0px;
+					-moz-border-radius: 0px 0px 50px 0px;
+					-webkit-border-radius: 0px 0px 50px 0px;
+					border: 5px solid #ffffff;'>";
 					echo "<a style='color: black;' href='#' onclick='detalleTarjeta(".$tarjetaJson.")'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
 					echo "</a><br>";
-					if ($_SESSION['perfil'] != 3) {
+					if ($_SESSION['perfil'] == 2) {
 						//echo "<button type='button' class='btn btn-default' onclick='editaTarjeta($tarjetaJson);'><span class='glyphicon glyphicon-edit'></span></button>";
 						//echo "<a href='#' style='color: black' class='glyphicon glyphicon-edit' onclick='editaTarjeta($tarjetaJson);'></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 						echo "<a href='#' title='Editar tarjeta' style='color: black' class='material-icons' onclick='editaTarjeta($tarjetaJson);'>&#xe254;</a>&nbsp;&nbsp;";
 						echo "<a href='#' title='Asignar usuario' style='color: black' class='material-icons' onclick='muestraAsignarTarjeta($tarjeta[idTarjeta]);'>&#xe7f0;</i>";
 					}					
-					echo "</td></tr>";
+					echo "<br></td></tr>";
 				}
 			} else {
 				echo "<tr><td style='background-color: #fdfd96; color: black'>";
@@ -429,6 +433,7 @@ class Funciones extends Conexion{
 						C.AREA_CLIENTE,
 						TJ.FECHA_SOLICITUD,
 						P.DESCRIPCION_PRIORIDAD,
+						TJ.OBSERVACIONES,
 						TJ.ESTADO_TARJETA,
 						ET.DESCRIPCION_ESTADO_TAJETA
 					FROM
@@ -452,16 +457,24 @@ class Funciones extends Conexion{
 					$arreglo[$i]['solicitante'] = $datos['NOMBRE_CLIENTE']." - ".$datos['CARGO_CLIENTE']." - ".$datos['AREA_CLIENTE'];
 					$arreglo[$i]['fechaSolicitud'] = $datos['FECHA_SOLICITUD'];
 					$arreglo[$i]['prioridad'] = $datos['DESCRIPCION_PRIORIDAD'];
+					$arreglo[$i]['observaciones'] = $datos['OBSERVACIONES'];
 					$arreglo[$i]['idEstado'] = $datos['ESTADO_TARJETA'];
 					$arreglo[$i]['estado'] = $datos['DESCRIPCION_ESTADO_TAJETA'];
 					$i++;
 				}
-				//var_dump($arreglo); die();
+				//var_dump($arreglo); die();					
 				foreach ($arreglo as $tarjeta) {
-					echo "<tr><td style='background-color: #779ecb; color: black'>";
+					$tarjetaJson=json_encode($tarjeta);
+					echo "<tr><td style='background-color: #779ecb; color: black;
+					border-radius: 0px 0px 50px 0px;
+					-moz-border-radius: 0px 0px 50px 0px;
+					-webkit-border-radius: 0px 0px 50px 0px;
+					border: 5px solid #ffffff;'>";
+					echo "<a style='color: black;' href='#' onclick='detalleTarjeta(".$tarjetaJson.")'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
-					echo "</td></tr>";
+					echo "</a><br>";
+					echo "<br></td></tr>";
 				}
 			} else {
 				echo "<tr><td style='background-color: #779ecb; color: black'>";
@@ -484,6 +497,7 @@ class Funciones extends Conexion{
 						C.AREA_CLIENTE,
 						TJ.FECHA_SOLICITUD,
 						P.DESCRIPCION_PRIORIDAD,
+						TJ.OBSERVACIONES,
 						TJ.ESTADO_TARJETA,
 						ET.DESCRIPCION_ESTADO_TAJETA
 					FROM
@@ -509,16 +523,24 @@ class Funciones extends Conexion{
 					$arreglo[$i]['solicitante'] = $datos['NOMBRE_CLIENTE']." - ".$datos['CARGO_CLIENTE']." - ".$datos['AREA_CLIENTE'];
 					$arreglo[$i]['fechaSolicitud'] = $datos['FECHA_SOLICITUD'];
 					$arreglo[$i]['prioridad'] = $datos['DESCRIPCION_PRIORIDAD'];
+					$arreglo[$i]['observaciones'] = $datos['OBSERVACIONES'];
 					$arreglo[$i]['idEstado'] = $datos['ESTADO_TARJETA'];
 					$arreglo[$i]['estado'] = $datos['DESCRIPCION_ESTADO_TAJETA'];
 					$i++;
 				}
 				//var_dump($arreglo); die();
 				foreach ($arreglo as $tarjeta) {
-					echo "<tr><td style='background-color: #6ae96a; color: black'>";
+					$tarjetaJson=json_encode($tarjeta);
+					echo "<tr><td style='background-color: #6ae96a; color: black; 
+					border-radius: 0px 0px 50px 0px;
+					-moz-border-radius: 0px 0px 50px 0px;
+					-webkit-border-radius: 0px 0px 50px 0px;
+					border: 5px solid #ffffff;'>";
+					echo "<a style='color: black;' href='#' onclick='detalleTarjeta(".$tarjetaJson.")'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
-					echo "</td></tr>";
+					echo "</a><br>";
+					echo "<br></td></tr>";
 				}
 			} else {
 				echo "<tr><td style='background-color: #6ae96a; color: black'>";
@@ -534,6 +556,7 @@ class Funciones extends Conexion{
     function muestraTarjetaImpedidas(){
     	try {
     		$sql="	SELECT
+    					TJ.ID_TARJETA,
 						S.DESCRIPCION_SISTEMA,
 						T.DESCRIPCION_TAREA,
 						C.NOMBRE_CLIENTE,
@@ -541,6 +564,7 @@ class Funciones extends Conexion{
 						C.AREA_CLIENTE,
 						TJ.FECHA_SOLICITUD,
 						P.DESCRIPCION_PRIORIDAD,
+						TJ.OBSERVACIONES,
 						TJ.ESTADO_TARJETA,
 						ET.DESCRIPCION_ESTADO_TAJETA
 					FROM
@@ -560,20 +584,29 @@ class Funciones extends Conexion{
 			if($record = $this->selectEasyTasks($sql)){
 				$i=0;
 				while($datos = mysql_fetch_assoc($record)){
+					$arreglo[$i]['idTarjeta'] = $datos['ID_TARJETA'];
 					$arreglo[$i]['tarea'] = $datos['DESCRIPCION_SISTEMA']." - ".$datos['DESCRIPCION_TAREA'];			
 					$arreglo[$i]['solicitante'] = $datos['NOMBRE_CLIENTE']." - ".$datos['CARGO_CLIENTE']." - ".$datos['AREA_CLIENTE'];
 					$arreglo[$i]['fechaSolicitud'] = $datos['FECHA_SOLICITUD'];
 					$arreglo[$i]['prioridad'] = $datos['DESCRIPCION_PRIORIDAD'];
+					$arreglo[$i]['observaciones'] = $datos['OBSERVACIONES'];
 					$arreglo[$i]['idEstado'] = $datos['ESTADO_TARJETA'];
 					$arreglo[$i]['estado'] = $datos['DESCRIPCION_ESTADO_TAJETA'];
 					$i++;
 				}
 				//var_dump($arreglo); die();
 				foreach ($arreglo as $tarjeta) {
-					echo "<tr><td style='background-color: #fe2e2e; color: black'>";
+					$tarjetaJson=json_encode($tarjeta);
+					echo "<tr><td style='background-color: #fe2e2e; color: black;
+					border-radius: 0px 0px 50px 0px;
+					-moz-border-radius: 0px 0px 50px 0px;
+					-webkit-border-radius: 0px 0px 50px 0px;
+					border: 5px solid #ffffff;'>";
+					echo "<a style='color: black;' href='#' onclick='detalleTarjeta(".$tarjetaJson.")'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
-					echo "</td></tr>";
+					echo "</a><br>";
+					echo "<br></td></tr>";
 				}
 			} else {
 				echo "<tr><td style='background-color: #fe2e2e; color: black'>";
@@ -1195,6 +1228,41 @@ class Funciones extends Conexion{
     	}
     }
 
+    function reactivarImpedida($datos){
+    	try {
+    		$sql = "INSERT INTO TARJETA (TAREA, CLIENTE_SOLICITANTE, FECHA_SOLICITUD, PRIORIDAD, OBSERVACIONES, ADJUNTO, ESTADO_TARJETA, ESTADO_REGISTRO)
+					SELECT TAREA, CLIENTE_SOLICITANTE, FECHA_SOLICITUD, PRIORIDAD, OBSERVACIONES, ADJUNTO, 1 AS ESTADO_TARJETA, ESTADO_REGISTRO 
+					FROM TARJETA WHERE ID_TARJETA = $datos[idTarjetaAutoAsignar]";
+			//echo $sql; die();
+    		if($record=$this->insertEasyTasks($sql)){
+    			$sql2 = "UPDATE TARJETA SET ESTADO_REGISTRO = 2 WHERE ID_TARJETA = $datos[idTarjetaAutoAsignar]";
+    			if($record=$this->insertEasyTasks($sql2)){
+	            	return 1;	
+    			}    			
+	        } else {
+	            echo "<script>alert('Error al reactivar tarjeta');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }	
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+	function eliminarImpedida($datos){
+    	try {
+    		$sql = "UPDATE TARJETA SET ESTADO_REGISTRO = 2 WHERE ID_TARJETA = $datos[idTarjetaAutoAsignar]";
+			//echo $sql; die();
+    		if($record=$this->insertEasyTasks($sql)){
+	            	return 1;	
+	        } else {
+	            echo "<script>alert('Error al reactivar tarjeta');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }	
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
     function verTarjetaAsignada($idTarjeta){
     	try {
     		$sql="	SELECT
@@ -1577,34 +1645,42 @@ class Funciones extends Conexion{
     	}
     }
 
-    function publicaEncuesta($idEncuesta){    	
+    function publicaEncuesta($idEncuesta){
     	try {
-    		$sql = "SELECT
-						ID_USUARIO
-					FROM
-						USUARIO
-					WHERE
-						EMPRESA = $_SESSION[empresa]
-					AND PERFIL = 3
-					AND ESTADO_REGISTRO = 1";
+    		$sql = "SELECT 	ID_USUARIO
+					FROM 	USUARIO
+					WHERE 	EMPRESA = $_SESSION[empresa]
+					AND 	PERFIL = 3
+					AND 	ESTADO_REGISTRO = 1";
     		if($record = $this->selectEasyTasks($sql)){
-    			while ($datos = mysql_fetch_assoc($record)) {
-    				# code...
-    			}
-    		}
-
-    		//PENDIENTE listar usuarios a asignar la encuesta
-
-    		$sql2="INSERT INTO PREGUNTA_ENCUESTA (ENCUESTA, PREGUNTA) 
-	                VALUES ($datos[idEncuesta], $datos[cboPreguntaAsignada])";
-	                //echo $sql;die();
-	        if($record=$this->insertEasyTasks($sql)){
-	            //echo "<script>alert('La tarea fue agregada exitosamente');</script>";
-	            return 1;
-	        } else {
-	            echo "<script>alert('Error al asignar pregunta a encuesta');</script>";
+				$i=0;
+				while($datos = mysql_fetch_assoc($record)){
+					$arreglo[$i] = $datos['ID_USUARIO'];
+					$i++;
+				}
+				foreach ($arreglo as $usuario){
+					$sql2 = "	INSERT INTO USUARIO_ENCUESTA (USUARIO, ID_AUTOEVALUACION)
+								VALUES ($usuario, $idEncuesta)";
+					if($record=$this->insertEasyTasks($sql2)){ $flag=1; } else { $flag=0; }
+				}
+				if($flag == 1){
+					$sql3 = "	UPDATE ENCUESTA
+								SET ESTADO_ENCUESTA = 1
+								WHERE ID_ENCUESTA = $idEncuesta";
+					if ($record=$this->insertEasyTasks($sql3)) {
+						return 1;
+					} else {
+						echo "<script>alert('Error al actualizar el estado de encuesta');</script>";
+            			echo "<script>window.history.back();</script>";
+					}
+				} else {
+					echo "<script>alert('Error al asignar usuarios a encuesta');</script>";
+            		echo "<script>window.history.back();</script>";
+				}
+			} else {
+				echo "<script>alert('Error al seleccionar usuarios a asignar en encuesta');</script>";
 	            echo "<script>window.history.back();</script>";
-	        }
+			}    		
     	} catch (Exception $e) {
     		echo "<script>alert('".$e->getMessage()."');</script>";
     	}

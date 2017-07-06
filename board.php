@@ -15,10 +15,12 @@ if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("locat
 
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><!--Íconos Google-->
+<link rel="stylesheet" type="text/css" href="css/estilos.css">
 
 <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script type="text/javascript" src="js/funciones.js"></script>
+
 </head>
 
 <!--<body style="background-color: #E6E6E6;">-->
@@ -29,7 +31,7 @@ if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("locat
         <?php include("menu.php"); ?>
         <div class="col-md-6">
 	        <h5 class="text-right">Bienvenido <?php echo $_SESSION['nombreUsuario']; ?>
-	        &nbsp;<a href="logout.php"><button type="button" class="btn btn-default">Cerrar Sesión</button></a></h5>
+	        &nbsp;<a href="logout.php"><button type="button" class="btn btn-default btnRojo2">Cerrar Sesión</button></a></h5>
         </div>
     </div><!-- /.container-fluid -->
 </nav>
@@ -38,7 +40,7 @@ if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("locat
     <div class="container">
     	<div class="row">
         	<div class="col-md-12 text-center">
-        	   <h2>Tablero de tareas para <?php echo ucwords(strtolower($_SESSION['descripcionEmpresa'])); ?></h2>
+        	   <h2>Kanban Flow para <?php echo ucwords(strtolower($_SESSION['descripcionEmpresa'])); ?></h2>
             </div>
         </div>        
     </div>
@@ -46,50 +48,70 @@ if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("locat
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalCreaTarjeta"><span class="glyphicon glyphicon-plus"></span> Agregar tarjeta</button>
+        <div class="col-md-12 text-right">
+            <button type="button" class="btn btn-default btnGris" data-toggle="modal" data-target="#modalCreaTarjeta"><span class="glyphicon glyphicon-plus"></span> Agregar tarjeta</button>
             <?php if(!($_SESSION['perfil'] == 2 && $_SESSION['tarjetaVigente'] == 1)){ ?>
-            <button type="button" class="btn btn-default" onclick="location.href='controlador/controlador.php?pagina=verificaTarjetaAsignada'"><span class="glyphicon glyphicon-refresh"></span> Buscar tarjetas asignadas</button>
+            <button type="button" class="btn btn-default btnGris" onclick="location.href='controlador/controlador.php?pagina=verificaTarjetaAsignada'"><span class="glyphicon glyphicon-search"></span> Buscar tarjetas asignadas</button>
             <?php } ?>
-            <?php if($_SESSION['perfil'] == 2 && $_SESSION['tarjetaVigente'] == 1){ ?>
-            <button type="button" class="btn btn-default" onclick="location.href='tareaVigente.php'"><span class="glyphicon glyphicon-saved"></span> Finalizar tarjetas asignadas</button>
+            <?php if($_SESSION['perfil'] == 2 && $_SESSION['tarjetaVigente'] == 1) { ?>
+            <button type="button" class="btn btn-default btnGris" onclick="location.href='tareaVigente.php'"><span class="glyphicon glyphicon-saved"></span> Finalizar tarjetas asignadas</button>
             <?php } ?>
             <br><br>
         </div>
     </div>
     <div class="row">
         <div class="col-md-3">
-            <table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">
+            <!--<table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">-->
+            <table class="table table-condensed">
                 <tr>
                     <!--<th class="text-center" style="background-color: #F7FE2E;">PENDIENTES</th>-->
-                    <th class="text-center" style="background-color: #fdfd96; color: black;">PENDIENTES</th>
+                    <th class="text-center" style="background-color: #fdfd96; color: black; 
+                    border-radius: 10px 10px 10px 10px;
+                    -moz-border-radius: 10px 10px 10px 10px;
+                    -webkit-border-radius: 10px 10px 10px 10px;
+                    border: 5px solid #ffffff;">PENDIENTES</th>
                 </tr>
                 <?php $funciones->muestraTarjetaPendientes(); ?>
             </table>
         </div>
         <div class="col-md-3">
-            <table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">
+            <!--<table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">-->
+            <table class="table table-condensed">
                 <tr>
                     <!--<th class="text-center" style="background-color: #2E2EFE">EN DESARROLLO</th>-->
-                    <th class="text-center" style="background-color: #779ecb; color: black;">EN DESARROLLO</th>
+                    <th class="text-center" style="background-color: #779ecb; color: black; 
+                    border-radius: 10px 10px 10px 10px;
+                    -moz-border-radius: 10px 10px 10px 10px;
+                    -webkit-border-radius: 10px 10px 10px 10px;
+                    border: 5px solid #ffffff;">EN DESARROLLO</th>
                 </tr>
                 <?php $funciones->muestraTarjetaEnDesarrollo(); ?>
             </table>
         </div>
         <div class="col-md-3">
-            <table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">
+            <!--<table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">-->
+            <table class="table table-condensed">
                 <tr>
                     <!--<th class="text-center" style="background-color: #2EFE2E">TERMINADAS</th>-->
-                    <th class="text-center" style="background-color: #6ae96a; color: black;">TERMINADAS</th>
+                    <th class="text-center" style="background-color: #6ae96a; color: black; 
+                    border-radius: 10px 10px 10px 10px;
+                    -moz-border-radius: 10px 10px 10px 10px;
+                    -webkit-border-radius: 10px 10px 10px 10px;
+                    border: 5px solid #ffffff;">TERMINADAS</th>
                 </tr>
                 <?php $funciones->muestraTarjetaTerminadas(); ?>
             </table>
         </div>
         <div class="col-md-3">
-            <table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">
+            <!--<table class="table table-bordered table-hover table-condensed" style="box-shadow: 10px 10px 5px lightgrey;">-->
+            <table class="table table-condensed">
                 <tr>
                     <!--<th class="text-center" style="background-color: #FE2E2E">IMPEDIDAS</th>-->
-                    <th class="text-center" style="background-color: #fe2e2e; color: black;">IMPEDIDAS</th>
+                    <th class="text-center" style="background-color: #fe2e2e; color: black; 
+                    border-radius: 10px 10px 10px 10px;
+                    -moz-border-radius: 10px 10px 10px 10px;
+                    -webkit-border-radius: 10px 10px 10px 10px;
+                    border: 5px solid #ffffff;">IMPEDIDAS</th>
                 </tr>
                 <?php $funciones->muestraTarjetaImpedidas(); ?>
             </table>
@@ -147,7 +169,7 @@ if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("locat
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="validaTarjeta();">Grabar</button>
+                    <button type="button" class="btn btn-default btnVerde" onclick="validaTarjeta();">Grabar</button>
                 </div>                
             </div>
         </div>
@@ -163,7 +185,7 @@ if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("locat
                 </div>
                 <div class="modal-body">
                 	<form id="formAutoAsignar">
-                		<input type="hidden" name="pagina" value="autoAsignaTarjeta" /><!--Variable oculta para identificar en el controlador-->
+                		<input type="hidden" name="pagina" id="pagina" value="" /><!--Variable oculta para identificar en el controlador-->
                         <input type="hidden" name="idTarjetaAutoAsignar" id="idTarjetaAutoAsignar" value=""><!--Variable oculta para saber id de tarjeta a editar-->
                 	</form>
                 	<p id="solicitante"></p>
@@ -172,9 +194,15 @@ if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("locat
                 	<p id="observaciones"></p>
                     
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="autoAsignacionTarjeta();">Asignarme esta tarea</button>
-                </div>                
+                <div class="modal-footer" id="footerDetalleTarjeta1">
+                    <button type="button" class="btn btn-default btnVerde" onclick="autoAsignacionTarjeta();">Asignarme esta tarea</button>
+                </div>
+                <?php if($_SESSION['perfil'] == 2) { ?>
+                <div class="modal-footer" id="footerDetalleTarjeta4">
+                    <button type="button" class="btn btn-default btnVerde" onclick="reactivarImpedida();">Volver a estado pendiente</button>
+                    <button type="button" class="btn btn-default btnRojo" onclick="eliminarImpedida();">Elimina tarjeta</button>
+                </div>
+                <?php } ?>
             </div>
         </div>
     </div>
@@ -231,7 +259,7 @@ if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("locat
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="guardaEditaTarjeta();">Grabar</button>
+                    <button type="button" class="btn btn-default btnVerde" onclick="guardaEditaTarjeta();">Grabar</button>
                 </div>                
             </div>
         </div>
@@ -264,7 +292,7 @@ if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("locat
                     <div id="arrayUsuario"></div><!--Pensado para listar los múltiples usuarios agregados anteriormente. PENDIENTE por problemas al descartar un usuario-->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="asignaTarjeta();">Grabar</button>
+                    <button type="button" class="btn btn-default btnVerde" onclick="asignaTarjeta();">Grabar</button>
                 </div>                
             </div>
         </div>
