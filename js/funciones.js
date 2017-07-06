@@ -386,6 +386,38 @@ function autoAsignacionTarjeta(){
     }
 }
 
+function finalizaTarea(){
+    if(confirm("¿Está seguro que desea dar por finalizada su tarjeta actual?") == true){
+        document.getElementById('formFinalilzaTarjeta').action = 'controlador/controlador.php';
+        document.getElementById('formFinalilzaTarjeta').method = 'post';
+        document.getElementById('formFinalilzaTarjeta').submit();
+    } else {
+        return false;
+    }
+}
+
+function iniciarTarjeta(){
+    if(confirm("¿Está seguro que desea dar inicio en este momento a la tarjeta asignada?") == true){
+        document.getElementById('form').action = 'controlador/controlador.php';
+        document.getElementById('form').method = 'post';
+        document.getElementById('form').submit();
+    } else {
+        return false;
+    }
+}
+
+function validaRazonImpedimento(){
+    if(confirm("¿Está seguro que desea declarar esta tarjeta como impedida?") == true){
+        document.getElementById('formTarjetaImpedida').action = 'controlador/controlador.php';
+        document.getElementById('formTarjetaImpedida').method = 'post';
+        document.getElementById('formTarjetaImpedida').submit();
+    } else {
+        return false;
+    }
+}
+
+//FUNCIONES RELACIONADAS A ENCUESTA
+
 //Validar formulario ingreso de tarjeta
 function validaCrearPregunta(){
     if(document.getElementById('txtDescripcion').value.trim() == "")
@@ -492,9 +524,7 @@ function asignaPregunta(idEncuesta){
 }
 
 function guardaAsignaPregunta(){
-    if(confirm("¿Está seguro que desea eliminar asignar esta pregunta?") == true){
-        $('#pagina').val('asignaPregunta');
-        //alert($('#pagina').val());
+    if(confirm("¿Está seguro que desea asignar esta pregunta?") == true){
         document.getElementById('formAsignaPregunta').action = 'controlador/controlador.php';
         document.getElementById('formAsignaPregunta').method = 'post';
         document.getElementById('formAsignaPregunta').submit();
@@ -503,47 +533,17 @@ function guardaAsignaPregunta(){
     }
 }
 
-function verEncuesta(idEncuesta){
-    $('#idEncuestaVer').val(idEncuesta);
-    document.getElementById('formVerEncuesta').action = 'controlador/controlador.php';
-    document.getElementById('formVerEncuesta').method = 'post';
-    document.getElementById('formVerEncuesta').submit();
-    $('#modalVerEncuesta').modal('show');    
+function borraPreguntaEncuesta(json){
+    if(confirm("¿Está seguro que desea borrar esta pregunta para esta encuesta?") == true){
+        window.location='controlador/controlador.php?pagina=borraPreguntaEncuesta&encuesta='+json.idEncuesta+'&pregunta='+json.idPregunta;
+    } else {
+        return false;
+    }
 }
 
 function publicaEncuesta(idEncuesta){
     if(confirm("¿Está seguro que desea publicar esta encuesta?") == true){
-        window.location('controlador/controlador.php?pagina=publicaEncuesta&idEncuesta='+idEncuesta);
-    } else {
-        return false;
-    }
-}
-
-function finalizaTarea(){
-    if(confirm("¿Está seguro que desea dar por finalizada su tarjeta actual?") == true){
-        document.getElementById('formFinalilzaTarjeta').action = 'controlador/controlador.php';
-        document.getElementById('formFinalilzaTarjeta').method = 'post';
-        document.getElementById('formFinalilzaTarjeta').submit();
-    } else {
-        return false;
-    }
-}
-
-function iniciarTarjeta(){
-    if(confirm("¿Está seguro que desea dar inicio en este momento a la tarjeta asignada?") == true){
-        document.getElementById('form').action = 'controlador/controlador.php';
-        document.getElementById('form').method = 'post';
-        document.getElementById('form').submit();
-    } else {
-        return false;
-    }
-}
-
-function validaRazonImpedimento(){
-    if(confirm("¿Está seguro que desea declarar esta tarjeta como impedida?") == true){
-        document.getElementById('formTarjetaImpedida').action = 'controlador/controlador.php';
-        document.getElementById('formTarjetaImpedida').method = 'post';
-        document.getElementById('formTarjetaImpedida').submit();
+        window.location='controlador/controlador.php?pagina=publicaEncuesta&idEncuesta='+idEncuesta;
     } else {
         return false;
     }

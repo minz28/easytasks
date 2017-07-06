@@ -14,6 +14,12 @@ switch($_REQUEST['pagina']){
             $_SESSION['empresa'] = $respuesta['empresa'];
             $_SESSION['descripcionEmpresa'] = $respuesta['descripcionEmpresa'];
             $_SESSION['perfil'] = $respuesta['perfil'];
+            $encuesta = $controlador->validaExistenciaEncuesta();
+            if ($encuesta['idEncuesta'] == 0) {
+            	$_SESSION['idEncuesta'] = 0;
+            } else {
+            	$_SESSION['idEncuesta'] = $encuesta['idEncuesta'];
+            }
             $respuesta2 = $controlador->validaTareaVigente();
             if($respuesta2 == 0){	//NO EXISTE TAJETA ASIGNADA
             	$_SESSION['tarjetaVigente'] = 0;
@@ -220,6 +226,57 @@ switch($_REQUEST['pagina']){
 
     break;
     
+    case 'finalizaTarea':
+        
+        $respuesta = $controlador->finalizaTarea();
+        if($respuesta == 1){
+            header("location:../board.php");
+        }
+
+    break;
+
+    case 'iniciarTarjeta':
+        
+        $respuesta = $controlador->iniciarTarjeta();
+        if($respuesta == 1){
+            header("location:../tareaVigente.php");
+        }
+
+    break;
+    
+    case 'validaRazonImpedimento':
+        
+        $respuesta = $controlador->validaRazonImpedimento($_POST);
+        if($respuesta == 1){
+            header("location:../board.php");
+        }
+
+    break;
+
+    case 'verificaTarjetaAsignada':
+    	
+    	$respuesta = $controlador->validaTareaVigente();
+    	if($respuesta == 0) {
+    		echo "<script>";
+        	echo "alert('Actualmente no cuenta con tarjetas asignadas');";
+        	echo "window.location='../board.php';";        	
+        	echo "</script>";
+    	} else {
+    		$_SESSION['tarjetaVigente']=1;
+			$_SESSION['idTarjetaVigente']=$respuesta['idTarjeta'];
+			$fechaInicioTarjeta = $respuesta['fechaInicio'];
+			if($fechaInicioTarjeta == '0000-00-00'){
+				header("location:../aceptarTarjetaAsignada.php");
+			} elseif ($fechaInicioTarjeta != '0000-00-00') {
+				if($_SESSION['perfil'] == 2){
+					header("location:../board.php");
+				}
+			}    		
+    	}
+
+    break;
+
+    //INSTRUCCIONES RELACIONADAS CON ENCUESTA
     case 'creaPregunta':
     
         $respuesta = $controlador->creaPregunta($_POST);
@@ -278,14 +335,18 @@ switch($_REQUEST['pagina']){
         
         $respuesta = $controlador->asignaPregunta($_POST);
         if($respuesta == 1){
-            header("location:../listaEncuesta.php");
+            //header("location:../listaEncuesta.php");
+            header("location:../detalleEncuesta.php?encuesta=".$_POST['idEncuesta']);
         }
 
     break;
 
-    case 'verEncuesta':
+    case 'borraPreguntaEncuesta':
         
-        //$controlador->verEncuesta($_POST);
+        $respuesta = $controlador->borraPreguntaEncuesta($_GET);
+        if($respuesta == 1){
+            header("location:../detalleEncuesta.php?encuesta=".$_GET['encuesta']);
+        }
 
     break;
 
@@ -295,56 +356,6 @@ switch($_REQUEST['pagina']){
         if($respuesta == 1){
             header("location:../listaEncuesta.php");
         }
-
-    break;
-
-    case 'finalizaTarea':
-        
-        $respuesta = $controlador->finalizaTarea();
-        if($respuesta == 1){
-            header("location:../board.php");
-        }
-
-    break;
-
-    case 'iniciarTarjeta':
-        
-        $respuesta = $controlador->iniciarTarjeta();
-        if($respuesta == 1){
-            header("location:../tareaVigente.php");
-        }
-
-    break;
-    
-    case 'validaRazonImpedimento':
-        
-        $respuesta = $controlador->validaRazonImpedimento($_POST);
-        if($respuesta == 1){
-            header("location:../board.php");
-        }
-
-    break;
-
-    case 'verificaTarjetaAsignada':
-    	
-    	$respuesta = $controlador->validaTareaVigente();
-    	if($respuesta == 0) {
-    		echo "<script>";
-        	echo "alert('Actualmente no cuenta con tarjetas asignadas');";
-        	echo "window.location='../board.php';";        	
-        	echo "</script>";
-    	} else {
-    		$_SESSION['tarjetaVigente']=1;
-			$_SESSION['idTarjetaVigente']=$respuesta['idTarjeta'];
-			$fechaInicioTarjeta = $respuesta['fechaInicio'];
-			if($fechaInicioTarjeta == '0000-00-00'){
-				header("location:../aceptarTarjetaAsignada.php");
-			} elseif ($fechaInicioTarjeta != '0000-00-00') {
-				if($_SESSION['perfil'] == 2){
-					header("location:../board.php");
-				}
-			}    		
-    	}
 
     break;
 

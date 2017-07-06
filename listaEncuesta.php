@@ -54,9 +54,9 @@ $funciones = new Funciones;
                     <th>Año</th>
                     <th>Período</th>
                     <th>Tipo de encuesta</th>
-                    <th>Ver</th>
-                    <th>Asignar/Eliminar preguntas</th>
-                    <th>Publicar encuesta</th>
+                    <th class="text-center">Ver</th>
+                    <!--<th class="text-center">Agregar preguntas</th>-->
+                    <th class="text-center">Publicar encuesta</th>
                     <th>Estado encuesta</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
@@ -165,29 +165,7 @@ $funciones = new Funciones;
             </div>
         </div>
     </div>
-    <!--Fin modal ASIGNA preguntas-->
-    <!--Inicio modal VER encuesta-->
-    <div class="modal fade" id="modalVerEncuesta" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 id="nombreEncuesta" class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                	<form id="formVerEncuesta">
-                		<input type="hidden" name="pagina" id="pagina" value="verEncuesta" /><!--Variable oculta para identificar en el controlador-->
-                		<input type="hidden" name="idEncuestaVer" id="idEncuestaVer" value=""><!--Variable oculta para saber id de encuesta a mostrar-->
-                		<?php $funciones->verEncuesta(); ?>
-                	</form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="guardaAsignaPregunta()">Grabar</button>
-                </div>                
-            </div>
-        </div>
-    </div>
-    <!--Fin modal VER encuesta-->
+    <!--Fin modal ASIGNA preguntas-->    
 </div>
 
 <?php include("footer.php"); ?>
