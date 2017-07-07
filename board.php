@@ -42,7 +42,7 @@ if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("locat
         	<div class="col-md-12 text-center">
         	   <h2>Kanban Flow para <?php echo ucwords(strtolower($_SESSION['descripcionEmpresa'])); ?></h2>
             </div>
-        </div>        
+        </div>
     </div>
 </header>
 

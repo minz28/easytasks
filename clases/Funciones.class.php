@@ -755,7 +755,9 @@ class Funciones extends Conexion{
 						U.PERFIL = P.ID_PERFIL
 					WHERE
 						U.EMPRESA = $_SESSION[empresa]
-					AND U.ESTADO_REGISTRO = 1";
+					AND U.ESTADO_REGISTRO = 1
+					ORDER BY
+						U.PERFIL DESC";
 					//echo $sql; die();
 			if($record = $this->selectEasyTasks($sql)){
 				$i=0;

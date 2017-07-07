@@ -104,7 +104,7 @@ $funciones = new Funciones;
                 </div>
                 <br>
                 <div class="modal-footer">                    
-                    <button type="button" class="btn btn-default" onclick="validaCrearUsuario();">Grabar</button>
+                    <button type="button" class="btn btn-default btnVerde" onclick="validaCrearUsuario();">Grabar</button>
                 </div>                
             </div>
         </div>
@@ -148,7 +148,7 @@ $funciones = new Funciones;
                 	</form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="guardaEditaUsuario()">Grabar</button>
+                    <button type="button" class="btn btn-default btnVerde" onclick="guardaEditaUsuario()">Grabar</button>
                 </div>                
             </div>
         </div>
