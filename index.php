@@ -1,107 +1,147 @@
 <?php
 include ("constantes.php");
 ?>
-<!doctype html>
+<!DOCTYPE HTML>
 <html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, maximun-scale=1">
-<title><?php echo TITULO; ?></title>
+	<head>
+		<title><?php echo TITULO; ?></title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
 
-<link href="css/bootstrap.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="css/estilos.css">
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
 
-<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.js"></script>
-<script type="text/javascript" src="js/funciones.js"></script>
+				<!-- Header -->
+					<header id="header" class="alt">
+						<h1><a href="index.html">EasyTask</a></h1>
+						<nav>
+							<a href="#menu">Iniciar Sesion</a>
+						</nav>
+					</header>
 
-<style type="text/css">
-/*
- * Start Bootstrap - Full Slider (http://startbootstrap.com/)
- * Copyright 2013-2016 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
- */
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>Iniciar Sesion</h2>
+							<!--<input type="text" placeholder="Username"/>
+							<input type="password" placeholder="***********"/>-->
+							<form id="form">
+			                	<input type="hidden" name="pagina" value="login">
+			                	<div class="form-group">
+			                    	<label for="txtUsuario">Usuario</label>
+			                        <input type="text" class="form-control" id="txtUsuario" name="txtUsuario" placeholder="Usuario" value="">
+			                    </div>
+			                    <br>
+			                    <div class="form-group">
+			                    	<label for="txtPassword">Contraseña</label>
+			                        <input type="password" class="form-control" id="txtPassword" name="txtPassword" placeholder="Contraseña" value="">
+			                    </div>
+			                    <!--<a class="btn btn-default" href="board.php" role="button">Iniciar Sesión</a>-->
+			                    <br>
+			                    <button type="button" class="btn btn-default" onclick="validaLogin();">Iniciar Sesión</button>
+			                </form>
+							</br>
+							<a href="#" class="close">Close</a>
+						</div>
+					</nav>
 
-html,
-body {
-    height: 100%;
-}
+				<!-- Banner -->
+					<section id="banner">
+						<div class="inner">
+							<div class="logo"><span class="icon fa fa-area-chart"></span></div>
+							<h2>EASYTASK</h2>
+						</div>
+					</section>
 
-.carousel,
-.item,
-.active {
-    height: 100%;
-}
+				<!-- Wrapper -->
+					<section id="wrapper">
 
-.carousel-inner {
-    height: 100%;
-}
+						<!-- One -->
+							<section id="one" class="wrapper spotlight style1">
+								<div class="inner">
+									<a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
+									<div class="content">
+										<h2 class="major">Mision</h2>
+										<p>......</p>
+									</div>
+								</div>
+							</section>
 
-/* Background images are set within the HTML using inline CSS, not here */
+						<!-- Two -->
+							<section id="two" class="wrapper alt spotlight style2">
+								<div class="inner">
+									<a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
+									<div class="content">
+										<h2 class="major">Vision</h2>
+										<p>.........</p>
+									</div>
+								</div>
+							</section>
 
-.fill {
-    width: 100%;
-    height: 100%;
-    background-position: center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-    -o-background-size: cover;
-}
+						<!-- Three -->
+							<section id="three" class="wrapper spotlight style3">
+								<div class="inner">
+									<a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
+									<div class="content">
+										<h2 class="major">Sobre Nosotros</h2>
+										<p>......</p>
+									</div>
+								</div>
+							</section>
+					</section>
+				<!-- Footer -->
+					<section id="footer">
+						<div class="inner">
+							<h2 class="major">Contactate Con nosotros</h2>
+							<form method="post" action="#">
+								<div class="field">
+									<label for="name">Nombre</label>
+									<input type="text" name="name" id="name" />
+								</div>
+								<div class="field">
+									<label for="email">Correo</label>
+									<input type="email" name="email" id="email" />
+								</div>
+								<div class="field">
+									<label for="message">Mensaje</label>
+									<textarea name="message" id="message" rows="4"></textarea>
+								</div>
+								<ul class="actions">
+									<li><input type="submit" value="Enviar Mensaje" /></li>
+								</ul>
+							</form>
+							<ul class="contact">
+								<li class="fa-home">
+									Chile<br />
+									Region Metropolitana,Santiago<br />
+								</li>
+								<li class="fa-phone">(000) 000-0000</li>
+								<li class="fa-envelope"><a href="#">informacion@easytask.cl</a></li>
+								<li class="fa-twitter"><a href="#">twitter.com/easytask</a></li>
+								<li class="fa-facebook"><a href="#">facebook.com/easytask</a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Untitled Inc. All rights reserved.</li><li>Design: <a href="htpp://www.inacap.cl">Inacapino</a></li>
+							</ul>
+						</div>
+					</section>
 
+			</div>
 
-</style>
+		<!-- Scripts -->
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<script type="text/javascript" src="js/funciones.js"></script>
 
-</head>
-
-<body>
-
-<header>
-    <div class="container">
-    	<div class="row">
-        	<div class="col-md-4">
-        	   <!--<h2 style="color:#00FFFF; font-family: helvetica">EasyTasks</h3>-->
-               <p style="text-shadow:1px 1px 1px rgba(16,33,89,1);font-weight:normal;font-variant:small-caps;color:#0C063B;letter-spacing:7pt;word-spacing:2pt;font-size:45px;text-align:left;font-family:trebuchet MS, sans-serif;line-height:2;">EasyTasks</p>
-            </div>
-            <div class="col-md-8 text-right"><br>
-                <form id="form" class="form-inline">
-                	<input type="hidden" name="pagina" value="login">
-                	<div class="form-group">
-                    	<label for="txtUsuario">Usuario</label>
-                        <input type="text" class="form-control" id="txtUsuario" name="txtUsuario" placeholder="Usuario" value="">
-                    </div>
-                    <div class="form-group">
-                    	<label for="txtPassword">Contraseña</label>
-                        <input type="password" class="form-control" id="txtPassword" name="txtPassword" placeholder="Contraseña" value="">
-                    </div>
-                    <!--<a class="btn btn-default" href="board.php" role="button">Iniciar Sesión</a>-->
-                    <button type="button" class="btn btn-default btnRojo2" onclick="validaLogin();">Iniciar Sesión</button>
-                </form>
-            </div>
-        </div>               
-    </div>
-</header>
-
-<!-- Full Page Image Background Carousel Header -->
-    <header id="myCarousel" class="carousel slide">
-        <!-- Indicators -->
-        
-
-        <!-- Wrapper for Slides -->
-        <div class="carousel-inner">
-            <div class="item active">
-                <!-- Set the first background image using inline CSS below. -->
-                <div class="fill" style="background-image:url('img/Fondo21.jpg');"></div>
-                <div class="carousel-caption">
-                </div>
-            </div>            
-        </div>
-
-        
-
-    </header>
-
-
-
-</body>
-</html> 
+	</body>
+</html>
