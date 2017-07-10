@@ -577,3 +577,15 @@ function publicaEncuesta(idEncuesta){
         return false;
     }
 }
+
+function validaEnvioEncuesta(){
+    //var nro = document.getElementsByTagName("input");
+    //alert(nro[40].getAttribute("type"));
+    if(confirm("¿Está seguro que desea enviar la encuesta?") == true){
+        document.getElementById('formEncuesta').action = 'controlador/controlador.php';
+        document.getElementById('formEncuesta').method = 'post';
+        document.getElementById('formEncuesta').submit();
+    } else {
+        return false;
+    }
+}

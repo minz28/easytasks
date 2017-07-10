@@ -378,6 +378,10 @@ switch($_REQUEST['pagina']){
 
     break;
 
+    case 'respondeEncuesta':
+        $controlador->guardaResultadoEncuesta($_POST);
+    break;
+
 
 }
 

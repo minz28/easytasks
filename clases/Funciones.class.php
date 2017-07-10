@@ -1653,7 +1653,7 @@ class Funciones extends Conexion{
 					}
 					echo "<div class='radio'>";
 					echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-					echo "<label class='radio-inline'><input type='radio' id='respuesta$valorIndice' name='respuesta$valorIndice' value='1'>1 &nbsp;</label>";
+					echo "<label class='radio-inline'><input type='radio' id='respuesta$valorIndice' name='respuesta$valorIndice' value='1' checked='true'>1 &nbsp;</label>";
 					echo "<label class='radio-inline'><input type='radio' id='respuesta$valorIndice' name='respuesta$valorIndice' value='2'>2 &nbsp;</label>";
 					echo "<label class='radio-inline'><input type='radio' id='respuesta$valorIndice' name='respuesta$valorIndice' value='3'>3 &nbsp;</label>";
 					echo "<label class='radio-inline'><input type='radio' id='respuesta$valorIndice' name='respuesta$valorIndice' value='4'>4 &nbsp;</label>";
@@ -1728,7 +1728,58 @@ class Funciones extends Conexion{
     	}
     }
 
-
+    function guardaResultadoEncuesta($respuestas){
+    	try {
+			$sql="	SELECT 	PUNTAJE_USUARIO, PUNTAJE_COORDINADOR
+					FROM 	USUARIO_ENCUESTA
+					WHERE 	USUARIO = $_SESSION[idUsuario]
+					AND 	ID_AUTOEVALUACION = $_SESSION[idEncuesta]";
+			if($record = $this->selectEasyTasks($sql)){
+				if ($datos = mysql_fetch_assoc($record)) {
+					$puntajeUsuario = $datos['PUNTAJE_USUARIO'];
+					$puntajeCoordinador = $datos['PUNTAJE_COORDINADOR'];
+				} else {
+					$puntajeUsuario = "";
+					$puntajeCoordinador = "";
+				}
+				//Acá se calcula el promedio de las respuestas.
+				$sumaRespuesta = 0;
+				$cantidadRespuesta = 0;
+				for ($i=1; $i<count($respuestas); $i++) {
+					$sumaRespuesta += $respuestas["respuesta$i"];
+					$cantidadRespuesta += 1;
+					#echo $respuestas["respuesta$i"]."<br>";
+				}
+				$promedio = $sumaRespuesta/$cantidadRespuesta;
+				#echo $sumaRespuesta."/$cantidadRespuesta<br>$promedio";die();
+				//Fin de cálculo de promedio.
+				if($puntajeCoordinador != 0){
+					$puntajePromedio = ($promedio+$puntajeCoordinador)/2;
+					#echo "$puntajePromedio";die();
+				}
+				//PENDIENTE CREAR QUERY PARA GUARDAR PROMEDIO PONDERADO
+				$sql2 = "	INSERT INTO USUARIO_ENCUESTA (PUNTAJE_USUARIO) 
+		                	VALUES ($promedio)
+		                	WHERE USUARIO = $_SESSION[idUsuario]
+		                	AND ID_AUTOEVALUACION = $_SESSION[idEncuesta]";
+		        if($record=$this->insertEasyTasks($sql)){
+		        	$_SESSION['idEncuesta'] = 0;
+		        	echo "<script>alert('Su evaluación fue enviada satisfactoriamente');</script>";
+		            echo "<script>window.close();</script>";
+		        } else {
+		            echo "<script>alert('Error al enviar los datos de su evaluación');</script>";
+		            echo "<script>window.history.back();</script>";
+		        }
+			} else {
+				echo "<script>alert('Error al rescatar datos previos de su evaluación');</script>";
+		        echo "<script>window.history.back();</script>";
+			}
+	            
+		        
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}    	
+    }
 
 
 }
