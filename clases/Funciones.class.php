@@ -413,7 +413,11 @@ class Funciones extends Conexion{
 					echo "<br></td></tr>";
 				}
 			} else {
-				echo "<tr><td style='background-color: #fdfd96; color: black'>";
+				echo "<tr><td style='background-color: #fdfd96; color: black;
+					border-radius: 10px 10px 10px 10px;
+                    -moz-border-radius: 10px 10px 10px 10px;
+                    -webkit-border-radius: 10px 10px 10px 10px;
+                    border: 5px solid #ffffff'>";
 				echo "<h6>NO EXISTEN TARJETAS PENDIENTES</h6>";
 				echo "</td></tr>";
 			}
@@ -477,7 +481,11 @@ class Funciones extends Conexion{
 					echo "<br></td></tr>";
 				}
 			} else {
-				echo "<tr><td style='background-color: #779ecb; color: black'>";
+				echo "<tr><td style='background-color: #779ecb; color: black;
+					border-radius: 10px 10px 10px 10px;
+                    -moz-border-radius: 10px 10px 10px 10px;
+                    -webkit-border-radius: 10px 10px 10px 10px;
+                    border: 5px solid #ffffff'>";
 				echo "<h6>NO EXISTEN TARJETAS EN DESARROLLO</h6>";
 				echo "</td></tr>";
 			}
@@ -543,7 +551,11 @@ class Funciones extends Conexion{
 					echo "<br></td></tr>";
 				}
 			} else {
-				echo "<tr><td style='background-color: #6ae96a; color: black'>";
+				echo "<tr><td style='background-color: #6ae96a; color: black;
+					border-radius: 10px 10px 10px 10px;
+                    -moz-border-radius: 10px 10px 10px 10px;
+                    -webkit-border-radius: 10px 10px 10px 10px;
+                    border: 5px solid #ffffff'>";
 				echo "<h6>NO EXISTEN TARJETAS TERMINADAS</h6>";
 				echo "</td></tr>";
 			}
@@ -609,7 +621,11 @@ class Funciones extends Conexion{
 					echo "<br></td></tr>";
 				}
 			} else {
-				echo "<tr><td style='background-color: #fe2e2e; color: black'>";
+				echo "<tr><td style='background-color: #fe2e2e; color: black;
+					border-radius: 10px 10px 10px 10px;
+                    -moz-border-radius: 10px 10px 10px 10px;
+                    -webkit-border-radius: 10px 10px 10px 10px;
+                    border: 5px solid #ffffff'>";
 				echo "<h6>NO EXISTEN TARJETAS IMPEDIDAS</h6>";
 				echo "</td></tr>";
 			}				
@@ -1612,7 +1628,7 @@ class Funciones extends Conexion{
     	}
     }
 
-    function verPreguntasEncuesta($idEncuesta){
+    function verPreguntasEncuesta($idEncuesta,$tipo){
     	try {
     		$sql="	SELECT 		PE.PREGUNTA AS ID_PREGUNTA, P.PREGUNTA
 					FROM 		PREGUNTA_ENCUESTA PE
@@ -1631,14 +1647,18 @@ class Funciones extends Conexion{
 				$valorIndice = 1;
 				foreach ($arreglo as $pregunta) {
 					$json = json_encode($pregunta);
-					echo "<div>$valorIndice - $pregunta[pregunta]: <a href='#' onclick='borraPreguntaEncuesta($json)' style='color:black;'><span class='glyphicon glyphicon-trash'></span></a></div>";
+					echo "<div>$valorIndice - $pregunta[pregunta]: ";
+					if ($tipo == 1) { //Si $tipo = 1, la función es llamada desde 'detalleEncuesta.php', por lo que debe mostrar el icono para borrar pregunta, si $tipo = 2, la función es llamada desde 'encuesta.php', por lo que no se debe mostrar el icono de eliminar. 
+						echo "<a href='#' onclick='borraPreguntaEncuesta($json)' style='color:black;'><span class='glyphicon glyphicon-trash'></span></a></div>";
+					}
 					echo "<div class='radio'>";
-					echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class='radio-inline'><input type='radio' id='respuesta$valorIndice' name='respuesta$valorIndice' value='1'>1 &nbsp;</label>";
+					echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+					echo "<label class='radio-inline'><input type='radio' id='respuesta$valorIndice' name='respuesta$valorIndice' value='1'>1 &nbsp;</label>";
 					echo "<label class='radio-inline'><input type='radio' id='respuesta$valorIndice' name='respuesta$valorIndice' value='2'>2 &nbsp;</label>";
 					echo "<label class='radio-inline'><input type='radio' id='respuesta$valorIndice' name='respuesta$valorIndice' value='3'>3 &nbsp;</label>";
 					echo "<label class='radio-inline'><input type='radio' id='respuesta$valorIndice' name='respuesta$valorIndice' value='4'>4 &nbsp;</label>";
 					echo "<label class='radio-inline'><input type='radio' id='respuesta$valorIndice' name='respuesta$valorIndice' value='5'>5 &nbsp;</label>";
-					echo "</div>";					
+					echo "</div>";
 					$valorIndice++;
 				}
 			}
@@ -1690,14 +1710,14 @@ class Funciones extends Conexion{
 
     function validaExistenciaEncuesta(){					
     	try {
-    		$sql="	SELECT 	UE.ENCUESTA
+    		$sql="	SELECT 	UE.ID_AUTOEVALUACION
 					FROM 	USUARIO_ENCUESTA UE
 					WHERE 	UE.USUARIO = $_SESSION[idUsuario]
 					AND 	UE.PUNTAJE_USUARIO IS NULL";
 	                //echo $sql;die();
 	        if($record = $this->selectEasyTasks($sql)){
 				if ($datos = mysql_fetch_assoc($record)) {
-					$idEncuesta = $datos['ENCUESTA'];
+					$idEncuesta = $datos['ID_AUTOEVALUACION'];
 				}
 				return $idEncuesta;
 			} else {

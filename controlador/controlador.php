@@ -15,11 +15,12 @@ switch($_REQUEST['pagina']){
             $_SESSION['descripcionEmpresa'] = $respuesta['descripcionEmpresa'];
             $_SESSION['perfil'] = $respuesta['perfil'];
             $encuesta = $controlador->validaExistenciaEncuesta();
-            if ($encuesta['idEncuesta'] == 0) {
+            if ($encuesta == 0) {
             	$_SESSION['idEncuesta'] = 0;
             } else {
-            	$_SESSION['idEncuesta'] = $encuesta['idEncuesta'];
+            	$_SESSION['idEncuesta'] = $encuesta;
             }
+            //var_dump($_SESSION); die();
             $respuesta2 = $controlador->validaTareaVigente();
             if($respuesta2 == 0){	//NO EXISTE TAJETA ASIGNADA
             	$_SESSION['tarjetaVigente'] = 0;

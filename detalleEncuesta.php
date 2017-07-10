@@ -42,7 +42,7 @@ $encuesta = $_GET['encuesta'];
         </div>
         <div class="col-md-12">
         	<br>
-            <?php $funciones->verPreguntasEncuesta($encuesta); ?>
+            <?php $funciones->verPreguntasEncuesta($encuesta,1); ?>
         </div>
     </div>
 
