@@ -1734,7 +1734,7 @@ class Funciones extends Conexion{
 					FROM 	USUARIO_ENCUESTA
 					WHERE 	USUARIO = $_SESSION[idUsuario]
 					AND 	ID_AUTOEVALUACION = $_SESSION[idEncuesta]";
-					echo "$sql";
+					//echo "$sql";
 			if($record = $this->selectEasyTasks($sql)){
 				if ($datos = mysql_fetch_assoc($record)) {
 					$puntajeUsuario = $datos['PUNTAJE_USUARIO'];
@@ -1756,13 +1756,14 @@ class Funciones extends Conexion{
 				//Fin de cálculo de promedio.
 				if($puntajeCoordinador != 0){
 					$puntajePromedio = ($promedio+$puntajeCoordinador)/2;
-					$insertSql2 = "INSERT INTO USUARIO_ENCUESTA (PUNTAJE_USUARIO, PUNTAJE_PROMEDIO) VALUES ($promedio, $puntajePromedio)";
+					$insertSql2 = "UPDATE USUARIO_ENCUESTA SET PUNTAJE_USUARIO = $promedio, PUNTAJE_PROMEDIO = $puntajePromedio";
 					#echo "$puntajePromedio";die();
 				} elseif($puntajeCoordinador == 0){
-					$insertSql2 = "	INSERT INTO USUARIO_ENCUESTA (PUNTAJE_USUARIO) VALUES ($promedio)";
+					$insertSql2 = "UPDATE USUARIO_ENCUESTA SET PUNTAJE_USUARIO = $promedio";
 				}
-				$sql2 = $insertSql2."WHERE USUARIO = $_SESSION[idUsuario] AND ID_AUTOEVALUACION = $_SESSION[idEncuesta]";
-		        if($record=$this->insertEasyTasks($sql)){
+				$sql2 = $insertSql2." WHERE USUARIO = $_SESSION[idUsuario] AND ID_AUTOEVALUACION = $_SESSION[idEncuesta]";
+		        #echo "$sql2";die();
+		        if($record=$this->insertEasyTasks($sql2)){
 		        	$_SESSION['idEncuesta'] = 0;
 		        	echo "<script>alert('Su evaluación fue enviada satisfactoriamente');</script>";
 		            echo "<script>window.close();</script>";
