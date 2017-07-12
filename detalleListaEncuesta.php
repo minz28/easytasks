@@ -35,7 +35,8 @@ $funciones = new Funciones;
     <div class="container">
     	<div class="row">
         	<div class="col-md-12 text-center">
-        	   <h2>Control de Evaluaciones</h2><br>
+        	    <?php $titulo=$funciones->verPeriodoEncuesta($_GET["encuesta"]); ?>
+                <h3><?php echo "Evaluación ".ucwords(strtolower($titulo['periodo'])).", Año ".substr($titulo['anio'], 0, 4)." - ".ucwords(strtolower($titulo['empresa'])); ?></h3>
             </div>
         </div>        
     </div>
@@ -47,12 +48,14 @@ $funciones = new Funciones;
             <!--<table class="table table-hover table-condensed table-responsive" style="box-shadow: 10px 10px 5px lightgrey;">--><!--Tabla CON sombra-->
             <table class="table table-hover table-condensed table-responsive"><!--Tabla SIN sombra-->
                 <tr>
-                    <th>Año</th>
-                    <th>Período</th>
-                    <th class="text-center">Ver detalle</th>
-                    <th>Estado encuesta</th>
+                    <th>Nombre</th>
+                    <th class="text-center">Evaluar</th>
+                    <th class="text-center">Puntaje usuario</th>
+                    <th class="text-center">Puntaje coordinador</th>
+                    <th class="text-center">Puntaje promedio</th>
+                    <th class="text-center">Puntaje final</th>
                 </tr>
-                <?php $funciones->listaEvaluacion(); ?>
+                <?php $funciones->listaEvaluacionPorPeriodo($_GET["encuesta"]); ?>
             </table>
         </div>
     </div>

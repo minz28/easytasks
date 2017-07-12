@@ -1501,7 +1501,7 @@ class Funciones extends Conexion{
 					echo "<td class='text-center'><button type='button' class='btn btn-default' onclick=window.open('detalleEncuesta.php?encuesta=$encuesta[idEncuesta]','detalleEncuesta','width=1024,height=480')><span class='glyphicon glyphicon-eye-open'></span></button></td>";
 					//echo "<td class='text-center'><button type='button' class='btn btn-default' onclick='asignaPregunta(".$encuesta['idEncuesta'].")'><span class='glyphicon glyphicon-plus'></span></button></td>";
 					echo "<td class='text-center'><button type='button' class='btn btn-default' onclick='publicaEncuesta(".$encuesta['idEncuesta'].")'><span class='glyphicon glyphicon-share'></span></button></td>";
-					if($encuesta['estadoEncuesta'] == 0){ $estadoEncuesta = "Inactiva"; } else { $estadoEncuesta = "Activa"; }
+					if($encuesta['estadoEncuesta'] == 0){ $estadoEncuesta = "Inactiva"; } elseif($encuesta['estadoEncuesta'] == 1) { $estadoEncuesta = "Activa"; } elseif($encuesta['estadoEncuesta'] == 2) { $estadoEncuesta = "Finalizada"; }
 					echo "<td>$estadoEncuesta</td>";
 					echo "<td><button type='button' class='btn btn-default' onclick='editaEncuesta(".$json.")'><span class='glyphicon glyphicon-edit'></span></button></td>";
 					echo "<td><button type='button' class='btn btn-default' onclick='eliminaEncuesta(".$encuesta['idEncuesta'].")'><span class='glyphicon glyphicon-remove'></span></button></td>";
@@ -1835,22 +1835,155 @@ class Funciones extends Conexion{
 		        #echo "$sql2";die();
 		        if($record=$this->insertEasyTasks($sql2)){
 		        	$_SESSION['idEncuesta'] = 0;
-		        	echo "<script>alert('Su evaluación fue enviada satisfactoriamente');</script>";
+		        	echo "<script>alert('Su evaluaci\u00F3n fue enviada satisfactoriamente');</script>";
+		        	echo "<script>window.opener.document.location.reload();</script>";
 		            echo "<script>window.close();</script>";
 		        } else {
-		            echo "<script>alert('Error al enviar los datos de su evaluación');</script>";
+		            echo "<script>alert('Error al enviar los datos de su evaluaci\u00F3n');</script>";
 		            echo "<script>window.history.back();</script>";
 		        }
 			} else {
-				echo "<script>alert('Error al rescatar datos previos de su evaluación');</script>";
+				echo "<script>alert('Error al rescatar datos previos de su evaluaci\u00F3n');</script>";
 		        echo "<script>window.history.back();</script>";
 			}
-	            
-		        
     	} catch (Exception $e) {
     		echo "<script>alert('".$e->getMessage()."');</script>";
     	}    	
     }
+
+    function guardaResultadoEncuestaCoordinador($respuestas){
+    	try {
+			$sql="	SELECT 	PUNTAJE_USUARIO, PUNTAJE_COORDINADOR
+					FROM 	USUARIO_ENCUESTA
+					WHERE 	USUARIO = $respuestas[usuario]
+					AND 	ID_EVALUACION_COORDINADOR = $respuestas[encuesta]";
+					#echo "$sql";die();
+			if($record = $this->selectEasyTasks($sql)){
+				if ($datos = mysql_fetch_assoc($record)) {
+					$puntajeUsuario = $datos['PUNTAJE_USUARIO'];
+					$puntajeCoordinador = $datos['PUNTAJE_COORDINADOR'];
+				} else {
+					$puntajeUsuario = 0;
+					$puntajeCoordinador = 0;
+				}
+				//Acá se calcula el promedio de las respuestas.
+				$sumaRespuesta = 0;
+				$cantidadRespuesta = 0;
+				for ($i=1; $i<count($respuestas)-3; $i++) {
+					$sumaRespuesta += $respuestas["respuesta$i"];
+					$cantidadRespuesta += 1;
+					#echo $respuestas["respuesta$i"]."<br>";
+				}
+				$promedio = $sumaRespuesta/$cantidadRespuesta;
+				#echo $sumaRespuesta."/$cantidadRespuesta<br>$promedio";die();
+				//Fin de cálculo de promedio.
+				if($puntajeUsuario != 0){
+					$puntajePromedio = ($promedio+$puntajeUsuario)/2;
+					$insertSql2 = "UPDATE USUARIO_ENCUESTA SET PUNTAJE_COORDINADOR = $promedio, PUNTAJE_PROMEDIO = $puntajePromedio";
+					#echo "$puntajePromedio";die();
+				} elseif($puntajeUsuario == 0){
+					$insertSql2 = "UPDATE USUARIO_ENCUESTA SET PUNTAJE_COORDINADOR = $promedio";
+				}
+				$sql2 = $insertSql2." WHERE USUARIO = $respuestas[usuario] AND ID_EVALUACION_COORDINADOR = $respuestas[encuesta]";
+		        #echo "$sql2";die();
+		        if($record=$this->insertEasyTasks($sql2)){
+		        	echo "<script>alert('Su evaluaci\u00F3n fue enviada satisfactoriamente');</script>";
+		        	echo "<script>window.opener.document.location.reload();</script>";
+		            echo "<script>window.close();</script>";
+		        } else {
+		            echo "<script>alert('Error al enviar los datos de su evaluaci\u00F3n');</script>";
+		            echo "<script>window.history.back();</script>";
+		        }
+			} else {
+				echo "<script>alert('Error al rescatar datos previos de su evaluaci\u00F3n');</script>";
+		        echo "<script>window.history.back();</script>";
+			}   
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}    	
+    }
+
+    function listaEvaluacion(){					
+    	try {
+    		$sql = "SELECT 		E.ID_ENCUESTA, E.ANIO, E.PERIODO, E.ESTADO_ENCUESTA
+					FROM 		ENCUESTA E
+					WHERE 		E.EMPRESA = $_SESSION[empresa]
+					AND 		TIPO_ENCUESTA = 2
+					AND 		E.ESTADO_REGISTRO = 1
+					ORDER BY 	E.ANIO DESC";
+					//echo $sql; die();
+			if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					$arreglo[$i]['idEncuesta'] = $datos['ID_ENCUESTA'];
+					$arreglo[$i]['anio'] = substr($datos['ANIO'], 0, 4);
+					$arreglo[$i]['periodo'] = $datos['PERIODO'];
+					$arreglo[$i]['estadoEncuesta'] = $datos['ESTADO_ENCUESTA'];
+					$i++;
+				}
+				foreach ($arreglo as $encuesta) {
+					$json = json_encode($encuesta);
+					echo "<tr>";
+					echo "<td>".substr($encuesta['anio'], 0, 4)."</td>";
+					echo "<td>".$encuesta['periodo']."</td>";
+					echo "<td class='text-center'><a class='btn btn-default' href='detalleListaEncuesta.php?encuesta=$encuesta[idEncuesta]' role='button'><span class='glyphicon glyphicon-eye-open'></span></a></td>";
+					if($encuesta['estadoEncuesta'] == 0){ $estadoEncuesta = "Inactiva"; } elseif($encuesta['estadoEncuesta'] == 1) { $estadoEncuesta = "Activa"; } elseif($encuesta['estadoEncuesta'] == 2) { $estadoEncuesta = "Finalizada"; }
+					echo "<td>$estadoEncuesta</td>";
+					echo "</tr>";
+				}
+			} else {
+				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado encuestas, si desea agregar una haga click <a href='listaEncuesta.php'>acá</a>.</h4></td></tr>";
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function listaEvaluacionPorPeriodo($idEncuesta){
+    	try {
+    		$sql = "SELECT 		UE.USUARIO, U.NOMBRES, U.APELLIDOS, UE.PUNTAJE_USUARIO, UE.PUNTAJE_COORDINADOR, UE.PUNTAJE_PROMEDIO, UE.PUNTAJE_REAL
+					FROM 		USUARIO_ENCUESTA UE
+					INNER JOIN 	USUARIO U
+					ON 			UE.USUARIO = U.ID_USUARIO
+					WHERE 		ID_EVALUACION_COORDINADOR = $idEncuesta";
+					//echo $sql; die();
+			if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					$arreglo[$i]['idUsuario'] = $datos['USUARIO'];
+					$arreglo[$i]['nombres'] = $datos['NOMBRES'];
+					$arreglo[$i]['apellidos'] = $datos['APELLIDOS'];
+					$arreglo[$i]['puntajeUsuario'] = $datos['PUNTAJE_USUARIO'];
+					$arreglo[$i]['puntajeCoordinador'] = $datos['PUNTAJE_COORDINADOR'];
+					$arreglo[$i]['puntajePromedio'] = $datos['PUNTAJE_PROMEDIO'];
+					$arreglo[$i]['puntajeReal'] = $datos['PUNTAJE_REAL'];
+					$i++;
+				}
+				foreach ($arreglo as $encuesta) {
+					if(!($encuesta['puntajeUsuario'])){ $encuesta['puntajeUsuario']="Sin evaluar"; }
+					if(!($encuesta['puntajeCoordinador'])){ $encuesta['puntajeCoordinador']="Sin evaluar"; }
+					if(!($encuesta['puntajePromedio'])){ $encuesta['puntajePromedio']="--"; }
+					if(!($encuesta['puntajeReal'])){ $encuesta['puntajeReal']="--"; }
+					#$json = json_encode($encuesta);
+					echo "<tr>";
+					echo "<td>".$encuesta['nombres']." ".$encuesta['apellidos']."</td>";
+					echo "<td class='text-center'><button type='button' class='btn btn-default' onclick=window.open('encuestaCoordinador.php?encuesta=$idEncuesta&nom=$encuesta[nombres]&ape=$encuesta[apellidos]&usr=$encuesta[idUsuario]','encuesta','width=1024,height=480')><span class='glyphicon glyphicon-pencil'></span></button></td>";
+					echo "<td class='text-center'>".$encuesta['puntajeUsuario']."</td>";
+					echo "<td class='text-center'>".$encuesta['puntajeCoordinador']."</td>";
+					echo "<td class='text-center'>".$encuesta['puntajePromedio']."</td>";
+					echo "<td class='text-center'>".$encuesta['puntajeReal']."</td>";
+					echo "</tr>";
+				}
+			} else {
+				echo "<tr class='text-center'><td colspan='8'><h4>Aún no se han agregado encuestas, si desea agregar una haga click <a href='listaEncuesta.php'>acá</a>.</h4></td></tr>";
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+			    	
+    }
+
+
 
 
 }

@@ -3,7 +3,8 @@
 include("clases/Funciones.class.php");
 include ("constantes.php");
 $funciones = new Funciones;
-$encuesta = $_SESSION['idEncuesta'];
+$encuesta = $_GET['encuesta'];
+$nombre = $_GET['nom']." ".$_GET['ape'];
 ?>
 <!doctype html>
 <html>
@@ -41,9 +42,16 @@ $encuesta = $_SESSION['idEncuesta'];
     </div>
     <div class="row">
         <div class="col-md-12">
+            <p>Evaluando a: <strong><?php echo $nombre; ?></strong></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <br>
             <form id="formEncuesta">
-                <input type="hidden" name="pagina" value="respondeEncuesta">
+                <input type="hidden" name="pagina" value="respondeEncuestaCoordinador">
+                <input type="hidden" name="encuesta" value="<?php echo $encuesta; ?>">
+                <input type="hidden" name="usuario" value="<?php echo $_GET['usr']; ?>">
                 <?php $funciones->verPreguntasEncuesta($encuesta,2); ?>    
             </form>            
         </div>

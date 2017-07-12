@@ -9,7 +9,7 @@
             <span class="icon-bar"></span>
         </button>
         <?php } ?>
-        <a class="navbar-brand" href="board.php">EasyTasks</a>
+        <a class="navbar-brand" href="board.php"><img src="img/logo.png" class="img-responsive" style="width:25px"></a>
     </div>
     <?php if ($_SESSION['perfil'][0] != 3) { ?><!--Oculta este menú del perfil 'usuario'-->
     <!-- Collect the nav links, forms, and other content for toggling -->
