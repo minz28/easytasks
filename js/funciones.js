@@ -572,7 +572,7 @@ function borraPreguntaEncuesta(json){
 
 function publicaEncuesta(idEncuesta){
     if(confirm("¿Está seguro que desea publicar esta encuesta?") == true){
-        window.location='controlador/controlador.php?pagina=publicaEncuesta&idEncuesta='+idEncuesta;        
+        window.location='controlador/controlador.php?pagina=publicaEncuesta&idEncuesta='+idEncuesta;
     } else {
         return false;
     }

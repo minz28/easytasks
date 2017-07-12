@@ -38,7 +38,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="listaPreguntas.php" title="">Preguntas</a></li>
                     <li><a href="listaEncuesta.php" title="Administración de encuestas">Encuesta</a></li>
-                    <li><a href="listaEncuestap.hp" title="Administración de encuestas">Encuesta</a></li>
+                    <li><a href="listaEncuestaCoordinador.php" title="">Detalle encuestas por usuario</a></li>
                 </ul>
             </li>
         </ul>

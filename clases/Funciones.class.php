@@ -1669,40 +1669,87 @@ class Funciones extends Conexion{
 
     function publicaEncuesta($idEncuesta){
     	try {
-    		$sql = "SELECT 	ID_USUARIO
-					FROM 	USUARIO
-					WHERE 	EMPRESA = $_SESSION[empresa]
-					AND 	PERFIL = 3
-					AND 	ESTADO_REGISTRO = 1";
-    		if($record = $this->selectEasyTasks($sql)){
-				$i=0;
-				while($datos = mysql_fetch_assoc($record)){
-					$arreglo[$i] = $datos['ID_USUARIO'];
-					$i++;
-				}
-				foreach ($arreglo as $usuario){
-					$sql2 = "	INSERT INTO USUARIO_ENCUESTA (USUARIO, ID_AUTOEVALUACION)
-								VALUES ($usuario, $idEncuesta)";
-					if($record=$this->insertEasyTasks($sql2)){ $flag=1; } else { $flag=0; }
-				}
-				if($flag == 1){
-					$sql3 = "	UPDATE ENCUESTA
-								SET ESTADO_ENCUESTA = 1
-								WHERE ID_ENCUESTA = $idEncuesta";
-					if ($record=$this->insertEasyTasks($sql3)) {
-						return 1;
+    		$sqlDatosEncuesta = "	SELECT 	TIPO_ENCUESTA, ESTADO_ENCUESTA
+    								FROM 	ENCUESTA 
+    								WHERE 	ID_ENCUESTA = $idEncuesta";
+    		if ($record = $this->selectEasyTasks($sqlDatosEncuesta)){ //RESCATA DATOS PARA FILTRAR SI SE PUBLICA Y DE QUE FORMA LA ENCUESTA SELECCIONADA
+    			if($datos = mysql_fetch_assoc($record)){
+    				$tipoEncuesta = $datos["TIPO_ENCUESTA"];
+    				$estadoEncuesta = $datos["ESTADO_ENCUESTA"];
+    			}
+    			$sql = "SELECT 	ID_USUARIO
+						FROM 	USUARIO
+						WHERE 	EMPRESA = $_SESSION[empresa]
+						AND 	PERFIL = 3
+						AND 	ESTADO_REGISTRO = 1";
+	    		if($record = $this->selectEasyTasks($sql)){
+					$i=0;
+					while($datos = mysql_fetch_assoc($record)){
+						$arreglo[$i] = $datos['ID_USUARIO'];
+						$i++;
+					}
+					foreach ($arreglo as $usuario){
+    					if ($tipoEncuesta == 1 && $estadoEncuesta == 0){ //SI EL TIPO DE ENCUESTA ES AUTOEVALUACIÓN Y ESTÁ EN ESTADO INACTIVO (NO PUBLICADO NI FINALIZADO)
+    						$sql4 = "	SELECT 	ID_EVALUACION_COORDINADOR
+    									FROM 	USUARIO_ENCUESTA 
+    									WHERE 	ID_AUTOEVALUACION IS NULL
+    									AND 	USUARIO = $usuario";
+    						if($record = $this->selectEasyTasks($sql4)){
+    							if ($id = mysql_fetch_assoc($record)) {
+    								$idEvalCoord = $id["ID_EVALUACION_COORDINADOR"];
+    							}
+    							$sql2 = "	UPDATE USUARIO_ENCUESTA SET ID_AUTOEVALUACION = $idEncuesta
+    										WHERE USUARIO = $usuario AND ID_EVALUACION_COORDINADOR = $idEvalCoord";
+    						} else {
+    							$sql2 = "	INSERT INTO USUARIO_ENCUESTA (USUARIO, ID_AUTOEVALUACION)
+											VALUES ($usuario, $idEncuesta)";
+    						}
+    					} elseif ($tipoEncuesta == 2 && $estadoEncuesta == 0) { //SI EL TIPO DE ENCUESTA ES EVALUACIÓN COORDINADOR Y ESTÁ EN ESTADO INACTIVO (NO PUBLICADO NI FINALIZADO)
+    						$sql4 = "	SELECT 	ID_AUTOEVALUACION
+    									FROM 	USUARIO_ENCUESTA 
+    									WHERE 	ID_EVALUACION_COORDINADOR IS NULL
+    									AND 	USUARIO = $usuario";
+    						if($record = $this->selectEasyTasks($sql4)){
+    							if ($id = mysql_fetch_assoc($record)) {
+    								$idAutoEval = $id["ID_AUTOEVALUACION"];
+    							}
+    							$sql2 = "	UPDATE USUARIO_ENCUESTA SET ID_EVALUACION_COORDINADOR = $idEncuesta
+    										WHERE USUARIO = $usuario AND ID_AUTOEVALUACION = $idAutoEval";
+    						} else {
+    							$sql2 = "	INSERT INTO USUARIO_ENCUESTA (USUARIO, ID_EVALUACION_COORDINADOR)
+											VALUES ($usuario, $idEncuesta)";
+    						}
+    					} elseif ($estadoEncuesta != 0) {
+    						echo "<script>alert('Esta encuesta no est\u00E1 disponible para su publicaci\u00F3n');</script>";
+        					echo "<script>window.location='../listaEncuesta.php';</script>";
+    					} else {
+    						echo "<script>alert('Esta encuesta no ha podidio ser publicada');</script>";
+        					echo "<script>window.location='../listaEncuesta.php';</script>";
+    					}
+						if($record=$this->insertEasyTasks($sql2)){ $flag=1; } else { $flag=0; }
+					}
+					if($flag == 1){
+						$sql3 = "	UPDATE ENCUESTA
+									SET ESTADO_ENCUESTA = 1
+									WHERE ID_ENCUESTA = $idEncuesta";
+						if ($record=$this->insertEasyTasks($sql3)) {
+							return 1;
+						} else {
+							echo "<script>alert('Error al actualizar el estado de encuesta');</script>";
+	            			echo "<script>window.location='../listaEncuesta.php';</script>";
+						}
 					} else {
-						echo "<script>alert('Error al actualizar el estado de encuesta');</script>";
-            			echo "<script>window.history.back();</script>";
+						echo "<script>alert('Error al asignar usuarios a encuesta');</script>";
+	            		echo "<script>window.location='../listaEncuesta.php';</script>";
 					}
 				} else {
-					echo "<script>alert('Error al asignar usuarios a encuesta');</script>";
-            		echo "<script>window.history.back();</script>";
+					echo "<script>alert('Error al seleccionar usuarios a asignar en encuesta');</script>";
+		            echo "<script>window.location='../listaEncuesta.php';</script>";
 				}
-			} else {
-				echo "<script>alert('Error al seleccionar usuarios a asignar en encuesta');</script>";
-	            echo "<script>window.history.back();</script>";
-			}    		
+    		} else {
+    			echo "<script>alert('Error al buscar tipo y estado de encuesta');</script>";
+    			echo "<script>window.location='../listaEncuesta.php';</script>";
+    		}  				
     	} catch (Exception $e) {
     		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
