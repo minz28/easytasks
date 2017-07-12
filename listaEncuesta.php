@@ -54,11 +54,10 @@ $funciones = new Funciones;
                 <tr>
                     <th>Año</th>
                     <th>Período</th>
-                    <th>Tipo de encuesta</th>
+                    <th>Tipo de evaluación</th>
                     <th class="text-center">Ver</th>
-                    <!--<th class="text-center">Agregar preguntas</th>-->
-                    <th class="text-center">Publicar encuesta</th>
-                    <th>Estado encuesta</th>
+                    <th class="text-center">Publicar evaluación</th>
+                    <th>Estado evaluación</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>

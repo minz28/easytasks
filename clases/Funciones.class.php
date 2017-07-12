@@ -1535,17 +1535,29 @@ class Funciones extends Conexion{
 
     function editaEncuesta($datos){
     	try {
-    		$annio = $datos['txtAnioEdit']."-00-00";
-			$sql="	UPDATE 	ENCUESTA
-    				SET 	ANIO = '$annio', PERIODO = '$datos[txtPeriodoEdit]', TIPO_ENCUESTA = $datos[cboTipoEncuestaEdit]
-					WHERE 	ID_ENCUESTA = $datos[idEdit]";
-			//echo $sql; die();
-			if($record=$this->insertEasyTasks($sql)){	            
-	            return 1;
-	        } else {
-	            echo "<script>alert('Error al editar encuesta');</script>";
-	            echo "<script>window.history.back();</script>";
-	        }
+    		$sql2 = "	SELECT 	ESTADO_ENCUESTA
+    					FROM 	ENCUESTA
+    					WHERE 	ID_ENCUESTA = $datos[idEdit]";
+    		$record = $this->selectEasyTasks($sql2);
+    		if($estEnc = mysql_fetch_assoc($record)){
+				$estadoEncuesta = $estEnc["ESTADO_ENCUESTA"];
+			}
+			if ($estadoEncuesta == 0) {
+				$annio = $datos['txtAnioEdit']."-00-00";
+				$sql="	UPDATE 	ENCUESTA
+	    				SET 	ANIO = '$annio', PERIODO = '$datos[txtPeriodoEdit]', TIPO_ENCUESTA = $datos[cboTipoEncuestaEdit]
+						WHERE 	ID_ENCUESTA = $datos[idEdit]";
+				//echo $sql; die();
+				if($record=$this->insertEasyTasks($sql)){	            
+		            return 1;
+		        } else {
+		            echo "<script>alert('Error al editar encuesta');</script>";
+		            echo "<script>window.history.back();</script>";
+		        }
+			} else {
+				echo "<script>alert('Esta encuesta no puede ser editada');</script>";
+		        echo "<script>window.history.back();</script>";
+	    	}
     	} catch (Exception $e) {
     		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
@@ -1553,17 +1565,28 @@ class Funciones extends Conexion{
 
     function eliminaEncuesta($datos){
     	try {
-    		$sql = "UPDATE ENCUESTA
-					SET ESTADO_REGISTRO = 2
-					WHERE
-						ID_ENCUESTA = ".$datos['idEdit'];
-			//echo $sql; die();
-    	if($record=$this->insertEasyTasks($sql)){
-	            return 1;
-	        } else {
-	            echo "<script>alert('Error al eliminar encues');</script>";
-	            echo "<script>window.history.back();</script>";
-	        }	
+    		$sql2 = "	SELECT 	ESTADO_ENCUESTA
+    					FROM 	ENCUESTA
+    					WHERE 	ID_ENCUESTA = $datos[idEdit]";
+    		$record = $this->selectEasyTasks($sql2);
+    		if($estEnc = mysql_fetch_assoc($record)){
+				$estadoEncuesta = $estEnc["ESTADO_ENCUESTA"];
+			}
+			if ($estadoEncuesta == 0) {
+				$sql = "UPDATE ENCUESTA
+						SET ESTADO_REGISTRO = 2
+						WHERE
+							ID_ENCUESTA = $datos[idEdit]";				
+	    		if($record=$this->insertEasyTasks($sql)){
+		            return 1;
+		        } else {
+		            echo "<script>alert('Error al eliminar encuesta');</script>";
+		            echo "<script>window.history.back();</script>";
+		        }
+			} else {
+				echo "<script>alert('Esta encuesta no puede ser eliminada');</script>";
+		        echo "<script>window.history.back();</script>";
+			}	    			
     	} catch (Exception $e) {
     		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
