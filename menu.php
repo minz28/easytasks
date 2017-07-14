@@ -41,6 +41,13 @@
                     <li><a href="listaEncuestaCoordinador.php" title="">Detalle encuestas por usuario</a></li>
                 </ul>
             </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dashboards<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="dashboardUser.php" title="">Estadísticas por usuario</a></li>
+                    <li><a href="#" title="">Estadísticas por tareas</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
     <?php } ?>
