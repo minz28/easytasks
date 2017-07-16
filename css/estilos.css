@@ -184,7 +184,8 @@
     font-family:Arial;
     font-size:15px;
     font-weight:bold;
-    padding:6px 24px;
+    /* padding:6px 24px; */ /*Original, el padding de abajo es para botón cerrar sesión*/
+    padding:3px 12px;
     text-decoration:none;
     text-shadow:0px 1px 0px #810e05;
 }
@@ -225,7 +226,8 @@
     font-family:Arial;
     font-size:15px;
     font-weight:bold;
-    padding:6px 24px;
+    /* padding:6px 24px; */ /*Original, el padding de abajo es para botón cerrar sesión*/
+    padding:3px 12px;
     text-decoration:none;
     text-shadow:0px 1px 0px #ffffff;
 }

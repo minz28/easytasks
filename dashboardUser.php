@@ -13,10 +13,10 @@ $funciones = new Funciones;
 
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="css/estilos.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" type="text/css" href="graph/css/highcharts.css">
 
-<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="js/jquery-ui/jquery-ui.js"></script>
+<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script type="text/javascript" src="js/funciones.js"></script>
 <script type="text/javascript" src="graph/js/highcharts.js"></script>
@@ -47,10 +47,19 @@ $funciones = new Funciones;
         	&nbsp;
     		<div class="form-group">
             <label for="txtFechaInicio">Rango de fechas: </label>
-                <input type="text" class="form-control" id="txtFechaInicio" name="txtFechaInicio" placeholder="DD/MM/AAAA">
-                <input type="text" class="form-control" id="txtFechaTermino" name="txtFechaTermino" placeholder="DD/MM/AAAA">
-                
-            </div>
+            	<!--<input type="text" class="form-control" id="txtFechaInicio" name="txtFechaInicio" placeholder="DD/MM/AAAA">                
+                <input type="text" class="form-control" id="txtFechaTermino" name="txtFechaTermino" placeholder="DD/MM/AAAA">-->
+                <div class='input-group date' id='divFechaInicio'>
+					<input type='text' id="txtFechaInicio" name="txtFechaInicio" class="form-control" readonly/>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+					</span>
+				</div>
+				<div class='input-group date' id='divFechaTermino'>
+					<input type='text' id="txtFechaTermino" name="txtFechaTermino" class="form-control" readonly/>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+					</span>
+				</div>
+            </div>				
         	&nbsp;
     		<button type="button" class="btn btn-default btnAzul" onclick=""><span class="glyphicon glyphicon-search"></span> Buscar</button>
         </div>
@@ -66,6 +75,17 @@ $funciones = new Funciones;
 <?php include("footer.php"); ?>
 
 
+<script type="text/javascript" src="js/moment.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.es.js"></script>
+<script type="text/javascript">
+    $('#divFechaInicio').datetimepicker({
+        format: 'DD-MM-YYYY'       
+    });
+    $('#divFechaTermino').datetimepicker({
+        format: 'DD-MM-YYYY'       
+    });
+</script>
 
 </body>
 </html>
