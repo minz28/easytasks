@@ -386,6 +386,8 @@ switch($_REQUEST['pagina']){
         $controlador->guardaResultadoEncuestaCoordinador($_POST);
     break;
 
+    //INSTRUCCIONES RELACIONADAS CON DASHBOARDS
+
 
 
 }

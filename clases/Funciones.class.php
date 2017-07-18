@@ -286,7 +286,7 @@ class Funciones extends Conexion{
     	try {
     		if ($_SESSION['perfil'] == 3) {
     			$sql="INSERT INTO TARJETA (TAREA, CLIENTE_SOLICITANTE, FECHA_SOLICITUD, PRIORIDAD, OBSERVACIONES, ADJUNTO, ESTADO_TARJETA, ESTADO_REGISTRO) 
-	                	VALUES ($datos[cboTarea], $datos[txtSolicitante], NOW(), 1, '$datos[txtObservaciones]', '$datos[fileAdjunto]', 2, 1)";
+	                	VALUES ($datos[cboTarea], $datos[txtSolicitante], NOW(), $datos[cboPrioridad], '$datos[txtObservaciones]', '$datos[fileAdjunto]', 2, 1)";
 	            if($record=$this->insertEasyTasks($sql)){
 	            	$ultimaTarjeta = $this->selectId();
 	            	$sql2="INSERT INTO TARJETA_USUARIO (TARJETA, USUARIO_RESPONSABLE, FECHA_INICIO, HORA_INICIO)
@@ -305,7 +305,7 @@ class Funciones extends Conexion{
 	            }
     		} elseif ($_SESSION['perfil'] == 2) {//CAMBIAR POR $_SESSION['perfil'] == 2
     			$sql="INSERT INTO TARJETA (TAREA, CLIENTE_SOLICITANTE, FECHA_SOLICITUD, PRIORIDAD, OBSERVACIONES, ADJUNTO, ESTADO_TARJETA, ESTADO_REGISTRO) 
-		                VALUES ($datos[cboTarea], $datos[txtSolicitante], NOW(), 1, '$datos[txtObservaciones]', '$datos[fileAdjunto]', 1, 1)";
+		                VALUES ($datos[cboTarea], $datos[txtSolicitante], NOW(), $datos[cboPrioridad], '$datos[txtObservaciones]', '$datos[fileAdjunto]', 1, 1)";
 		                //echo $sql;die();
 		        if($record=$this->insertEasyTasks($sql)){
 		            //echo "<script>alert('La tarjeta fue creada exitosamente');</script>";
@@ -1379,7 +1379,6 @@ class Funciones extends Conexion{
     }
 
 
-
     //FUNCIONES RELACIONADAS A ENCUESTAS Y EVALUACIÓN
 
     function listaPreguntas(){
@@ -1984,6 +1983,68 @@ class Funciones extends Conexion{
     }
 
 
+    //FUNCIONES RELACIONADAS A ENCUESTAS Y EVALUACIÓN
+
+    function nombreUsuario($usuario){
+    	try {					
+    		$sql = "SELECT 		CONCAT(U.NOMBRES, ' ', U.APELLIDOS) AS NOMBRE, E.DESCRIPCION_EMPRESA, U.EMAIL
+					FROM 		USUARIO U
+					INNER JOIN 	EMPRESA E
+					ON 			U.EMPRESA = E.ID_EMPRESA
+					WHERE 		ID_USUARIO = $usuario";
+			if($record = $this->selectEasyTasks($sql)){
+				if($datos = mysql_fetch_assoc($record)) {
+					$arreglo['nombre'] = $datos['NOMBRE'];
+					$arreglo['empresa'] = $datos['DESCRIPCION_EMPRESA'];
+					$arreglo['email'] = $datos['EMAIL'];
+				}				
+				return $arreglo;
+			} else {
+				echo "<script>alert('Usuario no encontrado');</script>";
+		        echo "<script>window.history.back();</script>";
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+    
+    function dashboardUser($usuario, $desde, $hasta){
+    	try {					
+    		$sql = "SELECT 		COUNT(T.ID_TARJETA) AS CANTIDAD, ET.DESCRIPCION_ESTADO_TAJETA
+					FROM 		TARJETA T
+					INNER JOIN 	ESTADO_TARJETA ET
+					ON 			T.ESTADO_TARJETA = ET.ID_ESTADO_TARJETA
+					INNER JOIN 	TARJETA_USUARIO TU
+					ON 			T.ID_TARJETA = TU.TARJETA
+					WHERE 		TU.USUARIO_RESPONSABLE = $usuario
+					AND 		TU.FECHA_INICIO BETWEEN '$desde' AND '$hasta'
+					GROUP BY 	T.ESTADO_TARJETA";
+					//echo $sql; die();
+			if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				$totalCantidad = 0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					$arreglo[$i]['cantidad'] = $datos['CANTIDAD'];
+					$arreglo[$i]['estado'] = $datos['DESCRIPCION_ESTADO_TAJETA'];
+					$totalCantidad += $datos['CANTIDAD'];
+					$i++;
+				}
+				$arregloGrafico = "";
+				foreach ($arreglo as $dato) {
+					#$json = json_encode($dato);
+					$cantidad = round(($dato['cantidad']/$totalCantidad)*100, 2);
+					#$arregloGrafico .= "['$dato[estado]',$dato[cantidad]],";
+					$arregloGrafico .= "['$dato[estado]S ($dato[cantidad])',$cantidad],";
+				}
+				$arregloGrafico = trim($arregloGrafico, ',');
+				echo $arregloGrafico;
+			} else {
+				echo "";
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
 
 
 }

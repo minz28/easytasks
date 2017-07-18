@@ -589,3 +589,17 @@ function validaEnvioEncuesta(){
         return false;
     }
 }
+
+function validaFormDashboard(){
+    if($("#cboUsuario").val() == 'seleccione' || $("#txtFechaInicio").val() == "" || $("#txtFechaTermino").val() == ""){
+        alert("Completar campos obligatorios");
+    } else {
+        var usuario = $("#cboUsuario").val();
+        var desde = $("#txtFechaInicio").val();
+        var hasta = $("#txtFechaTermino").val();
+        window.open('muestraDashboardUser.php?usuario='+usuario+'&desde='+desde+'&hasta='+hasta, 'Dashboard Usuario');
+        /*document.getElementById('formDashboardUser').action = 'muestraDashboardUser.php';
+        document.getElementById('formDashboardUser').method = 'post';
+        document.getElementById('formDashboardUser').submit();*/
+    }
+}
