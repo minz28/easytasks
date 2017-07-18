@@ -2008,7 +2008,7 @@ class Funciones extends Conexion{
     	}
     }
     
-    function dashboardUser($usuario, $desde, $hasta){
+    function dashboardUserFinalizacionTarjetas($usuario, $desde, $hasta){
     	try {					
     		$sql = "SELECT 		COUNT(T.ID_TARJETA) AS CANTIDAD, ET.DESCRIPCION_ESTADO_TAJETA
 					FROM 		TARJETA T
@@ -2031,15 +2031,51 @@ class Funciones extends Conexion{
 				}
 				$arregloGrafico = "";
 				foreach ($arreglo as $dato) {
-					#$json = json_encode($dato);
 					$cantidad = round(($dato['cantidad']/$totalCantidad)*100, 2);
-					#$arregloGrafico .= "['$dato[estado]',$dato[cantidad]],";
 					$arregloGrafico .= "['$dato[estado]S ($dato[cantidad])',$cantidad],";
 				}
 				$arregloGrafico = trim($arregloGrafico, ',');
 				echo $arregloGrafico;
 			} else {
-				echo "";
+				echo "<script>alert('Datos no encontrados');</script>";
+		        echo "<script>window.history.back();</script>";
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function dashboardUserDetalleImpedidas($usuario, $desde, $hasta){					
+    	try {					
+    		$sql = "SELECT 		COUNT(TU.RAZON_ESTADO_IMPEDIDO) AS CANTIDAD, RI.DESCRIPCION_RAZON
+					FROM 		TARJETA_USUARIO TU
+					INNER JOIN 	RAZON_IMPEDIMENTO RI
+					ON 			TU.RAZON_ESTADO_IMPEDIDO = RI.ID_RAZON
+					INNER JOIN 	TARJETA T
+					ON 			TU.TARJETA = T.ID_TARJETA
+					WHERE 		TU.USUARIO_RESPONSABLE = $usuario
+					AND 		TU.FECHA_INICIO BETWEEN '$desde' AND '$hasta'
+					GROUP BY 	RI.ID_RAZON";
+					//echo $sql; die();
+			if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				$totalCantidad = 0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					$arreglo[$i]['cantidad'] = $datos['CANTIDAD'];
+					$arreglo[$i]['estado'] = $datos['DESCRIPCION_RAZON'];
+					$totalCantidad += $datos['CANTIDAD'];
+					$i++;
+				}
+				$arregloGrafico = "";
+				foreach ($arreglo as $dato) {
+					$cantidad = round(($dato['cantidad']/$totalCantidad)*100, 2);
+					$arregloGrafico .= "['$dato[estado] ($dato[cantidad])',$cantidad],";
+				}
+				$arregloGrafico = trim($arregloGrafico, ',');
+				echo $arregloGrafico;
+			} else {
+				echo "<script>alert('Datos no encontrados');</script>";
+		        echo "<script>window.history.back();</script>";
 			}
     	} catch (Exception $e) {
     		echo "<script>alert('".$e->getMessage()."');</script>";
