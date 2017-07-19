@@ -386,6 +386,13 @@ switch($_REQUEST['pagina']){
         $controlador->guardaResultadoEncuestaCoordinador($_POST);
     break;
 
+    case 'editaPuntajeFinal':
+        $respuesta = $controlador->editaPuntajeFinal($_POST);
+        if($respuesta == 1){
+            header("location:../detalleListaEncuesta.php?encuesta=$_POST[idEncuestaEdit]");
+        }
+    break;
+
     //INSTRUCCIONES RELACIONADAS CON DASHBOARDS
 
 

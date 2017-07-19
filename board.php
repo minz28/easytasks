@@ -23,7 +23,7 @@ if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("locat
 
 </head>
 
-<body style="background: url(images/bg.jpg);">
+<body style="background: url(images/bgBoard.jpg);">
 <!--<body style="background-color: #FFFFFF;">-->
 
 <nav class="navbar navbar-default" role="navigation">
@@ -40,7 +40,7 @@ if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("locat
     <div class="container">
     	<div class="row">
         	<div class="col-md-12 text-center">
-        	   <h2 style="font-weight:normal;color:#000000;letter-spacing:2pt;word-spacing:2pt;font-size:30px;text-align:center;font-family:trebuchet MS, sans-serif;line-height:1;">Kanban Flow para <?php echo ucwords(strtolower($_SESSION['descripcionEmpresa'])); ?></h2>
+        	   <h2 style="font-weight:normal;color:#FFFFFF;letter-spacing:2pt;word-spacing:2pt;font-size:30px;text-align:center;font-family:trebuchet MS, sans-serif;line-height:1;">Tablero Kanban - <?php echo ucwords(strtolower($_SESSION['descripcionEmpresa'])); ?></h2>
             </div>
         </div>
     </div>

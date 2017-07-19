@@ -590,6 +590,27 @@ function validaEnvioEncuesta(){
     }
 }
 
+function muestraEditaPuntajeFinal(json){
+    $('#idUsuarioEdit').val(json.idUsuario);
+    $('#idEncuestaEdit').val(json.idEncuesta);
+    $('#txtPuntajeFinal').val(json.puntajeReal);
+    $('#modalEdit').modal('show');
+}
+
+function guardaEditaPuntajeFinal(){
+    if($("#txtPuntajeFinal").val().trim() == ""){
+        alert("Completar campos obligatorios");
+    } else {
+        if(confirm("¿Está seguro que desea modificar este puntaje?") == true){            
+            document.getElementById('formEdit').action = 'controlador/controlador.php';
+            document.getElementById('formEdit').method = 'post';
+            document.getElementById('formEdit').submit();
+        } else {
+            $('#modalEdit').modal('hide');
+        }
+    }
+}
+
 function validaFormDashboard(){
     if($("#cboUsuario").val() == 'seleccione' || $("#txtFechaInicio").val() == "" || $("#txtFechaTermino").val() == ""){
         alert("Completar campos obligatorios");

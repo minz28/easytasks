@@ -1956,14 +1956,11 @@ class Funciones extends Conexion{
 					$arreglo[$i]['puntajeCoordinador'] = $datos['PUNTAJE_COORDINADOR'];
 					$arreglo[$i]['puntajePromedio'] = $datos['PUNTAJE_PROMEDIO'];
 					$arreglo[$i]['puntajeReal'] = $datos['PUNTAJE_REAL'];
+					$arreglo[$i]['idEncuesta'] = $idEncuesta;
 					$i++;
 				}
 				foreach ($arreglo as $encuesta) {
-					
-					
-					
-					
-					#$json = json_encode($encuesta);
+					$json = json_encode($encuesta);
 					echo "<tr>";
 					echo "<td>".$encuesta['nombres']." ".$encuesta['apellidos']."</td>";
 					echo "<td class='text-center'><button type='button' class='btn btn-default' onclick=window.open('encuestaCoordinador.php?encuesta=$idEncuesta&nom=$encuesta[nombres]&ape=$encuesta[apellidos]&usr=$encuesta[idUsuario]','encuesta','width=1024,height=480')><span class='glyphicon glyphicon-pencil'></span></button></td>";
@@ -1971,7 +1968,7 @@ class Funciones extends Conexion{
 					echo "<td class='text-center'>";if(!($encuesta['puntajeCoordinador'])){ echo "Sin evaluar"; } else { echo round($encuesta['puntajeCoordinador'],1); } echo "</td>";
 					echo "<td class='text-center'>";if(!($encuesta['puntajePromedio'])){ echo "--"; } else { echo round($encuesta['puntajePromedio'],1); } echo "</td>";
 					echo "<td class='text-center'>";if(!($encuesta['puntajeReal'])){ echo "--"; } else { echo round($encuesta['puntajeReal'],1); } echo "</td>";
-					echo "<td class='text-center'><button type='button' class='btn btn-default' onclick='alert($)')><span class='glyphicon glyphicon-pencil'></span></button></td>";
+					echo "<td class='text-center'><button type='button' class='btn btn-default' onclick='muestraEditaPuntajeFinal($json)')><span class='glyphicon glyphicon-pencil'></span></button></td>";
 					echo "</tr>";
 				}
 			} else {
@@ -1979,8 +1976,25 @@ class Funciones extends Conexion{
 			}
     	} catch (Exception $e) {
     		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}			    	
+    }
+
+    function editaPuntajeFinal($datos){
+    	try {
+    		$sql="	UPDATE 	USUARIO_ENCUESTA
+    				SET 	PUNTAJE_REAL = '$datos[txtPuntajeFinal]'
+					WHERE 	USUARIO = $datos[idUsuarioEdit]
+					AND 	ID_EVALUACION_COORDINADOR = $datos[idEncuestaEdit]";
+			#echo $sql; die();
+			if($record=$this->insertEasyTasks($sql)){	            
+	            return 1;
+	        } else {
+	            echo "<script>alert('Error al editar puntaje final');</script>";
+	            echo "<script>window.history.back();</script>";
+	        }
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
-			    	
     }
 
 

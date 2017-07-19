@@ -60,6 +60,33 @@ $funciones = new Funciones;
             </table>
         </div>
     </div>
+    <!--Inicio modal EDITAR tarjeta-->
+    <div class="modal fade" id="modalEdit" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Editar Tarjeta</h4>
+                    <small>(*) Campos obligatorios</small>
+                </div>
+                <div class="modal-body">
+                    <form id="formEdit">
+                        <input type="hidden" name="pagina" id="pagina" value="editaPuntajeFinal" /><!--Variable oculta para identificar en el controlador-->
+                        <input type="hidden" name="idUsuarioEdit" id="idUsuarioEdit" value=""><!--Variable oculta para saber id de tarjeta a editar-->
+                        <input type="hidden" name="idEncuestaEdit" id="idEncuestaEdit" value=""><!--Variable oculta para saber id de tarjeta a editar-->
+                        <div class="form-group">
+                            <label for="txtDescripcion">Nota final (*)</label>
+                            <input type="text" class="form-control" id="txtPuntajeFinal" name="txtPuntajeFinal" placeholder="0.0" maxlength="3">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btnVerde" onclick="guardaEditaPuntajeFinal();">Grabar</button>
+                </div>                
+            </div>
+        </div>
+    </div>
+    <!--Fin modal EDITAR tarjeta-->
 </div>
 
 <?php include("footer.php"); ?>
