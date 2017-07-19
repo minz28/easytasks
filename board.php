@@ -23,8 +23,8 @@ if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("locat
 
 </head>
 
-<!--<body style="background: url(images/bg.jpg);">-->
-<body style="background-color: #FFFFFF;">
+<body style="background: url(images/bg.jpg);">
+<!--<body style="background-color: #FFFFFF;">-->
 
 <nav class="navbar navbar-default" role="navigation">
     <div class="container">
@@ -74,7 +74,7 @@ if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("locat
                     border-radius: 10px 10px 10px 10px;
                     -moz-border-radius: 10px 10px 10px 10px;
                     -webkit-border-radius: 10px 10px 10px 10px;
-                    border: 5px solid #ffffff;">PENDIENTES</th>
+                    ">PENDIENTES</th>
                 </tr>
                 <?php $funciones->muestraTarjetaPendientes(); ?>
             </table>
@@ -88,7 +88,7 @@ if($_SESSION['perfil'] == 3 && $_SESSION['tarjetaVigente'] != ""){ header("locat
                     border-radius: 10px 10px 10px 10px;
                     -moz-border-radius: 10px 10px 10px 10px;
                     -webkit-border-radius: 10px 10px 10px 10px;
-                    border: 5px solid #ffffff;">EN DESARROLLO</th>
+                    ">EN DESARROLLO</th>
                 </tr>
                 <?php $funciones->muestraTarjetaEnDesarrollo(); ?>
             </table>

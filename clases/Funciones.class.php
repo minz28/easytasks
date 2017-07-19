@@ -399,7 +399,7 @@ class Funciones extends Conexion{
 					border-radius: 0px 0px 50px 0px;
 					-moz-border-radius: 0px 0px 50px 0px;
 					-webkit-border-radius: 0px 0px 50px 0px;
-					border: 5px solid #ffffff;'>";
+					'>";
 					echo "<a style='color: black;' href='#' onclick='detalleTarjeta(".$tarjetaJson.")'>";
 					echo "<h6>".$tarjeta['tarea']."</h6>";
 					echo "<small>Solicitada por: ".$tarjeta['solicitante']."</small>";
@@ -2007,6 +2007,46 @@ class Funciones extends Conexion{
     		echo "<script>alert('".$e->getMessage()."');</script>";
     	}
     }
+
+    function datosUltimaEncuesta($usuario){			    	
+		try {					
+    		$sql = "SELECT 		SUBSTR(E.ANIO,1,4) AS ANIO, E.PERIODO, UE.PUNTAJE_USUARIO, UE.PUNTAJE_COORDINADOR, UE.PUNTAJE_PROMEDIO, UE.PUNTAJE_REAL
+					FROM 		USUARIO_ENCUESTA UE
+					INNER JOIN 	ENCUESTA E
+					ON 			E.ID_ENCUESTA = UE.ID_AUTOEVALUACION
+					WHERE 		UE.USUARIO = $usuario
+					AND 		UE.ID_AUTOEVALUACION = (
+								SELECT 	MAX(ID_ENCUESTA) 
+								FROM 	ENCUESTA 
+								WHERE 	TIPO_ENCUESTA =1 
+								AND 	ESTADO_ENCUESTA = 1 
+								AND 	EMPRESA = $_SESSION[empresa] 
+								AND 	ESTADO_REGISTRO = 1 
+								AND 	ANIO = (
+										SELECT 	MAX(ANIO) 
+										FROM 	ENCUESTA 
+										WHERE 	TIPO_ENCUESTA = 1 
+										AND 	ESTADO_ENCUESTA = 1 
+										AND 	EMPRESA = $_SESSION[empresa] 
+										AND 	ESTADO_REGISTRO = 1))";
+			if($record = $this->selectEasyTasks($sql)){
+				if($datos = mysql_fetch_assoc($record)) {
+					$arreglo['anio'] = $datos['ANIO'];
+					$arreglo['periodo'] = $datos['PERIODO'];
+					if(!($datos['PUNTAJE_USUARIO'])){$arreglo['puntajeUsuario']="N/A";} else {$arreglo['puntajeUsuario'] = round($datos['PUNTAJE_USUARIO'],1);}
+					if(!($datos['PUNTAJE_COORDINADOR'])){$arreglo['puntajeCoordinador']="N/A";} else {$arreglo['puntajeCoordinador'] = round($datos['PUNTAJE_COORDINADOR'],1);}
+					if(!($datos['PUNTAJE_PROMEDIO'])){$arreglo['puntajePromedio']="N/A";} else {$arreglo['puntajePromedio'] = round($datos['PUNTAJE_PROMEDIO'],1);}
+					if(!($datos['PUNTAJE_REAL'])){$arreglo['puntajeReal']="N/A";} else {$arreglo['puntajeReal'] = round($datos['PUNTAJE_REAL'],1);}
+				}
+				return $arreglo;
+			} else {
+				echo "<script>alert('Usuario no registra evaluaciones');</script>";
+		        echo "<script>window.history.back();</script>";
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
     
     function dashboardUserFinalizacionTarjetas($usuario, $desde, $hasta){
     	try {					
@@ -2082,6 +2122,266 @@ class Funciones extends Conexion{
     	}
     }
 
+    function dashboardUserTiemposCumplimiento($usuario, $desde, $hasta){					
+    	try {					
+    		$sql = "SELECT 		COUNT(TJ.ID_TARJETA) AS CANTIDAD, IF(TIMEDIFF(T.TIEMPO_ESTIMADO_TAREA,TU.DURACION_TOTAL) >= '00:00:00','DENTRO DEL TIEMPO','FUERA DE TIEMPO') AS ESTADO_TIEMPO
+					FROM 		TARJETA TJ
+					INNER JOIN 	TARJETA_USUARIO TU
+					ON 			TJ.ID_TARJETA = TU.TARJETA
+					INNER JOIN 	TAREA T
+					ON 			T.ID_TAREA = TJ.TAREA
+					WHERE 		TU.USUARIO_RESPONSABLE = $usuario
+					AND 		TU.FECHA_INICIO BETWEEN '$desde' AND '$hasta'
+					AND 		TJ.ESTADO_TARJETA = 3
+					GROUP BY 	ESTADO_TIEMPO";
+					//echo $sql; die();
+			if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				$totalCantidad = 0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					$arreglo[$i]['cantidad'] = $datos['CANTIDAD'];
+					$arreglo[$i]['estado'] = $datos['ESTADO_TIEMPO'];
+					$totalCantidad += $datos['CANTIDAD'];
+					$i++;
+				}
+				$arregloGrafico = "";
+				foreach ($arreglo as $dato) {
+					$cantidad = round(($dato['cantidad']/$totalCantidad)*100, 2);
+					$arregloGrafico .= "['$dato[estado] ($dato[cantidad])',$cantidad],";
+				}
+				$arregloGrafico = trim($arregloGrafico, ',');
+				echo $arregloGrafico;
+			} else {
+				echo "<script>alert('Datos no encontrados');</script>";
+		        echo "<script>window.history.back();</script>";
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function rankingTareasSolicitadas($desde, $hasta){
+    	try {					
+    		$sql = "SELECT 		COUNT(TJ.TAREA) AS CANTIDAD, CONCAT(S.DESCRIPCION_SISTEMA,'-',T.DESCRIPCION_TAREA) AS TAREA
+					FROM 		TARJETA TJ
+					INNER JOIN 	TAREA T
+					ON 			TJ.TAREA = T.ID_TAREA
+					INNER JOIN 	SISTEMA S
+					ON 			T.SISTEMA = S.ID_SISTEMA
+					WHERE 		S.EMPRESA = $_SESSION[empresa]
+					AND 		TJ.FECHA_SOLICITUD BETWEEN '$desde' AND '$hasta'
+					GROUP BY 	T.ID_TAREA
+					ORDER BY 	CANTIDAD DESC
+					LIMIT 		5";
+					//echo $sql; die();
+			if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				$totalCantidad = 0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					$arreglo[$i]['cantidad'] = $datos['CANTIDAD'];
+					$arreglo[$i]['tarea'] = $datos['TAREA'];
+					$totalCantidad += $datos['CANTIDAD'];
+					$i++;
+				}
+				return $arreglo;
+			} else {
+				echo "<script>alert('Datos no encontrados');</script>";
+		        #echo "<script>window.history.back();</script>";
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function graficoRankingTareasSolicitadas($desde, $hasta){
+    	try {					
+    		$sql = "SELECT 		COUNT(TJ.TAREA) AS CANTIDAD, CONCAT(S.DESCRIPCION_SISTEMA,'-',T.DESCRIPCION_TAREA) AS TAREA
+					FROM 		TARJETA TJ
+					INNER JOIN 	TAREA T
+					ON 			TJ.TAREA = T.ID_TAREA
+					INNER JOIN 	SISTEMA S
+					ON 			T.SISTEMA = S.ID_SISTEMA
+					WHERE 		S.EMPRESA = $_SESSION[empresa]
+					AND 		TJ.FECHA_SOLICITUD BETWEEN '$desde' AND '$hasta'
+					GROUP BY 	T.ID_TAREA
+					ORDER BY 	CANTIDAD DESC
+					LIMIT 		5";
+					//echo $sql; die();
+			if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				$totalCantidad = 0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					$arreglo[$i]['cantidad'] = $datos['CANTIDAD'];
+					$arreglo[$i]['tarea'] = $datos['TAREA'];
+					$totalCantidad += $datos['CANTIDAD'];
+					$i++;
+				}
+				$arregloGrafico = "";
+				foreach ($arreglo as $dato) {
+					$cantidad = round(($dato['cantidad']/$totalCantidad)*100, 2);
+					$arregloGrafico .= "{name: '$dato[tarea] ($dato[cantidad])', y: $cantidad, drilldown: '$dato[tarea] ($dato[cantidad])'},";
+				}
+				$arregloGrafico = trim($arregloGrafico, ',');
+				echo $arregloGrafico;
+				#var_dump($arreglo); die();
+			} else {
+				echo "<script>alert('Datos no encontrados');</script>";
+		        #echo "<script>window.history.back();</script>";
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function rankingTareasRealizadas($desde, $hasta){
+    	try {					
+    		$sql = "SELECT 		COUNT(TJ.TAREA) AS CANTIDAD, CONCAT(S.DESCRIPCION_SISTEMA,'-',T.DESCRIPCION_TAREA) AS TAREA
+					FROM 		TARJETA TJ
+					INNER JOIN 	TAREA T
+					ON 			TJ.TAREA = T.ID_TAREA
+					INNER JOIN 	SISTEMA S
+					ON 			T.SISTEMA = S.ID_SISTEMA
+					WHERE 		S.EMPRESA = $_SESSION[empresa]
+					AND 		TJ.ESTADO_TARJETA = 3
+					AND 		TJ.FECHA_SOLICITUD BETWEEN '$desde' AND '$hasta'
+					GROUP BY 	T.ID_TAREA
+					ORDER BY 	CANTIDAD DESC
+					LIMIT 		5";
+					//echo $sql; die();
+			if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				$totalCantidad = 0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					$arreglo[$i]['cantidad'] = $datos['CANTIDAD'];
+					$arreglo[$i]['tarea'] = $datos['TAREA'];
+					$totalCantidad += $datos['CANTIDAD'];
+					$i++;
+				}
+				return $arreglo;
+			} else {
+				echo "<script>alert('Datos no encontrados');</script>";
+		        #echo "<script>window.history.back();</script>";
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function graficoRankingTareasRealizadas($desde, $hasta){
+    	try {					
+    		$sql = "SELECT 		COUNT(TJ.TAREA) AS CANTIDAD, CONCAT(S.DESCRIPCION_SISTEMA,'-',T.DESCRIPCION_TAREA) AS TAREA
+					FROM 		TARJETA TJ
+					INNER JOIN 	TAREA T
+					ON 			TJ.TAREA = T.ID_TAREA
+					INNER JOIN 	SISTEMA S
+					ON 			T.SISTEMA = S.ID_SISTEMA
+					WHERE 		S.EMPRESA = $_SESSION[empresa]
+					AND 		TJ.ESTADO_TARJETA = 3
+					AND 		TJ.FECHA_SOLICITUD BETWEEN '$desde' AND '$hasta'
+					GROUP BY 	T.ID_TAREA
+					ORDER BY 	CANTIDAD DESC
+					LIMIT 		5";
+					//echo $sql; die();
+			if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				$totalCantidad = 0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					$arreglo[$i]['cantidad'] = $datos['CANTIDAD'];
+					$arreglo[$i]['tarea'] = $datos['TAREA'];
+					$totalCantidad += $datos['CANTIDAD'];
+					$i++;
+				}
+				$arregloGrafico = "";
+				foreach ($arreglo as $dato) {
+					$cantidad = round(($dato['cantidad']/$totalCantidad)*100, 2);
+					$arregloGrafico .= "{name: '$dato[tarea] ($dato[cantidad])', y: $cantidad, drilldown: '$dato[tarea] ($dato[cantidad])'},";
+				}
+				$arregloGrafico = trim($arregloGrafico, ',');
+				echo $arregloGrafico;
+				#var_dump($arreglo); die();
+			} else {
+				echo "<script>alert('Datos no encontrados');</script>";
+		        #echo "<script>window.history.back();</script>";
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function rankingTareasImpedidas($desde, $hasta){
+    	try {					
+    		$sql = "SELECT 		COUNT(TJ.TAREA) AS CANTIDAD, CONCAT(S.DESCRIPCION_SISTEMA,'-',T.DESCRIPCION_TAREA) AS TAREA
+					FROM 		TARJETA TJ
+					INNER JOIN 	TAREA T
+					ON 			TJ.TAREA = T.ID_TAREA
+					INNER JOIN 	SISTEMA S
+					ON 			T.SISTEMA = S.ID_SISTEMA
+					WHERE 		S.EMPRESA = $_SESSION[empresa]
+					AND 		TJ.ESTADO_TARJETA = 4
+					AND 		TJ.FECHA_SOLICITUD BETWEEN '$desde' AND '$hasta'
+					GROUP BY 	T.ID_TAREA
+					ORDER BY 	CANTIDAD DESC
+					LIMIT 		5";
+					//echo $sql; die();
+			if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				$totalCantidad = 0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					$arreglo[$i]['cantidad'] = $datos['CANTIDAD'];
+					$arreglo[$i]['tarea'] = $datos['TAREA'];
+					$totalCantidad += $datos['CANTIDAD'];
+					$i++;
+				}
+				return $arreglo;
+			} else {
+				echo "<script>alert('Datos no encontrados');</script>";
+		        #echo "<script>window.history.back();</script>";
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
+
+    function graficoRankingTareasImpedidas($desde, $hasta){
+    	try {					
+    		$sql = "SELECT 		COUNT(TJ.TAREA) AS CANTIDAD, CONCAT(S.DESCRIPCION_SISTEMA,'-',T.DESCRIPCION_TAREA) AS TAREA
+					FROM 		TARJETA TJ
+					INNER JOIN 	TAREA T
+					ON 			TJ.TAREA = T.ID_TAREA
+					INNER JOIN 	SISTEMA S
+					ON 			T.SISTEMA = S.ID_SISTEMA
+					WHERE 		S.EMPRESA = $_SESSION[empresa]
+					AND 		TJ.ESTADO_TARJETA = 4
+					AND 		TJ.FECHA_SOLICITUD BETWEEN '$desde' AND '$hasta'
+					GROUP BY 	T.ID_TAREA
+					ORDER BY 	CANTIDAD DESC
+					LIMIT 		5";
+					//echo $sql; die();
+			if($record = $this->selectEasyTasks($sql)){
+				$i=0;
+				$totalCantidad = 0;
+				while ($datos = mysql_fetch_assoc($record)) {
+					$arreglo[$i]['cantidad'] = $datos['CANTIDAD'];
+					$arreglo[$i]['tarea'] = $datos['TAREA'];
+					$totalCantidad += $datos['CANTIDAD'];
+					$i++;
+				}
+				$arregloGrafico = "";
+				foreach ($arreglo as $dato) {
+					$cantidad = round(($dato['cantidad']/$totalCantidad)*100, 2);
+					$arregloGrafico .= "{name: '$dato[tarea] ($dato[cantidad])', y: $cantidad, drilldown: '$dato[tarea] ($dato[cantidad])'},";
+				}
+				$arregloGrafico = trim($arregloGrafico, ',');
+				echo $arregloGrafico;
+				#var_dump($arreglo); die();
+			} else {
+				echo "<script>alert('Datos no encontrados');</script>";
+		        #echo "<script>window.history.back();</script>";
+			}
+    	} catch (Exception $e) {
+    		echo "<script>alert('".$e->getMessage()."');</script>";
+    	}
+    }
 
 }
 ?>

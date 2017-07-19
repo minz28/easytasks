@@ -29,7 +29,7 @@ $hasta = $_POST['txtFechaTermino'];*/
 
 </head>
 
-<body>
+<body style="background-color: #F0F0F6">
 
 <div class="container">
     <div class="row">
@@ -40,19 +40,29 @@ $hasta = $_POST['txtFechaTermino'];*/
     <div class="row">
     	<div class="col-md-4 col-md-offset-1 col-xs-12">
     		<?php $datosUsuario = $funciones->nombreUsuario($user); ?>
-    		<h4>Nombre: <?php echo ucwords(strtolower($datosUsuario['nombre'])); ?></h4>
+    		<h3>Datos personales</h3>
+    		<h5>Nombre: <?php echo ucwords(strtolower($datosUsuario['nombre'])); ?></h5>
     		<h5>Empresa: <?php echo ucwords(strtolower($datosUsuario['empresa'])); ?></h5>
     		<h5>E-mail: <a href="mailto:<?php echo strtolower($datosUsuario['email']); ?>"><?php echo strtolower($datosUsuario['email']); ?></a></h5>
-    		<h5>Notas última evaluación</h5>
+    		<?php $ultimaEncuesta = $funciones->datosUltimaEncuesta($user); ?>
+    		<h3>Última evaluación <br><small>(<?php echo $ultimaEncuesta['periodo']." - ".$ultimaEncuesta['anio']; ?>)</small></h3>
+			Puntaje Autoevaluación: <strong><?php echo $ultimaEncuesta['puntajeUsuario']; ?></strong><br>
+			Puntaje Coordinador: <strong><?php echo $ultimaEncuesta['puntajeCoordinador']; ?></strong><br>
+			Puntaje Promedio: <strong><?php echo $ultimaEncuesta['puntajePromedio']; ?></strong><br>
+			Puntaje Final: <strong><?php echo $ultimaEncuesta['puntajeReal']; ?></strong>
     	</div>
         <div class="col-md-6 col-xs-12">
         	<div id="graficaFinalizacionTarjetas" style="width: 100%; height: 300px; margin: 0 auto"></div>
         </div>
     </div>
+    <br>
     <div class="row">
     	<div class="col-md-5 col-md-offset-1 col-xs-12">
         	<div id="graficaDetalleImpedidas" style="width: 100%; height: 300px; margin: 0 auto"></div>
         </div>
+        <div class="col-md-5 col-xs-12">
+        	<div id="graficaTiemposFinalizacion" style="width: 100%; height: 300px; margin: 0 auto"></div>
+        </div>        
     </div>
 </div>
 
@@ -147,6 +157,54 @@ $hasta = $_POST['txtFechaTermino'];*/
 				name: 'Browser share',
 				data: [
 						<?php $funciones->dashboardUserDetalleImpedidas($user, $desde, $hasta); ?>
+					]
+			}]
+		});
+	});			
+</script>
+<!--GRÁFICO 3-->
+<script type="text/javascript">
+	var chart;
+	$(document).ready(function() {
+		chart = new Highcharts.Chart({
+			chart: {
+				renderTo: 'graficaTiemposFinalizacion'
+			},
+			title: {
+				text: 'DETALLE FINALIZACIÓN TARJETAS'
+			},
+			subtitle: {
+				text: 'ENTRE <?php echo $desde ?> Y <?php echo $hasta ?>'
+			},
+			plotArea: {
+				shadow: null,
+				borderWidth: null,
+				backgroundColor: null
+			},
+			tooltip: {
+				formatter: function() {
+					return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+				}
+			},
+			plotOptions: {
+				pie: {
+					allowPointSelect: true,
+					cursor: 'pointer',
+					dataLabels: {
+						enabled: true,
+						color: '#000000',
+						connectorColor: '#000000',
+						formatter: function() {
+							return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+						}
+					}
+				}
+			},
+		    series: [{
+				type: 'pie',
+				name: 'Browser share',
+				data: [
+						<?php $funciones->dashboardUserTiemposCumplimiento($user, $desde, $hasta); ?>
 					]
 			}]
 		});

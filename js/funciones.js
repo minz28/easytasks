@@ -603,3 +603,18 @@ function validaFormDashboard(){
         document.getElementById('formDashboardUser').submit();*/
     }
 }
+
+function validaFormDashboardTareas(){
+    if($("#txtFechaInicio").val() == "" || $("#txtFechaTermino").val() == ""){
+        alert("Completar campos obligatorios");
+        return false;
+    } else {
+        /*var usuario = $("#cboUsuario").val();
+        var desde = $("#txtFechaInicio").val();
+        var hasta = $("#txtFechaTermino").val();
+        window.open('muestraDashboardUser.php?usuario='+usuario+'&desde='+desde+'&hasta='+hasta, 'Dashboard Usuario');
+        document.getElementById('formDashboardUser').action = 'muestraDashboardUser.php';
+        document.getElementById('formDashboardUser').method = 'post';*/
+        document.getElementById('formDashboardTareas').submit();
+    }
+}
