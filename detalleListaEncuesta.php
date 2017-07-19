@@ -44,7 +44,7 @@ $funciones = new Funciones;
 
 <div class="container">    
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">            
+        <div class="col-md-10 col-md-offset-1">            
             <!--<table class="table table-hover table-condensed table-responsive" style="box-shadow: 10px 10px 5px lightgrey;">--><!--Tabla CON sombra-->
             <table class="table table-hover table-condensed table-responsive"><!--Tabla SIN sombra-->
                 <tr>
@@ -54,6 +54,7 @@ $funciones = new Funciones;
                     <th class="text-center">Puntaje coordinador</th>
                     <th class="text-center">Puntaje promedio</th>
                     <th class="text-center">Puntaje final</th>
+                    <th class="text-center">Modificar puntaje final</th>
                 </tr>
                 <?php $funciones->listaEvaluacionPorPeriodo($_GET["encuesta"]); ?>
             </table>

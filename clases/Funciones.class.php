@@ -1959,18 +1959,19 @@ class Funciones extends Conexion{
 					$i++;
 				}
 				foreach ($arreglo as $encuesta) {
-					if(!($encuesta['puntajeUsuario'])){ $encuesta['puntajeUsuario']="Sin evaluar"; }
-					if(!($encuesta['puntajeCoordinador'])){ $encuesta['puntajeCoordinador']="Sin evaluar"; }
-					if(!($encuesta['puntajePromedio'])){ $encuesta['puntajePromedio']="--"; }
-					if(!($encuesta['puntajeReal'])){ $encuesta['puntajeReal']="--"; }
+					
+					
+					
+					
 					#$json = json_encode($encuesta);
 					echo "<tr>";
 					echo "<td>".$encuesta['nombres']." ".$encuesta['apellidos']."</td>";
 					echo "<td class='text-center'><button type='button' class='btn btn-default' onclick=window.open('encuestaCoordinador.php?encuesta=$idEncuesta&nom=$encuesta[nombres]&ape=$encuesta[apellidos]&usr=$encuesta[idUsuario]','encuesta','width=1024,height=480')><span class='glyphicon glyphicon-pencil'></span></button></td>";
-					echo "<td class='text-center'>".$encuesta['puntajeUsuario']."</td>";
-					echo "<td class='text-center'>".$encuesta['puntajeCoordinador']."</td>";
-					echo "<td class='text-center'>".$encuesta['puntajePromedio']."</td>";
-					echo "<td class='text-center'>".$encuesta['puntajeReal']."</td>";
+					echo "<td class='text-center'>";if(!($encuesta['puntajeUsuario'])){ echo "Sin evaluar"; } else { echo round($encuesta['puntajeUsuario'],1); } echo "</td>";
+					echo "<td class='text-center'>";if(!($encuesta['puntajeCoordinador'])){ echo "Sin evaluar"; } else { echo round($encuesta['puntajeCoordinador'],1); } echo "</td>";
+					echo "<td class='text-center'>";if(!($encuesta['puntajePromedio'])){ echo "--"; } else { echo round($encuesta['puntajePromedio'],1); } echo "</td>";
+					echo "<td class='text-center'>";if(!($encuesta['puntajeReal'])){ echo "--"; } else { echo round($encuesta['puntajeReal'],1); } echo "</td>";
+					echo "<td class='text-center'><button type='button' class='btn btn-default' onclick='alert($)')><span class='glyphicon glyphicon-pencil'></span></button></td>";
 					echo "</tr>";
 				}
 			} else {
